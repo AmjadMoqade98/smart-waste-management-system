@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiDomain: 'http://3.15.169.119:8080/swms/api/v1'
 };
 
 /*

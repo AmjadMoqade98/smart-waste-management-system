@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-md nav-sticky">
+
+  <a class="navbar-brand" routerLink="home">
+    <h1>SWMS</h1>
+  </a>
+  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar">
+    <svg class="ham hamRotate ham" viewBox="0 0 100 100" width="80" height="50"
+         onclick="this.classList.toggle('active');menu.toggle($event)">
+      <path
+        class="line top"
+        style="stroke: black"
+        d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20"/>
+      <path
+        class="line middle"
+        style="stroke: black"
+        d="m 70,50 h -40"/>
+      <path
+        class="line bottom"
+        style="stroke: black"
+        d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20"/>
+    </svg>
+  </button>
+
+  <div class="collapse navbar-collapse show='false'" id="navbar">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" routerLink="bins" routerLinkActive="link-hover"
+         [routerLinkActiveOptions]="{exact:true}">Bins</a>
+
+      <a class="nav-item nav-link active" routerLink="areas" routerLinkActive="link-hover"
+         [routerLinkActiveOptions]="{exact:true}">Areas</a>
+
+      <a class="nav-item nav-link active" routerLink="employees" routerLinkActive="link-hover"
+         [routerLinkActiveOptions]="{exact:true}">Employees</a>
+
+      <a class="nav-item nav-link active" routerLink="reports" routerLinkActive="link-hover"
+         [routerLinkActiveOptions]="{exact:true}">Reports</a>
+    </div>
+  </div>
+</nav>

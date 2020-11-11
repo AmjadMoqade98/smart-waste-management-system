@@ -1,0 +1,71 @@
+.nav-item {
+  color: black;
+  font-size: 1em;
+}
+
+.navbar-brand{
+  color: #238af8;
+}
+
+.nav-item:hover {
+  border-bottom: 2px solid #238af8;
+}
+
+.link-hover {
+  color: #238af8;
+}
+
+.navbar {
+  top: 0;
+  position: absolute;
+  width: 100%;
+  background-color: #f4f4f4;
+  z-index: 12;
+  border-bottom: 1px solid #888888;
+  padding-top:0;
+  padding-bottom: 0;
+}
+
+.navbar-toggler {
+  color: #888888;
+  outline: none;
+}
+
+nav.nav-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+}
+
+.ham {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 400ms;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.hamRotate.active {
+  transform: rotate(45deg);
+}
+.line {
+  fill: none;
+  transition: stroke-dasharray 100ms, stroke-dashoffset 100ms;
+  stroke: #238af8;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.ham .top {
+  stroke-dasharray: 40 100;
+}
+.ham .bottom {
+  stroke-dasharray: 40 100;
+}
+.ham.active .top {
+  stroke-dashoffset: -68px;
+}
+.ham.active .bottom {
+  stroke-dashoffset: -68px;
+}

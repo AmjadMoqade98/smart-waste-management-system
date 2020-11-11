@@ -1,0 +1,19 @@
+.footer1 {
+  position: absolute;
+  bottom: 0;
+  padding: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #f4f4f4;
+  border-top: 1px solid #888888;
+}
+
+p,h1,h2,h3,h4,h5 ,h6{
+  color:#238af8;
+}
+
+a{
+  color:black;
+}
+
+

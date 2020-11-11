@@ -7,5 +7,7 @@
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="mapsjs-core" level="application" />
+    <orderEntry type="library" name="mapsjs-service" level="application" />
   </component>
 </module>
