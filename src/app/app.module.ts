@@ -7,7 +7,6 @@ import {SharedModule} from './shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app.routing.module';
-import {HereMapsModule} from 'ng2-heremaps';
 
 @NgModule({
   declarations: [
