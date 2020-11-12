@@ -1,24 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home.component';
+import { MapComponent } from './map.component';
 import {AgmCoreModule} from '@agm/core';
+import {BinService} from '../../core/services/bin.service';
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent }
+  { path: '', component: MapComponent }
 ];
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [MapComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     AgmCoreModule.forRoot({
-      // please get your own API key here:
-      // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en
       apiKey: 'AIzaSyCEjf5CqrDWgkFb266uZ8sk3tDmnWsKPn8'
     })
-  ]
+  ],
+  providers: [BinService]
 })
-export class HomeModule { }
+export class MapModule { }

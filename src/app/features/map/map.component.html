@@ -1,0 +1,19 @@
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+
+  <agm-marker
+    *ngFor="let m of bins; let i = index"
+    [latitude]="m.latitude"
+    [longitude]="m.longitude"
+    [label]="m.id"
+    >
+
+    <agm-info-window>
+      <p>bind id :{{m.id}}</p>
+      <p>status : {{m.status}}</p>
+      <button>click</button>
+    </agm-info-window>
+
+  </agm-marker>
+</agm-map>
+
+

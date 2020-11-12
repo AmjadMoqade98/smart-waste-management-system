@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiDomain: 'http://3.15.169.119:8080/swms/api/v1'
+  apiDomain: 'http://swms.ga/api/v1'
 };
 
 /*

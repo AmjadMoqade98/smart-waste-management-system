@@ -1,5 +1,7 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-declare var H: any;
+import {Component, OnInit} from '@angular/core';
+import {BinService} from '../../core/services/bin.service';
+import {Bin} from '../../core/models/bin.model';
+
 
 @Component({
   selector: 'app-bins',
@@ -7,6 +9,19 @@ declare var H: any;
   styleUrls: ['./bins.component.scss']
 })
 export class BinsComponent implements OnInit {
+
+  constructor(private binService: BinService) {
+    this.initializeData();
+  }
+
+  bins: Bin[];
+
+  initializeData(): void{
+    this.binService.getBins().subscribe(bins => {
+      this.bins = bins;
+    });
+  }
+
   ngOnInit(): void {
   }
 

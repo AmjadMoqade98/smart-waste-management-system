@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HeaderComponent } from './layout/header/header.component';
@@ -12,12 +11,10 @@ import {DialogModule} from 'primeng/dialog';
 import {CheckboxModule} from 'primeng/checkbox';
 import {ToastModule} from 'primeng/toast';
 import {MessageService} from 'primeng/api';
-import {AgmCoreModule} from '@agm/core';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent],
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
@@ -39,7 +36,6 @@ import {AgmCoreModule} from '@agm/core';
     ToastModule,
     HeaderComponent,
     FooterComponent,
-
   ],
 
   providers: [MessageService]
