@@ -13,7 +13,7 @@ export class MapComponent implements OnInit {
   zoom = 14.5;
   lat = 31.904424;
   lng = 35.206681;
-
+  paths = [];
   constructor(private binService: BinService) {
     this.initializeData();
   }
@@ -23,7 +23,16 @@ export class MapComponent implements OnInit {
   initializeData(): void {
     this.binService.getBins().subscribe(bins => {
       this.bins = bins;
+      this.updatePolygon();
     });
+  }
+
+  updatePolygon(): void {
+    const newPaths = [] ;
+    for (const bin of this.bins) {
+      newPaths.push({lat : bin.latitude , lng : bin.longitude});
+    }
+    this.paths = newPaths;
   }
 
   ngOnInit(): void {
@@ -37,7 +46,7 @@ export class MapComponent implements OnInit {
 
 // just an interface for type safety.
 // tslint:disable-next-line:class-name
-interface marker {
+interface Marker {
   lat: number;
   lng: number;
   label?: string;

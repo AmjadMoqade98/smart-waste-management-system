@@ -35,5 +35,16 @@
       <a class="nav-item nav-link active" routerLink="reports" routerLinkActive="link-hover"
          [routerLinkActiveOptions]="{exact:true}">Reports</a>
     </div>
+    <div class="navbar-nav row ml-auto">
+      <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'" class="custom-button  mr-2"
+              routerLink="/login" routerLinkActive="active">User Login
+      </button>
+      <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'" class="custom-button  mr-2"
+              routerLink="/register" routerLinkActive="active">Register
+      </button>
+      <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'" class="custom-button  mr-2"
+              (click)="logout()"> Logout
+      </button>
+    </div>
   </div>
 </nav>

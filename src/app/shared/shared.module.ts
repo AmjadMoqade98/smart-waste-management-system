@@ -11,9 +11,11 @@ import {DialogModule} from 'primeng/dialog';
 import {CheckboxModule} from 'primeng/checkbox';
 import {ToastModule} from 'primeng/toast';
 import {MessageService} from 'primeng/api';
+import {HoverZoomDirective} from './directives/hover-zoom.directive';
+import {HoverColorDirective} from './directives/hover-color.directive';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent],
+  declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective],
   imports: [
     ReactiveFormsModule,
     HttpClientModule,
@@ -36,6 +38,8 @@ import {MessageService} from 'primeng/api';
     ToastModule,
     HeaderComponent,
     FooterComponent,
+    HoverColorDirective,
+    HoverZoomDirective,
   ],
 
   providers: [MessageService]

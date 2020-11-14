@@ -1,0 +1,46 @@
+<div class="auth-page mb-5 mt-5" >
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 custom-card">
+        <div class="m-5" >
+        <h1>{{ title }}</h1>
+        <p>
+          <a routerLink='/auth/login' *ngIf="authType == 'register'">Have an account?</a>
+          <a routerLink='/auth/register' *ngIf="authType == 'login'">Need an account?</a>
+        </p>
+          <form [formGroup]="authForm" (ngSubmit)="submitForm()">
+          <fieldset [disabled]="isSubmitting">
+            <fieldset class="form-group">
+              <input
+                formControlName="email"
+                placeholder="Email"
+                class="form-control form-control-md"
+                type="text"
+                *ngIf="authType == 'register'" />
+            </fieldset>
+            <fieldset class="form-group">
+              <input
+                formControlName="username"
+                placeholder="Username"
+                class="form-control form-control-md"
+                type="text" />
+            </fieldset>
+            <fieldset class="form-group">
+              <input
+                formControlName="password"
+                placeholder="Password"
+                class="form-control form-control-md"
+                type="password" />
+            </fieldset>
+            <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'" class="custom-button" style="width: 8em" [disabled]="!authForm.valid" type="submit">
+              {{ title }}
+              <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
+            </button>
+          </fieldset>
+            <div *ngIf="errors" class="alert alert-danger mt-3 mb-0">{{errors}}</div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

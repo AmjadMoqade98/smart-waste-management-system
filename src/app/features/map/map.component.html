@@ -1,19 +1,45 @@
-<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+<div>
+    <div class="row">
+      <div class="col-xs">
+        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+          <agm-marker
+            *ngFor="let bin of bins; let i = index"
+            [latitude]="bin.latitude"
+            [longitude]="bin.longitude"
+            [label]="bin.id"
+            [iconUrl]="
+                      {
+                        url: bin.status === 'UNDER_THRESHOLD' ? './assets/images/greenBin.png' :
+                             bin.status === 'ABOUT_TO_THRESHOLD' ? './assets/images/yellowBin.png' : './assets/images/redBin.png',
+                        scaledSize: {
+                            width: 20,
+                            height: 20
+                        }
+                      }"
+            >
+            <agm-info-window>
+              <p>bind id :{{bin.id}}</p>
+              <p>status : {{bin.status}}</p>
+              <button>click</button>
+            </agm-info-window>
+          </agm-marker>
 
-  <agm-marker
-    *ngFor="let m of bins; let i = index"
-    [latitude]="m.latitude"
-    [longitude]="m.longitude"
-    [label]="m.id"
-    >
+          <agm-polygon [paths]="paths" [clickable]="false">
+          </agm-polygon>
+        </agm-map>
+      </div>
+      <div class="ml-auto mr-auto mt-2" style="width:28vw;" >
+        <div *ngFor="let bin of bins" class="custom-card  mb-2">
+          <p>{{bin.id}}</p>
+          <p>{{bin.status}}</p>
+          <p>{{bin.longitude}}</p>
+          <p>{{bin.latitude}}</p>
+        </div>
+      </div>
+    </div>
+</div>
 
-    <agm-info-window>
-      <p>bind id :{{m.id}}</p>
-      <p>status : {{m.status}}</p>
-      <button>click</button>
-    </agm-info-window>
 
-  </agm-marker>
-</agm-map>
+
 
 
