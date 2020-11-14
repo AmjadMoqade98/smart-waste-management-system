@@ -1,5 +1,5 @@
 <div>
-    <div class="row">
+    <div class="row" style="max-width: 100%;">
       <div class="col-xs">
         <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
           <agm-marker
@@ -28,12 +28,10 @@
           </agm-polygon>
         </agm-map>
       </div>
-      <div class="ml-auto mr-auto mt-2" style="width:28vw;" >
+      <div class="col-xs ml-auto mr-auto mt-2" style="width:28vw;max-height: 82vh;overflow-y: scroll" >
         <div *ngFor="let bin of bins" class="custom-card  mb-2">
-          <p>{{bin.id}}</p>
-          <p>{{bin.status}}</p>
-          <p>{{bin.longitude}}</p>
-          <p>{{bin.latitude}}</p>
+          <p>Bin {{bin.id}}</p>
+          <p>Status: {{bin.status}}</p>
         </div>
       </div>
     </div>
