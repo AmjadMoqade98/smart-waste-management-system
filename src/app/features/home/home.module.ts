@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { MapComponent } from './map.component';
+import { HomeComponent } from './home.component';
 import {AgmCoreModule} from '@agm/core';
 import {BinService} from '../../core/services/bin.service';
+import { MapComponent } from './map/map.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 const routes: Routes = [
-  { path: '', component: MapComponent }
+  { path: '', component: HomeComponent }
 ];
 
 @NgModule({
-  declarations: [MapComponent],
+  declarations: [HomeComponent, MapComponent, StatisticsComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -18,4 +20,4 @@ const routes: Routes = [
   ],
   providers: [BinService]
 })
-export class MapModule { }
+export class HomeModule { }

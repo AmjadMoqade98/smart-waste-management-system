@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
 
 const appRoutes: Routes = [
-  {path: 'map', loadChildren: () => import('./features/map/map.module').then(m => m.MapModule)},
+  {path: 'home', loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule)},
   {path: '', redirectTo: '/map', pathMatch: 'full'},
   {path: 'bins', loadChildren: () => import('./features/bins/bins.module').then(m => m.BinsModule)},
   { path: 'areas', loadChildren: () => import('./features/areas/areas.module').then(m => m.AreasModule) },

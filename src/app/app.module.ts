@@ -21,7 +21,8 @@ import {AgmCoreModule} from '@agm/core';
     HttpClientModule,
     AppRoutingModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCEjf5CqrDWgkFb266uZ8sk3tDmnWsKPn8'
+      apiKey: 'AIzaSyCEjf5CqrDWgkFb266uZ8sk3tDmnWsKPn8',
+      libraries: ['drawing']
     })
   ],
   providers: [],

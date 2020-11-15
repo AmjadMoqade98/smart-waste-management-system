@@ -12,7 +12,7 @@ export class HttpTokenInterceptorService implements HttpInterceptor {
     const headersConfig = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE2MDUzNjk5MzgsImV4cCI6MTYwNTM5ODQwMH0.rssP3-3FqwxSJQD103Zg7tKcZcPJYXJ7OCLQaQ96LQA'
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE2MDU0NTIwNjMsImV4cCI6MTYwNTQ4NDgwMH0.KQOwHmWr-Di2Wu4YvFrA7BzUnVbc4AfTNWeGkG6COOo'
     };
 
     // const token = this.jwtService.getToken();
