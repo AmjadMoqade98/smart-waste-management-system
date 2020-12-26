@@ -1,50 +1,20 @@
-<nav class="navbar navbar-expand-md nav-sticky">
+<div class="d-flex justify-content-between">
+  <img class="navbar-brand" src="../../../../assets/images/logo.png" style="max-height:10vh;max-width: 120px;">
 
-  <a class="navbar-brand" routerLink="home">
-    <h1>SWMS</h1>
-  </a>
-  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar">
-    <svg class="ham hamRotate ham" viewBox="0 0 100 100" width="80" height="50"
-         onclick="this.classList.toggle('active');menu.toggle($event)">
-      <path
-        class="line top"
-        style="stroke: black"
-        d="m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20"/>
-      <path
-        class="line middle"
-        style="stroke: black"
-        d="m 70,50 h -40"/>
-      <path
-        class="line bottom"
-        style="stroke: black"
-        d="m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20"/>
-    </svg>
-  </button>
 
-  <div class="collapse navbar-collapse show='false'" id="navbar">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link active" routerLink="bins" routerLinkActive="link-hover"
-         [routerLinkActiveOptions]="{exact:true}">Bins</a>
+  <div class="d-flex " >
+    <a class="nav-item nav-link active mt-2" routerLink="home" fragment="map" [class.link-active]="(activeFragment | async)==='map'" >Map</a>
 
-      <a class="nav-item nav-link active" routerLink="areas" routerLinkActive="link-hover"
-         [routerLinkActiveOptions]="{exact:true}">Areas</a>
+    <a class="nav-item nav-link active mt-2 " routerLink="home"  fragment="statistics" routerLinkActive="link-active"
+       [routerLinkActiveOptions]="{}">Statistics</a>
+  </div>
 
-      <a class="nav-item nav-link active" routerLink="employees" routerLinkActive="link-hover"
-         [routerLinkActiveOptions]="{exact:true}">Employees</a>
-
-      <a class="nav-item nav-link active" routerLink="reports" routerLinkActive="link-hover"
-         [routerLinkActiveOptions]="{exact:true}">Reports</a>
-    </div>
-    <div class="navbar-nav row ml-auto">
-      <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'" class="custom-button  mr-2"
-              routerLink="/login" routerLinkActive="active">User Login
-      </button>
-      <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'" class="custom-button  mr-2"
-              routerLink="/register" routerLinkActive="active">Register
-      </button>
-      <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'" class="custom-button  mr-2"
-              (click)="logout()"> Logout
-      </button>
+  <div class="dropdown">
+    <button class="dropbtn">Amjad Moqade </button>
+    <div class="dropdown-content">
+      <a href="#">Admin Profile</a>
+      <a href="#">logout</a>
     </div>
   </div>
-</nav>
+
+</div>

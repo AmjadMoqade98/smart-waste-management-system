@@ -1,11 +1,25 @@
 .main {
-  min-height:100vh ;
-  position: relative;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.content {
   background-color: #fdfcfc;
+  max-height: 83vh;
+}
+
+.sidebar{
+  background-color: #050442;
+  min-width: 10vw;
+}
+
+.header{
+ background-color: black;
+}
+
+.footer{
+  background-color: black;
+  height: 3vw;
 }
 
 
-.emptyBox{
-  width: 100%;
-  height: 200px;
-}

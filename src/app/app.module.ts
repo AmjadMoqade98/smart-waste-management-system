@@ -8,6 +8,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app.routing.module';
 import {AgmCoreModule} from '@agm/core';
+import { NgxPopper } from 'angular-popper';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {AgmCoreModule} from '@agm/core';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyCEjf5CqrDWgkFb266uZ8sk3tDmnWsKPn8',
       libraries: ['drawing']
-    })
+    }),
+    NgxPopper
   ],
   providers: [],
   bootstrap: [AppComponent]
