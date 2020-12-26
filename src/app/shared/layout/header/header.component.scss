@@ -16,6 +16,10 @@
 
 .navbar-brand{
   color: #238af8;
+  max-height:55px;
+  min-height:55px;
+  min-width: 90px;
+  width: 10vw;
 }
 
 .nav-item:hover {
@@ -74,7 +78,7 @@
 }
 
 .dropbtn {
-  background-color: #ea2129;
+  background-color: black;
   color: white;
   padding: 16px;
   font-size: 16px;
