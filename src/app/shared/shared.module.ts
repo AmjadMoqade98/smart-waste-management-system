@@ -13,11 +13,11 @@ import {ToastModule} from 'primeng/toast';
 import {MessageService} from 'primeng/api';
 import {HoverZoomDirective} from './directives/hover-zoom.directive';
 import {HoverColorDirective} from './directives/hover-color.directive';
-import { SlidebarComponent } from './layout/slidebar/slidebar.component';
+import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import {CommonModule} from '@angular/common';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SlidebarComponent],
+  declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SidebarComponent],
   imports: [
     ReactiveFormsModule,
     HttpClientModule,
@@ -43,7 +43,7 @@ import {CommonModule} from '@angular/common';
     FooterComponent,
     HoverColorDirective,
     HoverZoomDirective,
-    SlidebarComponent,
+    SidebarComponent,
   ],
 
   providers: [MessageService]
