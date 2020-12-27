@@ -29,17 +29,16 @@ export class AuthComponent implements OnInit {
   }
   ngOnInit(): void {
       this.authType = this.router.url.replace('/' , '');
-      console.log(this.authType);
-      this.title = (this.authType === '/login') ? 'Sign in' : 'Sign up';
+      this.title = (this.authType === 'login') ? 'Sign in' : 'Sign up';
       if (this.authType === 'register') {
+        this.authForm.addControl('email', new FormControl());
         this.authForm.addControl('email', new FormControl());
       }
   }
   submitForm(): void {
     this.isSubmitting = true;
     const credentials = this.authForm.value;
-    this.authService
-      .tryLogin(this.authType, credentials);
+    this.authService.tryLogin(this.authType, credentials);
 
     setTimeout(() => {
       this.isSubmitting = false;

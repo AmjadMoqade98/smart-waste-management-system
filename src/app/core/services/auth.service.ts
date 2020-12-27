@@ -19,7 +19,7 @@ export class AuthService {
 
 
   setAuthAdmin(user: User): void {
-    this.jwtService.setToken(user.token);
+   // this.jwtService.setToken(user.token);
     this.currentUserSubject.next(user);
     this.isAdminSubject.next(true);
   }
@@ -30,20 +30,16 @@ export class AuthService {
     this.isAdminSubject.next(false);
   }
 
-  tryLogin(type, credentials): Observable<any> {
+  tryLogin(type, credentials): void {
     console.log(credentials);
     console.log(type);
-    return;
     const route = (type === 'login') ? '/login' : '';
-    return this.apiService.post('/login' + route, {user: credentials})
-      .pipe(map(
-        data => {
-          if (data.user.role === 'admin') {
-            this.setAuthAdmin(data.user);
-          }
-          return data;
+    this.apiService.post('/login', {user: credentials}).subscribe(
+        resp => {
+          console.log(console.log(resp.headers.get('Authorization')));
+          return resp;
         }
-      ));
+      );
   }
 
   getCurrentUser(): User {
