@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {BinService} from '../../../core/services/bin.service';
 import DrawingManagerOptions = google.maps.drawing.DrawingManagerOptions;
 import Polygon = google.maps.Polygon;
 import Swal from 'sweetalert2';
+import {Bin} from '../../../core/models/bin.model';
+import {Area} from '../../../core/models/area.model';
 
 @Component({
   selector: 'app-map',
@@ -10,6 +12,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
+  @Input() bins: Bin[];
+  @Input() areas: Area[];
 
   zoom = 14;
   lat = 31.904424;
@@ -18,25 +22,17 @@ export class MapComponent implements OnInit {
   polygons: Polygon[] = [];
 
   constructor(private binService: BinService) {
-    //this.initializeData();
   }
 
-  // bins: Bin[];
-  //
-  // initializeData(): void {
-  //   this.binService.getBins().subscribe(bins => {
-  //     this.bins = bins;
-  //     this.updatePolygon();
-  //   });
-  // }
-  //
-  // updatePolygon(): void {
-  //   const newPaths = [];
-  //   for (const bin of this.bins) {
-  //     newPaths.push({lat: bin.location.x, lng: bin.location.y});
-  //   }
-  //   this.paths = newPaths;
-  // }
+
+
+  updatePolygon(): void {
+    const newPaths = [];
+    for (const bin of this.bins) {
+      newPaths.push({lat: bin.location.x, lng: bin.location.y});
+    }
+    this.paths = newPaths;
+  }
 
   ngOnInit(): void {
   }
@@ -71,7 +67,7 @@ export class MapComponent implements OnInit {
       }).then((result) => {
 
         if (result.isConfirmed) {
-          let path = [] ;
+          const path = [] ;
           for (const point of e.overlay.getPath().getArray()){
             path.push({lat: point.lat() , lng: point.lng()});
           }
@@ -87,8 +83,7 @@ export class MapComponent implements OnInit {
     console.log(polygon.target.getClientRects()[0]);
   }
 }
-// just an interface for type safety.
-// tslint:disable-next-line:class-name
+
 interface Marker {
   lat: number;
   lng: number;

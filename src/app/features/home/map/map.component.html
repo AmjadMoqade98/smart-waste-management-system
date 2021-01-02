@@ -3,29 +3,33 @@
   [longitude]="lng" [zoom]="zoom"
   [scrollwheel]="false"
   (mapReady)="onMapReady($event)">
-<!--  <agm-marker-->
-<!--    *ngFor="let bin of bins; let i = index"-->
-<!--    [latitude]="bin.location.x"-->
-<!--    [longitude]="bin.location.y"-->
-<!--    [label]="bin.id"-->
-<!--    [iconUrl]="-->
-<!--                      {-->
-<!--                        url: bin.status === 'UNDER_THRESHOLD' ? './assets/images/greenBin.png' :-->
-<!--                             bin.status === 'ABOUT_TO_THRESHOLD' ? './assets/images/yellowBin.png' : './assets/images/redBin.png',-->
-<!--                        scaledSize: {-->
-<!--                            width: 20,-->
-<!--                            height: 20-->
-<!--                        }-->
-<!--                      }"-->
-<!--  >-->
-<!--    <agm-info-window>-->
-<!--      <p>bind id :{{bin.id}}</p>-->
-<!--      <p>status : {{bin.status}}</p>-->
-<!--      <button>click</button>-->
-<!--    </agm-info-window>-->
-<!--  </agm-marker>-->
+  <agm-marker
+    *ngFor="let bin of bins; let i = index"
+    [latitude]="bin.location.x"
+    [longitude]="bin.location.y"
+    [label]="bin.id"
+    [iconUrl]="
+                      {
+                        url: bin.status === 'UNDER_THRESHOLD' ? './assets/images/greenBin.png' :
+                             bin.status === 'ABOUT_TO_THRESHOLD' ? './assets/images/yellowBin.png' : './assets/images/redBin.png',
+                        scaledSize: {
+                            width: 20,
+                            height: 20
+                        }
+                      }"
+  >
+    <agm-info-window>
+      <p>bind id :{{bin.id}}</p>
+      <p>status : {{bin.status}}</p>
+      <button>click</button>
+    </agm-info-window>
+  </agm-marker>
 
   <agm-polygon [paths]="paths" [clickable]="false" >
   </agm-polygon>
 
 </agm-map>
+
+
+<p>value {{bins.length}} value</p>
+

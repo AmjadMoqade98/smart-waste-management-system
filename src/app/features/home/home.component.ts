@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {BinService} from '../../core/services/bin.service';
 import {Bin} from '../../core/models/bin.model';
-import DrawingManagerOptions = google.maps.drawing.DrawingManagerOptions;
 import {ActivatedRoute} from '@angular/router';
-import {share} from 'rxjs/operators';
+import {Area} from '../../core/models/area.model';
+import {AreaService} from '../../core/services/area.service';
+import {timer} from 'rxjs';
+
 declare const google: any;
 
 
@@ -13,12 +15,25 @@ declare const google: any;
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {
+  bins: Bin[];
+  areas: Area[];
+
+  constructor(private route: ActivatedRoute, private binService: BinService, private areaService: AreaService) {
+    this.initializeData();
   }
+
   ngOnInit(): void {
     this.route.fragment.subscribe(f => {
       const element = document.querySelector('#' + f);
-      if (element) { element.scrollIntoView(); }
+      if (element) {
+        element.scrollIntoView();
+      }
+    });
+  }
+
+  initializeData(): void {
+    this.binService.getBins().subscribe(bins => {
+      this.bins = bins;
     });
   }
 }

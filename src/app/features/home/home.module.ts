@@ -6,6 +6,7 @@ import {AgmCoreModule} from '@agm/core';
 import {BinService} from '../../core/services/bin.service';
 import { MapComponent } from './map/map.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import {AreaService} from '../../core/services/area.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent }
@@ -18,6 +19,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     AgmCoreModule
   ],
-  providers: [BinService]
+  providers: [BinService, AreaService]
 })
 export class HomeModule { }
