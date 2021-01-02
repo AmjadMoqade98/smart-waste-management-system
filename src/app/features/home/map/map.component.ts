@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {BinService} from '../../../core/services/bin.service';
 import DrawingManagerOptions = google.maps.drawing.DrawingManagerOptions;
 import Polygon = google.maps.Polygon;
@@ -20,6 +20,9 @@ export class MapComponent implements OnInit {
   lng = 35.206681;
   paths = [];
   polygons: Polygon[] = [];
+
+
+  @ViewChild('map1', {static: true }) mapElement: ElementRef;
 
   constructor(private binService: BinService) {
   }
