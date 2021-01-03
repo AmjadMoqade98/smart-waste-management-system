@@ -1,1 +1,126 @@
 <div #map style="width: 100%;height: 100%;"></div>
+
+
+<p-dialog *ngIf="area" [(visible)]="areaDialog"
+          [style]="{width:'35vw',height:'50vh'}"
+          [draggable]="false">
+  <p-header>
+    <h4 style="display: inline">{{area.name}}</h4>
+    <h4 style="display: inline" *ngIf="dialogEmployee"> - Employee</h4>
+    <h4 style="display: inline" *ngIf="dialogEmployees"> - Employees</h4>
+  </p-header>
+
+  <div *ngIf="dialogMain">
+    <table>
+      <tr>
+        <td>total bins</td>
+        <td>{{currentBins}}</td>
+      </tr>
+      <hr/>
+      <tr>
+        <td>under threshold bins</td>
+        <td>{{currentUTBins}}</td>
+      </tr>
+      <hr/>
+      <tr>
+        <td>about threshold bins</td>
+        <td>{{currentATBins}}</td>
+      </tr>
+      <hr/>
+      <tr>
+        <td>over threshold bins</td>
+        <td>{{currentOTBins}}</td>
+      </tr>
+      <hr/>
+      <tr>
+        <td>Emergency bins</td>
+        <td>{{currentEBins}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div *ngIf="dialogEmployee && currentEmployee">
+    <table>
+      <tr style="border-bottom: 1px solid black">
+        <td>username</td>
+        <td>{{currentEmployee.username}}</td>
+      </tr>
+      <hr/>
+      <tr>
+        <td>firstName</td>
+        <td>{{currentEmployee.firstName}}</td>
+      </tr>
+      <hr/>
+      <tr>
+        <td>lastName</td>
+        <td> {{currentEmployee.lastName}}</td>
+      </tr>
+      <hr/>
+      <tr>
+        <td>phone</td>
+        <td>{{currentEmployee.phone}}</td>
+      </tr>
+      <hr/>
+      <tr>
+        <td>address</td>
+        <td>{{currentEmployee.address}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div *ngIf="dialogEmployees">
+    <p-message *ngIf="isAssign == true" [style]="{marginBottom:'3px'}" severity="success" text="{{currentEmployee.username}} successfully assigned to {{area.name}}" styleClass="p-mr-2"></p-message>
+    <p-table #dt [value]="employees">
+      <ng-template pTemplate="header">
+        <tr>
+          <input pInputText type="text"
+                 (input)="dt.filter($event.target.value, 'username', 'startsWith')" placeholder="Search for username"
+                 class="p-column-filter">
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-employee>
+        <tr>
+          <td>{{employee.username}}</td>
+          <td style="text-align: right">
+            <i class="fa fa-check-circle fa-lg ml-3 check-icon"  aria-hidden="true" title="assign"
+               (click)="assignEmployeeToArea(employee.id)"></i>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+
+  <p-footer [style]="{float:'left'}">
+    <div *ngIf="dialogMain">
+      <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'"
+              class="custom-button mr-2" (click)="showEmployeeDialog()">
+        Employee
+      </button>
+      <button appHoverColor [defaultBackgroundColor]="'#0f802d'" [defaultColor]="'#ffffff'"
+              class="custom-button mr-2"  (click)="showEmployeesDialog()">
+        Assign Employee
+      </button>
+
+      <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'"
+              class="custom-button mr-2"  (click)="showEmployeeDialog()">
+        Edit Area
+      </button>
+
+      <button appHoverColor [defaultBackgroundColor]="'#ba091b'" [defaultColor]="'#ffffff'"
+              class="custom-button mr-2"  (click)="showEmployeeDialog()">
+        delete Area
+      </button>
+    </div>
+
+    <div *ngIf="!dialogMain">
+      <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'"
+              class="custom-button mr-2"  (click)="showAreaDialog()">
+        Back
+      </button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+
+

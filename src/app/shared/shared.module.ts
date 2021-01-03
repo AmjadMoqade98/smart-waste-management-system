@@ -15,6 +15,9 @@ import {HoverZoomDirective} from './directives/hover-zoom.directive';
 import {HoverColorDirective} from './directives/hover-color.directive';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import {CommonModule} from '@angular/common';
+import {EmployeeService} from '../core/services/employee.service';
+import {TableModule} from 'primeng/table';
+import {MessageModule} from 'primeng/message';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SidebarComponent],
@@ -44,9 +47,11 @@ import {CommonModule} from '@angular/common';
     HoverColorDirective,
     HoverZoomDirective,
     SidebarComponent,
+    TableModule,
+    MessageModule
   ],
 
-  providers: [MessageService]
+  providers: [MessageService , EmployeeService]
 })
 // @ts-ignore
 export class SharedModule { }

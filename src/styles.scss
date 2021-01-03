@@ -35,12 +35,11 @@ html, body{
 }
 
 .custom-button {
-  background-color: #238af8;
-  color: white;
-  border: 1px solid #238af8;
+  border: 1px solid ;
   font-size: 0.9em;
   border-radius: 1vh;
   padding: 1vh 1vh;
+  min-width: 5vw;
 }
 
 button:disabled{

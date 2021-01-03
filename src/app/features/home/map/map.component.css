@@ -1,1 +1,17 @@
+table {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  width: 50%;
+}
 
+hr{
+  padding: 0;
+  margin: 0
+}
+
+.check-icon{
+  color: black;
+}
+.check-icon:hover{
+  color:green;
+}

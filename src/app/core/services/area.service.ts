@@ -56,4 +56,16 @@ export class AreaService {
       this.AreaState.next(this.AreaData);
     }));
   }
+
+  getEmployee(id): Observable<any> {
+    return this.apiService.get(this.PATH + '/' + id + '/employees');
+  }
+
+  assignEmployee(areaId: number , employeeId: number): Observable<any> {
+    return this.apiService.get(this.PATH + '/' + areaId + '/assign-employee/' + employeeId);
+  }
+
+  unassignEmployee(areaId: number , employeeId: number ): Observable<any> {
+    return this.apiService.get(this.PATH + '/' + areaId + '/unassign-employee/' + employeeId);
+  }
 }

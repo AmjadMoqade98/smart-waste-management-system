@@ -1,3 +1,5 @@
+import {Location} from './location.model';
+
 export interface Polygon {
-  points?: Location[];
+  pointDtoList?: Location[];
 }

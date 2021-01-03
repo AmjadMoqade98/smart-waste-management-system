@@ -7,6 +7,9 @@ import {BinService} from '../../core/services/bin.service';
 import { MapComponent } from './map/map.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import {AreaService} from '../../core/services/area.service';
+import {DialogModule} from 'primeng/dialog';
+import {ButtonModule} from 'primeng/button';
+import {SharedModule} from '../../shared/shared.module';
 
 const routes: Routes = [
   { path: '', component: HomeComponent }
@@ -17,6 +20,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    SharedModule
   ],
   providers: [BinService, AreaService]
 })
