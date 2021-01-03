@@ -21,10 +21,6 @@ import { NgxPopper } from 'angular-popper';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCEjf5CqrDWgkFb266uZ8sk3tDmnWsKPn8',
-      libraries: ['drawing']
-    }),
     NgxPopper
   ],
   providers: [],
