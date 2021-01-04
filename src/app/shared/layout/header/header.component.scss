@@ -19,11 +19,11 @@
   max-height:55px;
   min-height:55px;
   min-width: 90px;
-  width: 10vw;
+  width: 8vw;
 }
 
 .nav-item:hover {
-  border-bottom: 3px solid #238af8;
+  border-bottom: 3px solid red;
 }
 
 .navbar {
@@ -38,19 +38,7 @@
 .collapse{
   color: white;
 }
-.ham {
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform 400ms;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
 
-.hamRotate.active {
-  transform: rotate(45deg);
-}
 .line {
   fill: none;
   transition: stroke-dasharray 100ms, stroke-dashoffset 100ms;
@@ -58,19 +46,6 @@
   stroke-width: 4;
   stroke-linecap: round;
 }
-.ham .top {
-  stroke-dasharray: 40 100;
-}
-.ham .bottom {
-  stroke-dasharray: 40 100;
-}
-.ham.active .top {
-  stroke-dashoffset: -68px;
-}
-.ham.active .bottom {
-  stroke-dashoffset: -68px;
-}
-
 
 .dropdown {
   position: relative;

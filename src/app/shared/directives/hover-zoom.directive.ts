@@ -17,8 +17,6 @@ export class HoverZoomDirective {
       if(!isNaN(+a)) size_value= size_value + a ;
       else unit = unit + a ;
     });
-    console.log(size_value);
-    console.log(unit);
 
     let calculateFont = (+size_value)*1.2 ;
 

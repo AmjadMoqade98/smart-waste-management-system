@@ -44,7 +44,7 @@ export class BinService {
 
   updateBin(id, bin: Bin): Observable<Bin> {
     return this.apiService.put(this.PATH + '/' + id, bin).pipe(tap(response => {
-      const oldBin = this.BinData.find(bin => bin.id === response.id);
+      const oldBin = this.BinData.find(bin1 => bin1.id === response.id);
       const index = this.BinData.indexOf(oldBin);
       this.BinData[index] = response;
       this.BinState.next(this.BinData);
@@ -53,7 +53,7 @@ export class BinService {
 
   deleteBin(id): Observable<any> {
     return this.apiService.delete(this.PATH + '/' + id).pipe(tap(response => {
-      this.BinData = this.BinData.filter(Bin => Bin.id != id);
+      this.BinData = this.BinData.filter(bin => bin.id !== id);
       this.BinState.next(this.BinData);
     }));
   }

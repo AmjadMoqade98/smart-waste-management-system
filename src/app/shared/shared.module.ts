@@ -21,6 +21,11 @@ import {MessageModule} from 'primeng/message';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {MessagesModule} from 'primeng/messages';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import {ChartModule} from 'primeng/chart';
+import {CardModule} from 'primeng/card';
+import {PaginatorModule} from 'primeng/paginator';
+import {ReportService} from '../core/services/report.service';
+import {CitizenService} from '../core/services/citizen.service';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SidebarComponent],
@@ -56,10 +61,12 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     ConfirmDialogModule,
     InputTextModule,
     InputTextareaModule,
-
+    ChartModule,
+    CardModule,
+    PaginatorModule,
   ],
 
-  providers: [MessageService , EmployeeService , ConfirmationService]
+  providers: [MessageService , EmployeeService , ConfirmationService, ReportService, CitizenService]
 })
 // @ts-ignore
 export class SharedModule { }

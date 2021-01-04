@@ -1,6 +1,6 @@
 <div #map style="width: 100% ;" [ngStyle]="{'height' : msg.length > 0 ? '85%' : '100%'}"></div>
 <p-dialog *ngIf="area" [(visible)]="areaDialog"
-          [style]="{width:'35vw',maxHeight:'55vh' ,backgroundColor:'white'}"
+          [style]="{width:'40vw',maxHeight:'55vh' ,backgroundColor:'white'}"
           [draggable]="true">
   <p-header>
     <h4 style="display: inline">{{area.name}}</h4>
@@ -89,7 +89,7 @@
   </div>
 
 
-  <p-footer [style]="{float:'left'}">
+  <p-footer [style]="{float:'left',maxWidth:'100%'}">
     <div *ngIf="dialogMain">
       <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'"
               class="custom-button mr-2 mt-3" (click)="showEmployeeDialog()">
@@ -109,6 +109,13 @@
               class="custom-button mr-2 mt-3" (click)="confirmDelete(area)">
         delete Area
       </button>
+
+      <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'"
+              class="custom-button mr-2 mt-3" (click)="focusArea(area)">
+        Focus Area
+      </button>
+
+
     </div>
 
     <div *ngIf="!dialogMain">

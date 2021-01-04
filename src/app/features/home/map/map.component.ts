@@ -63,7 +63,6 @@ export class MapComponent implements OnInit, OnChanges {
     if (!this.isMapInit) {
       this.initMap();
       this.isMapInit = true;
-      console.log('init');
     }
   }
 
@@ -72,7 +71,6 @@ export class MapComponent implements OnInit, OnChanges {
       this.initMap();
       this.isMapInit = true;
     }
-    console.log('change');
     if (this.bins && !this.isBins) {
       this.isBins = true;
       for (const bin of this.bins) {
@@ -97,9 +95,9 @@ export class MapComponent implements OnInit, OnChanges {
       streetViewControl: false,
     });
     this.map = map;
-    // map.addListener('click', (mapsMouseEvent) => {
-    //   console.log(JSON.stringify(mapsMouseEvent.latLng.toJSON()));
-    // });
+    map.addListener('click', (mapsMouseEvent) => {
+      console.log(JSON.stringify(mapsMouseEvent.latLng.toJSON()));
+    });
     const drawingManager = new google.maps.drawing.DrawingManager({
       drawingControl: true,
       drawingControlOptions: {
@@ -154,6 +152,25 @@ export class MapComponent implements OnInit, OnChanges {
     this.newArea.polygonDto.pointDtoList = arr;
     this.isAreaForm = true;
   }
+
+  focusArea(area): void{
+    this.areaDialog = false;
+    this.map.fitBounds(this.getBounds(area.polygon));
+  }
+
+  getBounds = (polygon) => {
+    const bounds = new google.maps.LatLngBounds();
+    const paths = polygon.getPaths();
+    let path;
+    for (let i = 0; i < paths.getLength(); i++) {
+      path = paths.getAt(i);
+      for (let ii = 0; ii < path.getLength(); ii++) {
+        bounds.extend(path.getAt(ii));
+      }
+    }
+    return bounds;
+  }
+
 
   drawPolygon(area: Area): void {
     area.polygon = new google.maps.Polygon({
@@ -266,6 +283,7 @@ export class MapComponent implements OnInit, OnChanges {
       });
     }
   }
+
 
   showAreaDialog(): void {
     this.calculateArea(this.area.id);

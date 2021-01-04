@@ -1,17 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {BinService} from '../../../core/services/bin.service';
 import {Bin} from '../../../core/models/bin.model';
+import {Area} from '../../../core/models/area.model';
+import {Employee} from '../../../core/models/employee.model';
 
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.css']
 })
-export class StatisticsComponent implements OnInit {
-  bins: Bin[];
+export class StatisticsComponent implements OnInit , OnChanges {
+  @Input() bins: Bin[];
+  @Input() areas: Area[];
+  @Input() employees: Employee[];
+
+  barData;
+  totalBins = 0;
+  ATBins = 0;
+  OTBins = 0;
+  UTBins = 0;
+  EBins = 0;
 
   constructor(private binService: BinService) {
     this.initializeData();
+  }
+
+  ngOnInit(): void {
+  }
+
+  ngOnChanges(): void {
+    if (this.bins) {
+      this.prepareBar();
+      this.barData = {
+        labels: ['UNDER_THRESHOLD', 'ABOUT_TO_THRESHOLD', 'OVER_THRESHOLD' , 'EMERGENCY'],
+        datasets: [
+          {
+            data: [this.UTBins, this.ATBins, this.OTBins, this.EBins],
+            backgroundColor: [
+              '#2aeb77',
+              '#f5cf27',
+              '#2063ab',
+              '#ff0000',
+            ],
+            hoverBackgroundColor: [
+              '#2aeb77',
+              '#f5cf27',
+              '#2063ab',
+              '#ff0000',
+            ]
+          }
+        ]
+      };
+    }
   }
 
   initializeData(): void {
@@ -20,7 +60,31 @@ export class StatisticsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  prepareBar(): void {
+    this.totalBins = this.bins.length;
+    this.ATBins = 0;
+    this.OTBins = 0;
+    this.UTBins = 0;
+    this.EBins = 0;
+    for (const bin of this.bins) {
+      switch (bin.status) {
+        case 'UNDER_THRESHOLD': {
+          this.UTBins++;
+          break;
+        }
+        case 'ABOUT_TO_THRESHOLD': {
+          this.ATBins++;
+          break;
+        }
+        case 'OVER_THRESHOLD': {
+          this.OTBins++;
+          break;
+        }
+        case 'EMERGENCY': {
+          this.EBins++;
+          break;
+        }
+      }
+    }
   }
-
 }

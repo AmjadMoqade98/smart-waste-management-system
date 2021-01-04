@@ -4,13 +4,15 @@
 }
 
 .content {
-  background-color: #fdfcfc;
+  background-color: #f0f0f0;
   max-height: 83vh;
 }
 
 .sidebar{
-  background-color: #050442;
-  min-width: 10%;
+  background-color: white;
+  width: 150px;
+  min-width: 100px;
+  border-right: 1px solid gray;
 }
 
 .header{

@@ -1,1 +1,22 @@
-<p>reports works!</p>
+<p-card>
+  <div *ngFor="let report of currentReports" class="comment" >
+    <hr/>
+    <div class="d-flex text-monospace">
+      <h6 class="mr-4"><i class="pi pi-user"></i> {{report.username}}</h6>
+
+      <p class="mr-4"><i class="pi pi-phone"></i> {{report.phone}} </p>
+
+      <a class="mr-4"><i class="pi pi-trash"></i> {{report.bin}}</a>
+
+      <p class="ml-5" >{{report.date}}</p>
+    </div>
+    <p style="font-weight:bold ">{{report.title}}</p>
+    <p>{{report.body}}</p>
+    <p></p>
+    <hr/>
+  </div>
+
+</p-card>
+<p-paginator [rows]="5" [totalRecords]="reports.length" [rowsPerPageOptions]="[1,2,5,10]"
+             (onPageChange)="paginate($event)"></p-paginator>
+

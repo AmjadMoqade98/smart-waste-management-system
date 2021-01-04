@@ -1,6 +1,4 @@
-.sidebar{
 
-}
 
 .sidebar > a {
   padding: 10px;
@@ -8,12 +6,12 @@
 
 a{
   text-decoration: none;
-  color:white;
+  color:black;
 }
 
 
 .link-active{
   color: white;
-  border-left:3px solid white;
-  background-color: #238af8;
+  border-left:3px solid red;
+  background-color: black;
 }

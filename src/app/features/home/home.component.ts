@@ -28,11 +28,21 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.fragment.subscribe(f => {
-      const element = document.querySelector('#' + f);
+      // const index = f.indexOf('?');
+      // console.log(index);
+      // console.log(f);
+      //
+      // f = f.slice(0, index);
+      // console.log(f);
+      const element = document.querySelector('#' + f );
       if (element) {
         element.scrollIntoView();
       }
     });
+
+    // this.route.queryParams.subscribe(params => {
+    //    console.log(params.i);
+    // });
   }
 
   initializeData(): void {
