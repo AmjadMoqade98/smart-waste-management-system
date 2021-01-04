@@ -56,6 +56,7 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     ConfirmDialogModule,
     InputTextModule,
     InputTextareaModule,
+
   ],
 
   providers: [MessageService , EmployeeService , ConfirmationService]

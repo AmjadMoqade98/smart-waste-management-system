@@ -2,7 +2,13 @@ import {Location} from './location.model';
 
 export interface Bin {
   id?: number;
-  location?: Location ;
+  location?: Location;
   status?: 'UNDER_THRESHOLD' | 'ABOUT_TO_THRESHOLD' | 'OVER_THRESHOLD' | 'EMERGENCY';
   areaId?: number;
+  marker?;
+
+
 }
+
+
+

@@ -53,6 +53,7 @@ export class MapComponent implements OnInit, OnChanges {
       UNDER_THRESHOLD: 'https://i.ibb.co/f8B7Y14/greenBin.png',
       ABOUT_TO_THRESHOLD: 'https://i.ibb.co/7GS3Hn1/yellow-Bin.png',
       OVER_THRESHOLD: 'https://i.ibb.co/DRRhZWM/redBin.png',
+      EMERGENCY: 'https://i.ibb.co/HrcXKZN/emergency.png',
     };
 
   constructor(private areaService: AreaService, private confirmationService: ConfirmationService) {
@@ -96,7 +97,9 @@ export class MapComponent implements OnInit, OnChanges {
       streetViewControl: false,
     });
     this.map = map;
-    console.log(this.map);
+    // map.addListener('click', (mapsMouseEvent) => {
+    //   console.log(JSON.stringify(mapsMouseEvent.latLng.toJSON()));
+    // });
     const drawingManager = new google.maps.drawing.DrawingManager({
       drawingControl: true,
       drawingControlOptions: {
@@ -160,7 +163,7 @@ export class MapComponent implements OnInit, OnChanges {
       strokeWeight: 1,
       fillColor: '#2f5382',
       fillOpacity: 0.2,
-      draggable: true
+      draggable: false
     });
     area.polygon.setMap(this.map);
     area.polygon.addListener('click', () => {
@@ -170,11 +173,29 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   drawMarker(bin: Bin): void {
-    const marker = new google.maps.Marker({
+    const infowindow = new google.maps.InfoWindow({
+      content: 'status'
+    });
+
+    bin.marker = new google.maps.Marker({
       position: new google.maps.LatLng(bin.location.x, bin.location.y),
       icon: {url: this.icons[bin.status], scaledSize: new google.maps.Size(20, 20)},
       map: this.map,
     });
+    bin.marker.addListener('mouseover', () => {
+      infowindow.open(this.map, bin.marker);
+      infowindow.setContent(this.binToString(bin));
+    });
+
+    bin.marker.addListener('mouseout', () => {
+      infowindow.close();
+    });
+  }
+
+   binToString(bin: Bin): string{
+    return 'binId: ' + bin.id + '<br />' +
+      'areaId: ' + bin.areaId + '<br />' +
+      'bin status: ' + bin.status;
   }
 
   polygonToPath(polygon: Polygon): any[] {
