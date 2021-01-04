@@ -18,6 +18,7 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() bins: Bin[];
   @Input() areas: Area[];
   @Input() employees: Employee[];
+  @Input() routeParameter: any;
 
   isMapInit = false;
   isAreas = false;
@@ -47,6 +48,9 @@ export class MapComponent implements OnInit, OnChanges {
 
   @ViewChild('map', {static: true}) mapElement: ElementRef;
   map: google.maps.Map;
+  infowindow = new google.maps.InfoWindow({
+    content: 'text'
+  });
 
   icons =
     {
@@ -83,6 +87,25 @@ export class MapComponent implements OnInit, OnChanges {
         this.drawPolygon(area);
       }
     }
+
+    if (this.routeParameter.bin) {
+      const id = +this.routeParameter.bin;
+      for (const bin of this.bins) {
+        if (bin.id === id) {
+          this.infowindow.open(this.map, bin.marker);
+          this.infowindow.setContent(this.binToString(bin));
+          if (this.map.getBounds().contains(bin.marker.getPosition())) {
+            this.map.setCenter(bin.marker.getPosition());
+            this.map.setZoom(16);
+            this.infowindow.addListener('closeclick', () => {
+              this.map.setZoom(13);
+              this.map.setCenter({lat: 31.904424, lng: 35.206681});
+              google.maps.event.clearListeners(this.infowindow, 'closeclick');
+            });
+          }
+        }
+      }
+    }
   }
 
   initMap(): void {
@@ -95,9 +118,9 @@ export class MapComponent implements OnInit, OnChanges {
       streetViewControl: false,
     });
     this.map = map;
-    map.addListener('click', (mapsMouseEvent) => {
-      console.log(JSON.stringify(mapsMouseEvent.latLng.toJSON()));
-    });
+    // map.addListener('click', (mapsMouseEvent) => {
+    //   console.log(JSON.stringify(mapsMouseEvent.latLng.toJSON()));
+    // });
     const drawingManager = new google.maps.drawing.DrawingManager({
       drawingControl: true,
       drawingControlOptions: {
@@ -153,7 +176,7 @@ export class MapComponent implements OnInit, OnChanges {
     this.isAreaForm = true;
   }
 
-  focusArea(area): void{
+  focusArea(area): void {
     this.areaDialog = false;
     this.map.fitBounds(this.getBounds(area.polygon));
   }
@@ -190,26 +213,19 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   drawMarker(bin: Bin): void {
-    const infowindow = new google.maps.InfoWindow({
-      content: 'status'
-    });
-
     bin.marker = new google.maps.Marker({
       position: new google.maps.LatLng(bin.location.x, bin.location.y),
       icon: {url: this.icons[bin.status], scaledSize: new google.maps.Size(20, 20)},
       map: this.map,
     });
     bin.marker.addListener('mouseover', () => {
-      infowindow.open(this.map, bin.marker);
-      infowindow.setContent(this.binToString(bin));
+      this.infowindow.open(this.map, bin.marker);
+      this.infowindow.setContent(this.binToString(bin));
     });
 
-    bin.marker.addListener('mouseout', () => {
-      infowindow.close();
-    });
   }
 
-   binToString(bin: Bin): string{
+  binToString(bin: Bin): string {
     return 'binId: ' + bin.id + '<br />' +
       'areaId: ' + bin.areaId + '<br />' +
       'bin status: ' + bin.status;
@@ -353,7 +369,6 @@ export class MapComponent implements OnInit, OnChanges {
       this.msg = [{severity: 'success', summary: 'Confirmed', detail: 'area updated'}];
     });
   }
-
 
   confirmDelete(area: Area): void {
     this.confirmationService.confirm({

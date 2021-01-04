@@ -34,7 +34,7 @@ export class AuthService {
     console.log(credentials);
     console.log(type);
     const route = (type === 'login') ? '/login' : '';
-    this.apiService.post('/login', {user: credentials}).subscribe(
+    this.apiService.post('/login', credentials).subscribe(
         resp => {
           console.log(console.log(resp.headers.get('Authorization')));
           return resp;
