@@ -10,7 +10,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {DialogModule} from 'primeng/dialog';
 import {CheckboxModule} from 'primeng/checkbox';
 import {ToastModule} from 'primeng/toast';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {HoverZoomDirective} from './directives/hover-zoom.directive';
 import {HoverColorDirective} from './directives/hover-color.directive';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
@@ -18,6 +18,9 @@ import {CommonModule} from '@angular/common';
 import {EmployeeService} from '../core/services/employee.service';
 import {TableModule} from 'primeng/table';
 import {MessageModule} from 'primeng/message';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {MessagesModule} from 'primeng/messages';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SidebarComponent],
@@ -48,10 +51,14 @@ import {MessageModule} from 'primeng/message';
     HoverZoomDirective,
     SidebarComponent,
     TableModule,
-    MessageModule
+    MessageModule,
+    MessagesModule,
+    ConfirmDialogModule,
+    InputTextModule,
+    InputTextareaModule,
   ],
 
-  providers: [MessageService , EmployeeService]
+  providers: [MessageService , EmployeeService , ConfirmationService]
 })
 // @ts-ignore
 export class SharedModule { }
