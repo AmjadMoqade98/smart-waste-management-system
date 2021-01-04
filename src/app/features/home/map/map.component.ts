@@ -1,11 +1,12 @@
 import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {BinService} from '../../../core/services/bin.service';
 import {Bin} from '../../../core/models/bin.model';
 import {Area} from '../../../core/models/area.model';
 import {Polygon} from '../../../core/models/polygon.model';
 import MapTypeStyle = google.maps.MapTypeStyle;
 import {Employee} from '../../../core/models/employee.model';
 import {AreaService} from '../../../core/services/area.service';
+import {ConfirmationService} from 'primeng/api';
+
 
 @Component({
   selector: 'app-map',
@@ -13,13 +14,12 @@ import {AreaService} from '../../../core/services/area.service';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit, OnChanges {
-  constructor(private areaService: AreaService) {
-  }
 
   @Input() bins: Bin[];
   @Input() areas: Area[];
   @Input() employees: Employee[];
 
+  isMapInit = false;
   isAreas = false;
   isBins = false;
   bin: Bin;
@@ -37,8 +37,13 @@ export class MapComponent implements OnInit, OnChanges {
   dialogEmployee = false;
 
   currentEmployee: Employee;
-  isAssign = null;
 
+  isAreaForm = false;
+  isCreateArea = false;
+  isUpdateArea = false;
+  newArea: Area = {id: 0, polygon: null, polygonDto: {}, name: ''};
+  coordinates = '';
+  msg = [];
 
   @ViewChild('map', {static: true}) mapElement: ElementRef;
   map: google.maps.Map;
@@ -50,11 +55,38 @@ export class MapComponent implements OnInit, OnChanges {
       OVER_THRESHOLD: 'https://i.ibb.co/DRRhZWM/redBin.png',
     };
 
-  ngOnInit(): void {
-    this.renderMap();
+  constructor(private areaService: AreaService, private confirmationService: ConfirmationService) {
   }
 
-  renderMap(): void {
+  ngOnInit(): void {
+    if (!this.isMapInit) {
+      this.initMap();
+      this.isMapInit = true;
+      console.log('init');
+    }
+  }
+
+  ngOnChanges(): void {
+    if (!this.isMapInit) {
+      this.initMap();
+      this.isMapInit = true;
+    }
+    console.log('change');
+    if (this.bins && !this.isBins) {
+      this.isBins = true;
+      for (const bin of this.bins) {
+        this.drawMarker(bin);
+      }
+    }
+    if (this.areas && !this.isAreas) {
+      this.isAreas = true;
+      for (const area of this.areas) {
+        this.drawPolygon(area);
+      }
+    }
+  }
+
+  initMap(): void {
     const map = new window.google.maps.Map(this.mapElement.nativeElement, {
       zoom: 13,
       center: {lat: 31.904424, lng: 35.206681},
@@ -64,7 +96,7 @@ export class MapComponent implements OnInit, OnChanges {
       streetViewControl: false,
     });
     this.map = map;
-
+    console.log(this.map);
     const drawingManager = new google.maps.drawing.DrawingManager({
       drawingControl: true,
       drawingControlOptions: {
@@ -78,12 +110,19 @@ export class MapComponent implements OnInit, OnChanges {
         strokeWeight: 1,
         fillColor: '#2f5382',
         fillOpacity: 0.2,
-        draggable: true,
-        editable: true,
+        draggable: false,
+        editable: false,
       }
     });
-
     drawingManager.setMap(map);
+
+    google.maps.event.addListener(drawingManager, 'polygoncomplete', (polygon) => {
+      drawingManager.setDrawingMode(null);
+      this.isUpdateArea = false;
+      this.isCreateArea = true;
+      polygon.setMap(null);
+      this.prepareAreaForm({id: 0, polygon: null, polygonDto: {}, name: ''}, polygon);
+    });
 
     const hide: MapTypeStyle[] = [
       {
@@ -96,8 +135,46 @@ export class MapComponent implements OnInit, OnChanges {
         stylers: [{visibility: 'off'}],
       },
     ];
-
     this.map.setOptions({styles: hide});
+  }
+
+  prepareAreaForm(area, polygon): void {
+    const arr = [];
+    this.coordinates = '';
+    polygon.getPath().forEach((latLng) => {
+      arr.push({x: latLng.toJSON().lat, y: latLng.toJSON().lng});
+    });
+    arr.forEach(value => {
+      this.coordinates += JSON.stringify(value) + '\n';
+    });
+    this.newArea = area;
+    this.newArea.polygonDto.pointDtoList = arr;
+    this.isAreaForm = true;
+  }
+
+  drawPolygon(area: Area): void {
+    area.polygon = new google.maps.Polygon({
+      paths: this.polygonToPath(area.polygonDto),
+      strokeColor: '#0c0d0c',
+      strokeOpacity: 0.8,
+      strokeWeight: 1,
+      fillColor: '#2f5382',
+      fillOpacity: 0.2,
+      draggable: true
+    });
+    area.polygon.setMap(this.map);
+    area.polygon.addListener('click', () => {
+      this.area = area;
+      this.showAreaDialog();
+    });
+  }
+
+  drawMarker(bin: Bin): void {
+    const marker = new google.maps.Marker({
+      position: new google.maps.LatLng(bin.location.x, bin.location.y),
+      icon: {url: this.icons[bin.status], scaledSize: new google.maps.Size(20, 20)},
+      map: this.map,
+    });
   }
 
   polygonToPath(polygon: Polygon): any[] {
@@ -108,46 +185,11 @@ export class MapComponent implements OnInit, OnChanges {
     return path;
   }
 
-  ngOnChanges(): void {
-    if (this.bins && !this.isBins) {
-      this.isBins = true;
-      for (const bin of this.bins) {
-        const marker = new google.maps.Marker({
-          position: new google.maps.LatLng(bin.location.x, bin.location.y),
-          icon: {url: this.icons[bin.status], scaledSize: new google.maps.Size(20, 20)},
-          map: this.map,
-        });
-      }
-    }
-    if (this.areas && !this.isAreas) {
-      this.isAreas = true;
-      for (const area of this.areas) {
-        const polygon = new google.maps.Polygon({
-          paths: this.polygonToPath(area.polygonDto),
-          strokeColor: '#0c0d0c',
-          strokeOpacity: 0.8,
-          strokeWeight: 1,
-          fillColor: '#2f5382',
-          fillOpacity: 0.2,
-          draggable: true
-        });
-        polygon.setMap(this.map);
-        polygon.addListener('click', () => {
-          this.area = area;
-          this.showAreaDialog();
-        });
-        polygon.addListener('overlaycomplete' , () => {
-          console.log("hello");
-        });
-      }
-    }
-  }
-
   // @ts-ignore
-  calculateArea(): void {
+  calculateArea(areaId: number): void {
     const lbins: Bin[] = [];
     for (const bin of this.bins) {
-      if (bin.areaId === this.area.id) {
+      if (bin.areaId === areaId) {
         lbins.push(bin);
       }
     }
@@ -177,31 +219,35 @@ export class MapComponent implements OnInit, OnChanges {
       }
     }
 
-    this.areaService.getEmployee(this.area.id).subscribe(employee => {
+    this.areaService.getEmployee(areaId).subscribe(employee => {
       this.currentEmployee = employee[0];
     });
   }
 
-  assignEmployeeToArea(employeeId: number): void {
+  assignEmployeeToArea(areaId: number, employeeId: number): void {
     if (this.currentEmployee) {
-      console.log('unsign');
-      this.areaService.unassignEmployee(this.area.id, this.currentEmployee.id).subscribe(value => {
-        this.areaService.assignEmployee(this.area.id, employeeId).subscribe(value1 => {
+      this.areaService.unassignEmployee(areaId, this.currentEmployee.id).subscribe(value => {
+        this.areaService.assignEmployee(areaId, employeeId).subscribe(value1 => {
           this.currentEmployee = this.employees.find(emp => emp.id === employeeId);
-          this.isAssign = true;
+          this.msg = [{
+            severity: 'success', summary: 'Confirmed',
+            detail: this.currentEmployee.username + ' successfully assigned to ' + this.area.name
+          }];
         });
       });
     } else {
-      this.areaService.assignEmployee(this.area.id, employeeId).subscribe(value => {
+      this.areaService.assignEmployee(areaId, employeeId).subscribe(value => {
         this.currentEmployee = this.employees.find(emp => emp.id === employeeId);
-        this.isAssign = true;
+        this.msg = [{
+          severity: 'success', summary: 'Confirmed',
+          detail: this.currentEmployee.username + ' successfully assigned to ' + this.area.name
+        }];
       });
     }
-
   }
 
   showAreaDialog(): void {
-    this.calculateArea();
+    this.calculateArea(this.area.id);
     this.areaDialog = true;
     this.dialogMain = true;
     this.dialogEmployees = false;
@@ -218,6 +264,70 @@ export class MapComponent implements OnInit, OnChanges {
     this.dialogMain = false;
     this.dialogEmployees = true;
     this.dialogEmployee = false;
-    this.isAssign = null;
+  }
+
+  updateAreaPrepare(area): void {
+    this.areaDialog = false;
+    this.isUpdateArea = true;
+    this.isCreateArea = false;
+    area.polygon.setEditable(true);
+    area.polygon.setDraggable(true);
+    area.polygon.addListener('rightclick', () => {
+      area.polygon.setEditable(false);
+      area.polygon.setDraggable(false);
+      this.prepareAreaForm(area, area.polygon);
+    });
+    this.msg = [{severity: 'info', summary: 'Note', detail: 'press right-click to save'}];
+  }
+
+  addArea(area): void {
+    const area1 = {id: area.id, polygonDto: area.polygonDto, name: area.name, polygon: null};
+    this.areaService.addArea(area1).subscribe(response => {
+      this.areas.push(response);
+      this.drawPolygon(response);
+      this.msg = [{severity: 'success', summary: 'Confirmed', detail: 'area added'}];
+      this.isAreaForm = false;
+    });
+  }
+
+  deleteArea(area: Area): void {
+    this.areaService.deleteArea(this.area.id).subscribe(value => {
+      this.msg = [{severity: 'error', summary: 'Confirmed', detail: 'area deleted'}];
+      this.areas = this.areas.filter(area1 => area1.id !== area.id);
+      this.area.polygon.setMap(null);
+    });
+    this.areaDialog = false;
+    this.dialogMain = false;
+    this.dialogEmployees = false;
+    this.dialogEmployee = false;
+  }
+
+  updateArea(area): void {
+    const area1 = {id: area.id, polygonDto: area.polygonDto, name: area.name, polygon: null};
+    this.areaService.updateArea(area1.id, area1).subscribe(response => {
+      const index = this.areas.indexOf(this.areas.find(area2 => {
+        area2.id === area1.id;
+      }));
+      this.areas[index] = response;
+      this.areas[index].polygon = area.polygon;
+      google.maps.event.clearListeners(area.polygon, 'rightclick');
+      this.msg = [{severity: 'success', summary: 'Confirmed', detail: 'area updated'}];
+    });
+  }
+
+
+  confirmDelete(area: Area): void {
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete this area?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteArea(area);
+      },
+    });
+  }
+
+  clearMessages(): void {
+    this.msg = [];
   }
 }

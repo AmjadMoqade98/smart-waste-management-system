@@ -3,7 +3,9 @@ table {
   border-spacing: 0 10px;
   width: 50%;
 }
-
+input{
+  zoom: 0.9;
+}
 hr{
   padding: 0;
   margin: 0
@@ -15,3 +17,4 @@ hr{
 .check-icon:hover{
   color:green;
 }
+

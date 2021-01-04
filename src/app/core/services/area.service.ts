@@ -3,7 +3,7 @@ import {Observable, ReplaySubject, timer} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ApiService} from './api.service';
 import {shareReplay, switchMap, tap} from 'rxjs/operators';
-import {Area} from '../models/Area.model';
+import {Area} from '../models/area.model';
 
 @Injectable()
 export class AreaService {

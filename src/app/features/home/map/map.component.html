@@ -1,9 +1,7 @@
-<div #map style="width: 100%;height: 100%;"></div>
-
-
+<div #map style="width: 100% ;" [ngStyle]="{'height' : msg.length > 0 ? '85%' : '100%'}"></div>
 <p-dialog *ngIf="area" [(visible)]="areaDialog"
-          [style]="{width:'35vw',height:'50vh'}"
-          [draggable]="false">
+          [style]="{width:'35vw',maxHeight:'55vh' ,backgroundColor:'white'}"
+          [draggable]="true">
   <p-header>
     <h4 style="display: inline">{{area.name}}</h4>
     <h4 style="display: inline" *ngIf="dialogEmployee"> - Employee</h4>
@@ -69,21 +67,21 @@
   </div>
 
   <div *ngIf="dialogEmployees">
-    <p-message *ngIf="isAssign == true" [style]="{marginBottom:'3px'}" severity="success" text="{{currentEmployee.username}} successfully assigned to {{area.name}}" styleClass="p-mr-2"></p-message>
     <p-table #dt [value]="employees">
       <ng-template pTemplate="header">
         <tr>
           <input pInputText type="text"
                  (input)="dt.filter($event.target.value, 'username', 'startsWith')" placeholder="Search for username"
-                 class="p-column-filter">
+                 class="p-column-filter filter">
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-employee>
         <tr>
           <td>{{employee.username}}</td>
           <td style="text-align: right">
-            <i class="fa fa-check-circle fa-lg ml-3 check-icon"  aria-hidden="true" title="assign"
-               (click)="assignEmployeeToArea(employee.id)"></i>
+            <i class="fa fa-check-circle fa-lg ml-3 check-icon" style="cursor: pointer" aria-hidden="true"
+               title="assign"
+               (click)="assignEmployeeToArea(area.id , employee.id)"></i>
           </td>
         </tr>
       </ng-template>
@@ -94,33 +92,61 @@
   <p-footer [style]="{float:'left'}">
     <div *ngIf="dialogMain">
       <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'"
-              class="custom-button mr-2" (click)="showEmployeeDialog()">
+              class="custom-button mr-2 mt-3" (click)="showEmployeeDialog()">
         Employee
       </button>
       <button appHoverColor [defaultBackgroundColor]="'#0f802d'" [defaultColor]="'#ffffff'"
-              class="custom-button mr-2"  (click)="showEmployeesDialog()">
+              class="custom-button mr-2 mt-3" (click)="showEmployeesDialog()">
         Assign Employee
       </button>
 
       <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'"
-              class="custom-button mr-2"  (click)="showEmployeeDialog()">
-        Edit Area
+              class="custom-button mr-2 mt-3" (click)="updateAreaPrepare(area)">
+        Update Area
       </button>
 
       <button appHoverColor [defaultBackgroundColor]="'#ba091b'" [defaultColor]="'#ffffff'"
-              class="custom-button mr-2"  (click)="showEmployeeDialog()">
+              class="custom-button mr-2 mt-3" (click)="confirmDelete(area)">
         delete Area
       </button>
     </div>
 
     <div *ngIf="!dialogMain">
       <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'"
-              class="custom-button mr-2"  (click)="showAreaDialog()">
+              class="custom-button mr-2 mt-3" (click)="showAreaDialog()">
         Back
       </button>
     </div>
   </p-footer>
 </p-dialog>
+
+<p-dialog [(visible)]="isAreaForm"
+          [style]="{width:'35vw'}"
+          [draggable]="false">
+  <p-header>Area Data</p-header>
+  <div class="p-field">
+    <label for="areaName">Area Name</label>
+    <input id="areaName" type="text" class="ml-2" pInputText [(ngModel)]="newArea.name" placeholder="Area Name">
+    <br/><br/>
+    <label for="coords">Coordinations:</label>
+    <br/>
+    <textarea style="width: 90%;height: 120px" id="coords" pInputTextarea [(ngModel)]="coordinates" readonly></textarea>
+
+  </div>
+  <p-footer [style]="{float:'left'}">
+    <button *ngIf="isCreateArea" pButton type="button" label="Create Area" (click)="addArea(newArea)"></button>
+    <button *ngIf="isUpdateArea" pButton type="button" label="Update Area" (click)="updateArea(newArea)"></button>
+
+  </p-footer>
+
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '20vw'}" [baseZIndex]="10000"></p-confirmDialog>
+<p-messages [value]="msg" [style]="{zoom:'0.9'}" (click)="clearMessages()"></p-messages>
+
+
+
+
 
 
 
