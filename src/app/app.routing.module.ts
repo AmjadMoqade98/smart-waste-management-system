@@ -5,14 +5,9 @@ import {NoAuthGuard} from './core/services/auth/no-auth-guard.service';
 
 const appRoutes: Routes = [
   {
-    path: 'home',
+    path: '',
     loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule),
     canActivate: [AdminAuthGuard]
-  },
-  {
-    path: '', redirectTo: '/home',
-    pathMatch: 'full',
-    canActivate: [AdminAuthGuard],
   },
   {
     path: 'bins',
