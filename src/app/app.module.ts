@@ -9,6 +9,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app.routing.module';
 import {AgmCoreModule} from '@agm/core';
 import { NgxPopper } from 'angular-popper';
+import {AdminAuthGuard} from './core/services/auth/admin-auth-guard.service';
+import {NoAuthGuard} from './core/services/auth/no-auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,7 @@ import { NgxPopper } from 'angular-popper';
     AppRoutingModule,
     NgxPopper
   ],
-  providers: [],
+  providers: [AdminAuthGuard , NoAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

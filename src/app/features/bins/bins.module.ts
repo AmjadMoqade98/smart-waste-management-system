@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { BinsComponent } from './bins.component';
 import {SharedModule} from '../../shared/shared.module';
-import {BinService} from '../../core/services/bin.service';
+import {BinService} from '../../core/services/data/bin.service';
 
 
 const routes: Routes = [

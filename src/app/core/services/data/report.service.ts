@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Report} from '../models/report.model';
+import {Report} from '../../models/report.model';
 import {Observable, ReplaySubject, timer} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ApiService} from './api.service';

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Citizen} from '../models/citizen.model';
+import {Citizen} from '../../models/citizen.model';
 import {Observable, ReplaySubject, timer} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ApiService} from './api.service';

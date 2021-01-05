@@ -1,4 +1,4 @@
-import {Bin} from '../models/bin.model';
+import {Bin} from '../../models/bin.model';
 import {interval, Observable, ReplaySubject, timer} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ApiService} from './api.service';

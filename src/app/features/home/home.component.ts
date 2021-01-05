@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {BinService} from '../../core/services/bin.service';
+import {BinService} from '../../core/services/data/bin.service';
 import {Bin} from '../../core/models/bin.model';
 import {ActivatedRoute} from '@angular/router';
 import {Area} from '../../core/models/area.model';
-import {AreaService} from '../../core/services/area.service';
+import {AreaService} from '../../core/services/data/area.service';
 import {timer} from 'rxjs';
 import {Employee} from '../../core/models/employee.model';
-import {EmployeeService} from '../../core/services/employee.service';
+import {EmployeeService} from '../../core/services/data/employee.service';
+import {AuthService} from '../../core/services/auth/auth.service';
 
 declare const google: any;
 
@@ -23,8 +24,12 @@ export class HomeComponent implements OnInit {
   routeParameter: any;
 
   constructor(private route: ActivatedRoute, private binService: BinService,
-              private areaService: AreaService, private employeeService: EmployeeService) {
+              private areaService: AreaService, private employeeService: EmployeeService,
+              private authService: AuthService) {
+    this.authService.populate();
     this.initializeData();
+    authService.isAdmin.subscribe(value => console.log(value));
+    console.log(authService.currentUser)
   }
 
   ngOnInit(): void {
@@ -35,10 +40,10 @@ export class HomeComponent implements OnInit {
   scrollToSelector(): void {
     this.route.fragment.subscribe(f => {
       const index = f.indexOf('?');
-      if (index !== -1){
+      if (index !== -1) {
         f = f.slice(0, index);
       }
-      const element = document.querySelector('#' + f );
+      const element = document.querySelector('#' + f);
       if (element) {
         element.scrollIntoView();
       }
@@ -50,14 +55,15 @@ export class HomeComponent implements OnInit {
       const index = f.indexOf('?');
       if (index !== -1) {
         f = f.slice(index + 1);
-        f = '{\"' + f ;
-        f = f + '\"}' ;
+        f = '{\"' + f;
+        f = f + '\"}';
         f = f.replace('=', '":"');
         f = f.replace('&', '","');
-        this.routeParameter =  JSON.parse(f);
+        this.routeParameter = JSON.parse(f);
       }
     });
   }
+
   initializeData(): void {
     this.binService.getBins().subscribe(bins => {
       this.bins = bins;

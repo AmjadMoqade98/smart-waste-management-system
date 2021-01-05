@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../../../core/services/auth.service';
+import {AuthService} from '../../../core/services/auth/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {share} from 'rxjs/operators';
 

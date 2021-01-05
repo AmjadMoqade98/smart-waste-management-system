@@ -4,7 +4,7 @@ import {Area} from '../../../core/models/area.model';
 import {Polygon} from '../../../core/models/polygon.model';
 import MapTypeStyle = google.maps.MapTypeStyle;
 import {Employee} from '../../../core/models/employee.model';
-import {AreaService} from '../../../core/services/area.service';
+import {AreaService} from '../../../core/services/data/area.service';
 import {ConfirmationService} from 'primeng/api';
 
 

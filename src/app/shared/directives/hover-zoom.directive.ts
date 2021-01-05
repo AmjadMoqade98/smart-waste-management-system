@@ -21,7 +21,6 @@ export class HoverZoomDirective {
     let calculateFont = (+size_value)*1.2 ;
 
     this.fontSize= calculateFont +"" + unit ;
-    console.log(this.font_size);
   }
 
   @HostListener('mouseleave') onMouseLeave() {

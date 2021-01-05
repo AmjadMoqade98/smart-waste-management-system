@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Report} from '../../core/models/report.model';
-import {ReportService} from '../../core/services/report.service';
-import {EmployeeService} from '../../core/services/employee.service';
-import {CitizenService} from '../../core/services/citizen.service';
+import {ReportService} from '../../core/services/data/report.service';
+import {EmployeeService} from '../../core/services/data/employee.service';
+import {CitizenService} from '../../core/services/data/citizen.service';
 import {Employee} from '../../core/models/employee.model';
 import {Citizen} from '../../core/models/citizen.model';
 
@@ -66,8 +66,6 @@ export class ReportsComponent implements OnInit {
     for (let i = start; i < end; i++) {
       this.currentReports.push(this.prepareReportData(this.reports[i]));
     }
-    console.log(event.page);
-    console.log(event.rows);
   }
 
   prepareReportData(report: Report): ReportData {

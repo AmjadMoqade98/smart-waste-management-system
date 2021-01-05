@@ -15,7 +15,7 @@ import {HoverZoomDirective} from './directives/hover-zoom.directive';
 import {HoverColorDirective} from './directives/hover-color.directive';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import {CommonModule} from '@angular/common';
-import {EmployeeService} from '../core/services/employee.service';
+import {EmployeeService} from '../core/services/data/employee.service';
 import {TableModule} from 'primeng/table';
 import {MessageModule} from 'primeng/message';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
@@ -24,8 +24,9 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
 import {ChartModule} from 'primeng/chart';
 import {CardModule} from 'primeng/card';
 import {PaginatorModule} from 'primeng/paginator';
-import {ReportService} from '../core/services/report.service';
-import {CitizenService} from '../core/services/citizen.service';
+import {ReportService} from '../core/services/data/report.service';
+import {CitizenService} from '../core/services/data/citizen.service';
+import {AuthService} from '../core/services/auth/auth.service';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SidebarComponent],
@@ -66,7 +67,7 @@ import {CitizenService} from '../core/services/citizen.service';
     PaginatorModule,
   ],
 
-  providers: [MessageService , EmployeeService , ConfirmationService, ReportService, CitizenService]
+  providers: [MessageService , EmployeeService , ConfirmationService, ReportService, CitizenService, AuthService]
 })
 // @ts-ignore
 export class SharedModule { }

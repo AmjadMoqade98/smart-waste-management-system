@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {BinService} from '../../core/services/bin.service';
+import {BinService} from '../../core/services/data/bin.service';
 import {Bin} from '../../core/models/bin.model';
 
 
