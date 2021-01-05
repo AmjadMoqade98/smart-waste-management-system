@@ -376,6 +376,7 @@ export class MapComponent implements OnInit, OnChanges {
   updateArea(area): void {
     const area1 = {id: area.id, polygonDto: area.polygonDto, name: area.name, polygon: null};
     this.areaService.updateArea(area1.id, area1).subscribe(response => {
+      this.isAreaForm = false;
       const index = this.areas.indexOf(this.areas.find(area2 => {
         area2.id === area1.id;
       }));

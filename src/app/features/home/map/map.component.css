@@ -11,6 +11,12 @@ hr{
   margin: 0
 }
 
+.custom-button {
+  font-size: 0.9em;
+  width: 80px;
+  min-width: 80px;
+}
+
 .check-icon{
   color: black;
 }
