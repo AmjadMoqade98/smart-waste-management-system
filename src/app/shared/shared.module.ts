@@ -27,6 +27,13 @@ import {PaginatorModule} from 'primeng/paginator';
 import {ReportService} from '../core/services/data/report.service';
 import {CitizenService} from '../core/services/data/citizen.service';
 import {AuthService} from '../core/services/auth/auth.service';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../../environments/environment';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {BinService} from '../core/services/data/bin.service';
+import {AreaService} from '../core/services/data/area.service';
+import {TruckLocationsService} from '../core/services/data/truck-locations.service';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SidebarComponent],
@@ -67,7 +74,8 @@ import {AuthService} from '../core/services/auth/auth.service';
     PaginatorModule,
   ],
 
-  providers: [MessageService , EmployeeService , ConfirmationService, ReportService, CitizenService, AuthService]
+  providers: [MessageService , EmployeeService , ConfirmationService, ReportService, CitizenService,
+    AuthService, BinService, AreaService]
 })
 // @ts-ignore
 export class SharedModule { }

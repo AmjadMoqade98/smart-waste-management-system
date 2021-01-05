@@ -11,6 +11,11 @@ import {AgmCoreModule} from '@agm/core';
 import { NgxPopper } from 'angular-popper';
 import {AdminAuthGuard} from './core/services/auth/admin-auth-guard.service';
 import {NoAuthGuard} from './core/services/auth/no-auth-guard.service';
+import {AngularFireDatabase, AngularFireDatabaseModule} from '@angular/fire/database';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {TruckLocationsService} from './core/services/data/truck-locations.service';
 
 @NgModule({
   declarations: [
@@ -23,9 +28,12 @@ import {NoAuthGuard} from './core/services/auth/no-auth-guard.service';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    NgxPopper
+    NgxPopper,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFirestoreModule,
   ],
   providers: [AdminAuthGuard , NoAuthGuard],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent ]
 })
 export class AppModule { }

@@ -6,6 +6,7 @@ import MapTypeStyle = google.maps.MapTypeStyle;
 import {Employee} from '../../../core/models/employee.model';
 import {AreaService} from '../../../core/services/data/area.service';
 import {ConfirmationService} from 'primeng/api';
+import {TruckLocationsService} from '../../../core/services/data/truck-locations.service';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() areas: Area[];
   @Input() employees: Employee[];
   @Input() routeParameter: any;
+  truckLocations;
 
   isMapInit = false;
   isAreas = false;
@@ -60,7 +62,8 @@ export class MapComponent implements OnInit, OnChanges {
       EMERGENCY: 'https://i.ibb.co/HrcXKZN/emergency.png',
     };
 
-  constructor(private areaService: AreaService, private confirmationService: ConfirmationService) {
+  constructor(private areaService: AreaService, private confirmationService: ConfirmationService,
+              private truckLocationsService: TruckLocationsService) {
   }
 
   ngOnInit(): void {
@@ -106,6 +109,19 @@ export class MapComponent implements OnInit, OnChanges {
         }
       }
     }
+  }
+
+  getTruckLocations(): void {
+    this.truckLocationsService.getTruckLocations().subscribe(trucks => {
+      this.truckLocations = [];
+      Object.keys(trucks).map((key) => {
+        this.truckLocations.push(trucks[key]);
+        return this.truckLocations;
+      });
+      for (const truck of this.truckLocations) {
+        console.log(truck.location);
+      }
+    });
   }
 
   initMap(): void {

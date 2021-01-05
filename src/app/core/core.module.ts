@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {ApiService} from './services/data/api.service';
 import {BinService} from './services/data/bin.service';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
@@ -9,6 +9,7 @@ import {AdminAuthGuard} from './services/auth/admin-auth-guard.service';
 import {ErrorInterceptorService} from './services/interceptor/error.interceptor.service';
 import {JwtService} from './services/auth/jwt.service';
 import {UserService} from './services/data/user.service';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import {UserService} from './services/data/user.service';
   imports: [
     CommonModule,
   ],
-  providers: [ApiService , BinService , AuthService, AdminAuthGuard, JwtService, UserService,
+  providers: [ApiService, BinService, AuthService, AdminAuthGuard, JwtService,
+    UserService, AngularFireDatabase,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptorService,
@@ -28,4 +30,5 @@ import {UserService} from './services/data/user.service';
       multi: true
     }]
 })
-export class CoreModule {}
+export class CoreModule {
+}
