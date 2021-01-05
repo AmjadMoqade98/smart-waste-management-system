@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {Observable, ReplaySubject} from 'rxjs';
-import {Area} from '../../models/area.model';
 import {TruckLocation} from '../../models/truck-location.model';
 import {shareReplay} from 'rxjs/operators';
 

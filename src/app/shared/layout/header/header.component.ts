@@ -13,7 +13,11 @@ import {share} from 'rxjs/operators';
 
 export class HeaderComponent implements OnInit {
   activeFragment = this.route.fragment.pipe(share());
+  username;
   constructor(private authService: AuthService, private router: Router , public route: ActivatedRoute) {
+    this.authService.currentUser.subscribe(value => {
+      this.username = value.username;
+    });
   }
 
   ngOnInit(): void {

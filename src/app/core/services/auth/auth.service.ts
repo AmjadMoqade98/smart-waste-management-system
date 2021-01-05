@@ -33,28 +33,27 @@ export class AuthService {
   }
 
 
-  // Verify JWT in localstorage with server & load user's info.
-  // This runs once on application startup.
   populate(): void {
-    // If JWT detected, attempt to get & store user's info
     if (this.jwtService.getToken()) {
-      this.userService.getCurrentUser()
-        .subscribe(
-          data => this.setAuthAdmin(data.user),
-          err => this.destroyToken()
-        );
+      console.log(this.jwtService.getToken());
+      this.userService.getCurrentUser().subscribe(
+        data => {
+          data.token = this.jwtService.getToken();
+          this.setAuthAdmin(data);
+        },
+        err => this.destroyToken()
+      );
     } else {
-      // Remove any potential remnants of previous auth states
       this.destroyToken();
     }
   }
 
-  tryLogin(type, credentials): void {
+  tryLogin(credentials): void {
     this.http.post(environment.apiDomain + '/login', JSON.stringify(credentials), {observe: 'response'}).subscribe(
       (resp: HttpResponse<any>) => {
         this.jwtService.setToken(resp.headers.get('Authorization'));
         this.userService.getCurrentUser().subscribe(response => {
-          const user = response.body;
+          const user = response;
           user.token = resp.headers.get('Authorization');
           this.setAuthAdmin(user);
         });

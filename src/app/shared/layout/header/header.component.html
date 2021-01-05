@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between ">
-  <img class="navbar-brand" src="https://i.ibb.co/Smjpy5Q/logo.png">
+  <img class="navbar-brand ml-2" src="https://i.ibb.co/Smjpy5Q/logo.png">
 
 
   <div class="d-flex " >
@@ -9,15 +9,13 @@
        [routerLinkActiveOptions]="{}">Statistics</a>
   </div>
 
-<!--  <div class="dropdown">-->
-<!--    <button class="dropbtn">Amjad Moqade  <img src="https://i.ibb.co/3sdCpwJ/setting.png" style="max-width: 20px;max-height: 20px"></button>-->
-<!--    <div class="dropdown-content">-->
-<!--      <a href="#">Admin Profile</a>-->
-<!--      <a href="#" (click)="logout()">logout</a>-->
-<!--    </div>-->
-<!--  </div>-->
+  <div class="dropdown">
+    <button class="dropbtn">{{username}} <img src="https://i.ibb.co/3sdCpwJ/setting.png" style="max-width: 20px;max-height: 20px"></button>
+    <div class="dropdown-content">
+      <a href="/login" (click)="logout()">logout</a>
+    </div>
+  </div>
 
-  <a class="auth" href="#" (click)="logout()"><u>logout</u></a>
 
 
 </div>

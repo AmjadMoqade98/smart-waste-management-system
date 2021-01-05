@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../core/services/auth/auth.service';
+import {skip} from 'rxjs/operators';
 
 @Component({
   selector: 'app-auth',
@@ -9,8 +10,6 @@ import {AuthService} from '../../core/services/auth/auth.service';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-  authType = '';
-  title = '';
   isSubmitting = false;
   authForm: FormGroup;
   errors: string;
@@ -28,30 +27,18 @@ export class AuthComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-      this.authType = this.router.url.replace('/' , '');
-      this.title = (this.authType === 'login') ? 'Sign in' : 'Sign up';
-      if (this.authType === 'register') {
-        this.authForm.addControl('email', new FormControl());
-        this.authForm.addControl('email', new FormControl());
-      }
   }
   submitForm(): void {
     this.isSubmitting = true;
     const credentials = this.authForm.value;
-    this.authService.tryLogin(this.authType, credentials);
-
-    setTimeout(() => {
+    this.authService.tryLogin(credentials);
+    this.authService.isAdmin.pipe(skip(1)).subscribe(value => {
       this.isSubmitting = false;
-      this.router.navigateByUrl('/');
-    }, 2000);
-
-    // .subscribe(
-    //   data => this.router.navigateByUrl('/'),
-    //   err => {
-    //     console.log(err)
-    //     this.errors = err;
-    //     this.isSubmitting = false;
-    //   }
-    // );
+      if (value === true) {
+        this.router.navigateByUrl('/');
+      }else {
+        this.errors = 'incorrect username or password';
+      }
+    });
   }
 }

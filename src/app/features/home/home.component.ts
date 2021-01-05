@@ -26,10 +26,9 @@ export class HomeComponent implements OnInit {
   constructor(private route: ActivatedRoute, private binService: BinService,
               private areaService: AreaService, private employeeService: EmployeeService,
               private authService: AuthService) {
-    this.authService.populate();
     this.initializeData();
-    authService.isAdmin.subscribe(value => console.log(value));
-    console.log(authService.currentUser)
+    console.log('const home');
+    console.log(authService.currentUser);
   }
 
   ngOnInit(): void {

@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HeaderComponent } from './layout/header/header.component';
-import { FooterComponent } from './layout/footer/footer.component';
+import {HeaderComponent} from './layout/header/header.component';
+import {FooterComponent} from './layout/footer/footer.component';
 import {RouterModule} from '@angular/router';
 import {ButtonModule} from 'primeng/button';
 import {GMapModule} from 'primeng/gmap';
@@ -13,7 +13,7 @@ import {ToastModule} from 'primeng/toast';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {HoverZoomDirective} from './directives/hover-zoom.directive';
 import {HoverColorDirective} from './directives/hover-color.directive';
-import { SidebarComponent } from './layout/sidebar/sidebar.component';
+import {SidebarComponent} from './layout/sidebar/sidebar.component';
 import {CommonModule} from '@angular/common';
 import {EmployeeService} from '../core/services/data/employee.service';
 import {TableModule} from 'primeng/table';
@@ -34,6 +34,7 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {BinService} from '../core/services/data/bin.service';
 import {AreaService} from '../core/services/data/area.service';
 import {TruckLocationsService} from '../core/services/data/truck-locations.service';
+import {PasswordModule} from 'primeng/password';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SidebarComponent],
@@ -72,10 +73,12 @@ import {TruckLocationsService} from '../core/services/data/truck-locations.servi
     ChartModule,
     CardModule,
     PaginatorModule,
+    PasswordModule,
   ],
 
-  providers: [MessageService , EmployeeService , ConfirmationService, ReportService, CitizenService,
-    AuthService, BinService, AreaService]
+  providers: [MessageService, EmployeeService, ConfirmationService, ReportService, CitizenService,
+    BinService, AreaService]
 })
 // @ts-ignore
-export class SharedModule { }
+export class SharedModule {
+}

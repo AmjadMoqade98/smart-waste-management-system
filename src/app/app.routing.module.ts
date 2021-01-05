@@ -7,42 +7,42 @@ const appRoutes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule),
-    // canActivate: [AdminAuthGuard]
+    canActivate: [AdminAuthGuard]
   },
   {
     path: '', redirectTo: '/home',
     pathMatch: 'full',
-    // canActivate: [AdminAuthGuard],
+    canActivate: [AdminAuthGuard],
   },
   {
     path: 'bins',
     loadChildren: () => import('./features/bins/bins.module').then(m => m.BinsModule),
-     // canActivate : [AdminAuthGuard],
+     canActivate : [AdminAuthGuard],
   },
   {
     path: 'areas',
     loadChildren: () => import('./features/areas/areas.module').then(m => m.AreasModule),
-    // canActivate : [AdminAuthGuard],
+    canActivate : [AdminAuthGuard],
   },
   {
     path: 'employees',
     loadChildren: () => import('./features/employees/employees.module').then(m => m.EmployeesModule),
-    // canActivate : [AdminAuthGuard],
+    canActivate : [AdminAuthGuard],
   },
   {
     path: 'reports',
     loadChildren: () => import('./features/reports/reports.module').then(m => m.ReportsModule),
-    // canActivate : [AdminAuthGuard],
+    canActivate : [AdminAuthGuard],
   },
   {
     path: 'login',
     loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule),
-    // canActivate : [NoAuthGuard],
+    canActivate : [NoAuthGuard],
   },
   {
     path: 'not-found',
     loadChildren: () => import('./features/not-found/not-found.module').then(m => m.NotFoundModule),
-    // canActivate : [NoAuthGuard],
+    canActivate : [NoAuthGuard],
   },
 
   {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
