@@ -17,6 +17,7 @@ import {environment} from '../environments/environment';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {TruckLocationsService} from './core/services/data/truck-locations.service';
 import {AuthService} from './core/services/auth/auth.service';
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import {AuthService} from './core/services/auth/auth.service';
     AngularFireDatabaseModule,
     AngularFirestoreModule,
   ],
-  providers: [AdminAuthGuard , NoAuthGuard, TruckLocationsService, AuthService],
+  providers: [AdminAuthGuard , NoAuthGuard, TruckLocationsService, AuthService, HashLocationStrategy],
   bootstrap: [AppComponent ]
 })
 export class AppModule { }
