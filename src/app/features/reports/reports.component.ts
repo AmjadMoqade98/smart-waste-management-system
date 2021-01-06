@@ -12,7 +12,7 @@ import {Citizen} from '../../core/models/citizen.model';
   styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
-  reports: Report[];
+  reports: Report[] = [];
   currentReports: ReportData[] = [];
   employees: Employee[];
   citizens: Citizen[];

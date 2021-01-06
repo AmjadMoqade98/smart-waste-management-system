@@ -35,6 +35,7 @@ import {BinService} from '../core/services/data/bin.service';
 import {AreaService} from '../core/services/data/area.service';
 import {TruckLocationsService} from '../core/services/data/truck-locations.service';
 import {PasswordModule} from 'primeng/password';
+import {DropdownModule} from 'primeng/dropdown';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SidebarComponent],
@@ -74,6 +75,7 @@ import {PasswordModule} from 'primeng/password';
     CardModule,
     PaginatorModule,
     PasswordModule,
+    DropdownModule,
   ],
 
   providers: [MessageService, EmployeeService, ConfirmationService, ReportService, CitizenService,

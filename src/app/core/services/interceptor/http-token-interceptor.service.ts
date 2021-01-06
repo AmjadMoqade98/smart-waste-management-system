@@ -9,19 +9,19 @@ export class HttpTokenInterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.jwtService.getToken();
 
     const headersConfig = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
       Authorization: '',
-    };
+  };
 
+    const token = this.jwtService.getToken();
     if (token) {
       headersConfig.Authorization = token;
     }
 
-    const request = req.clone({ setHeaders: headersConfig });
+    const request = req.clone({setHeaders: headersConfig});
     return next.handle(request);
   }
 }

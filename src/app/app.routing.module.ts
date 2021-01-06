@@ -2,17 +2,21 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
 import {AdminAuthGuard} from './core/services/auth/admin-auth-guard.service';
 import {NoAuthGuard} from './core/services/auth/no-auth-guard.service';
+import {MatcherService} from './core/services/Matcher.service';
+import {HomeComponent} from './features/home/home.component';
+import {AuthComponent} from './features/auth/auth.component';
+import {ReportsComponent} from './features/reports/reports.component';
 
 const appRoutes: Routes = [
   {
-    path: 'home',
+    path: 'main',
     loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule),
     canActivate: [AdminAuthGuard]
   },
   {
-    path: '', redirectTo: '/home',
+    path: '' ,
     pathMatch: 'full',
-    canActivate: [AdminAuthGuard],
+    redirectTo: 'main'
   },
   {
     path: 'bins',
@@ -35,7 +39,7 @@ const appRoutes: Routes = [
     canActivate : [AdminAuthGuard],
   },
   {
-    path: 'login',
+    path: 'auth/login',
     loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule),
     canActivate : [NoAuthGuard],
   },
@@ -44,13 +48,15 @@ const appRoutes: Routes = [
     loadChildren: () => import('./features/not-found/not-found.module').then(m => m.NotFoundModule),
     canActivate : [NoAuthGuard],
   },
-
-  {path: '**', redirectTo: '/not-found', pathMatch: 'full'}
+  {path: '**', redirectTo: 'main', pathMatch: 'full'}
 ];
 
+
+
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes, {preloadingStrategy: PreloadAllModules, anchorScrolling: 'enabled' })],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(appRoutes, {preloadingStrategy: PreloadAllModules, anchorScrolling: 'enabled'})],
+  exports: [RouterModule],
+  providers: [MatcherService]
 })
 export class AppRoutingModule {
 }

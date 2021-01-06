@@ -1,1 +1,10 @@
+.card-number {
+  font-size: 30px;
+  font-family: 'Segoe UI';
+  text-align: center;
+  color: #238af8;
+}
 
+.card-deck > * {
+  margin: 20px 10px;
+}

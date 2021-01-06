@@ -1,10 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {AngularFireDatabase} from '@angular/fire/database';
-import {TruckLocationsService} from './core/services/data/truck-locations.service';
+import {Component} from '@angular/core';
 import {AuthService} from './core/services/auth/auth.service';
-import {JwtService} from './core/services/auth/jwt.service';
-import {Observable, Subject} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +10,9 @@ import {map} from 'rxjs/operators';
 })
 export class AppComponent {
   isAdmin: Observable<boolean>;
-  constructor(private truckLocationsService: TruckLocationsService , private authService: AuthService) {
+  constructor( private authService: AuthService) {
     this.authService.populate();
     this.isAdmin = this.authService.isAdmin;
-    truckLocationsService.getTruckLocations().subscribe(value => console.log(value));
   }
 
   title = 'SWMS';

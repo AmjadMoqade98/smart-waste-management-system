@@ -1,4 +1,5 @@
 <div #map style="width: 100% ;" [ngStyle]="{'height' : msg.length > 0 ? '85%' : '100%'}"></div>
+<button (click)="move()">move</button>
 <p-dialog *ngIf="area" [(visible)]="areaDialog"
           [style]="{width:'40vw',maxHeight:'55vh' ,backgroundColor:'white'}"
           [draggable]="true">

@@ -17,7 +17,7 @@ export class AdminAuthGuard implements CanActivate {
   ): Observable<boolean> {
     return this.authService.isAdmin.pipe(take(1), tap(auth => {
       if (auth === false){
-        this.router.navigate(['login']);
+        this.router.navigate(['auth/login']);
       }
     }));
   }

@@ -6,7 +6,7 @@ import {Bin} from '../../core/models/bin.model';
 @Component({
   selector: 'app-bins',
   templateUrl: './bins.component.html',
-  styleUrls: ['./bins.component.scss']
+  styleUrls: ['./bins.component.scss', '../../../assets/styles/prime-table.scss']
 })
 export class BinsComponent implements OnInit {
 

@@ -1,0 +1,68 @@
+<form #f="ngForm" (ngSubmit)="submitEmployee(f)">
+  <input ngModel="{{employee.id}}" name="id" hidden>
+
+  <div class="form-group row mb-4">
+    <div class="col-md-8">
+      <label>Name</label>
+      <input class="input-position" pInputText [(ngModel)]="employee.username" name="username" #username="ngModel"
+             placeholder="username" required="">
+      <div class="input-position invalid-feedback d-block" *ngIf="f.submitted && username.invalid">
+        <div *ngIf="username.errors.required">username is required</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row mb-4">
+    <div class="col-md-8">
+      <label>firstName</label>
+      <input class="input-position"  pInputText [(ngModel)]="employee.firstName" name="firstName" #firstName="ngModel"
+             placeholder="firstName" required="">
+      <div class="input-position invalid-feedback d-block" *ngIf="f.submitted && firstName.invalid" >
+        <div *ngIf="firstName.errors.required">firstName is required</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row mb-4">
+    <div class="col-md-8">
+      <label>lastName</label>
+      <input class="input-position" pInputText [(ngModel)]="employee.lastName" name="lastName" #lastName="ngModel"
+             placeholder="lastName" required="">
+      <div class="input-position invalid-feedback d-block" *ngIf="f.submitted && lastName.invalid" >
+        <div *ngIf="lastName.errors.required">lastName is required</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row mb-4">
+    <div class="col-md-8">
+      <label>phone</label>
+      <input class="input-position" pInputText [(ngModel)]="employee.phone" name="phone" #phone="ngModel"
+             placeholder="phone" required="">
+      <div class="input-position invalid-feedback d-block" *ngIf="f.submitted && phone.invalid" >
+        <div *ngIf="phone.errors.required">phone is required</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row mb-4">
+    <div class="col-md-8">
+      <label>address</label>
+      <input class="input-position" pInputText [(ngModel)]="employee.address" name="address" #address="ngModel"
+             placeholder="address" required="">
+      <div class="input-position invalid-feedback d-block" *ngIf="f.submitted && address.invalid" >
+        <div *ngIf="address.errors.required">address is required</div>
+      </div>
+    </div>
+  </div>
+
+
+  <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'" type="submit"
+          class="mt-2 custom-button">Submit
+  </button>
+</form>
+
+<div class="spinner-container">
+  <p-progressSpinner *ngIf="spinner" [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE"
+                     animationDuration=".5s"></p-progressSpinner>
+</div>

@@ -27,8 +27,6 @@ export class HomeComponent implements OnInit {
               private areaService: AreaService, private employeeService: EmployeeService,
               private authService: AuthService) {
     this.initializeData();
-    console.log('const home');
-    console.log(authService.currentUser);
   }
 
   ngOnInit(): void {
@@ -38,27 +36,31 @@ export class HomeComponent implements OnInit {
 
   scrollToSelector(): void {
     this.route.fragment.subscribe(f => {
-      const index = f.indexOf('?');
-      if (index !== -1) {
-        f = f.slice(0, index);
-      }
-      const element = document.querySelector('#' + f);
-      if (element) {
-        element.scrollIntoView();
+      if (f) {
+        const index = f.indexOf('?');
+        if (index !== -1) {
+          f = f.slice(0, index);
+        }
+        const element = document.querySelector('#' + f);
+        if (element) {
+          element.scrollIntoView();
+        }
       }
     });
   }
 
   getRoutParms(): void {
     this.route.fragment.subscribe(f => {
-      const index = f.indexOf('?');
-      if (index !== -1) {
-        f = f.slice(index + 1);
-        f = '{\"' + f;
-        f = f + '\"}';
-        f = f.replace('=', '":"');
-        f = f.replace('&', '","');
-        this.routeParameter = JSON.parse(f);
+      if (f) {
+        const index = f.indexOf('?');
+        if (index !== -1) {
+          f = f.slice(index + 1);
+          f = '{\"' + f;
+          f = f + '\"}';
+          f = f.replace('=', '":"');
+          f = f.replace('&', '","');
+          this.routeParameter = JSON.parse(f);
+        }
       }
     });
   }

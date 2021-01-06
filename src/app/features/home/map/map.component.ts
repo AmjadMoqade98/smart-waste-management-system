@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {AfterContentChecked, AfterViewChecked, Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {Bin} from '../../../core/models/bin.model';
 import {Area} from '../../../core/models/area.model';
 import {Polygon} from '../../../core/models/polygon.model';
@@ -7,6 +7,8 @@ import {Employee} from '../../../core/models/employee.model';
 import {AreaService} from '../../../core/services/data/area.service';
 import {ConfirmationService} from 'primeng/api';
 import {TruckLocationsService} from '../../../core/services/data/truck-locations.service';
+import {interval, Observable} from 'rxjs';
+import {Truck} from '../../../core/models/truck.model';
 
 
 @Component({
@@ -20,7 +22,8 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() areas: Area[];
   @Input() employees: Employee[];
   @Input() routeParameter: any;
-  truckLocations;
+  truckLocations: Observable<any>;
+  trucksData: Truck[];
 
   isMapInit = false;
   isAreas = false;
@@ -60,17 +63,29 @@ export class MapComponent implements OnInit, OnChanges {
       ABOUT_TO_THRESHOLD: 'https://i.ibb.co/7GS3Hn1/yellow-Bin.png',
       OVER_THRESHOLD: 'https://i.ibb.co/DRRhZWM/redBin.png',
       EMERGENCY: 'https://i.ibb.co/HrcXKZN/emergency.png',
+      TRUCK: 'https://i.ibb.co/hVQzS0m/truck.png',
     };
 
   constructor(private areaService: AreaService, private confirmationService: ConfirmationService,
               private truckLocationsService: TruckLocationsService) {
+    this.getTruckLocations();
   }
+
 
   ngOnInit(): void {
     if (!this.isMapInit) {
       this.initMap();
       this.isMapInit = true;
     }
+  }
+
+  move(): void {
+    let x = 31.926048371436313;
+    const y = 35.20922789221051;
+    setInterval(() => {
+      x += 0.00009;
+      this.truckLocationsService.setTruckLocations({truckId: 4 , location: {x, y} });
+    }, 50);
   }
 
   ngOnChanges(): void {
@@ -91,7 +106,7 @@ export class MapComponent implements OnInit, OnChanges {
       }
     }
 
-    if (this.routeParameter.bin) {
+    if (this.routeParameter && this.routeParameter.bin) {
       const id = +this.routeParameter.bin;
       for (const bin of this.bins) {
         if (bin.id === id) {
@@ -101,7 +116,7 @@ export class MapComponent implements OnInit, OnChanges {
             this.map.setCenter(bin.marker.getPosition());
             this.map.setZoom(16);
             this.infowindow.addListener('closeclick', () => {
-              this.map.setZoom(13);
+              this.map.setZoom(14);
               this.map.setCenter({lat: 31.904424, lng: 35.206681});
               google.maps.event.clearListeners(this.infowindow, 'closeclick');
             });
@@ -112,21 +127,37 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   getTruckLocations(): void {
-    this.truckLocationsService.getTruckLocations().subscribe(trucks => {
-      this.truckLocations = [];
-      Object.keys(trucks).map((key) => {
-        this.truckLocations.push(trucks[key]);
-        return this.truckLocations;
-      });
-      for (const truck of this.truckLocations) {
-        console.log(truck.location);
+    this.truckLocations = this.truckLocationsService.getTruckLocations();
+    this.truckLocations.subscribe(trucks => {
+      if (!this.trucksData) {
+        this.trucksData = [];
+        Object.keys(trucks).map((key) => {
+          this.trucksData.push(trucks[key]);
+        });
+      } else {
+        let index = 0;
+        Object.keys(trucks).map((key) => {
+          this.trucksData[index++].location = trucks[key].location;
+        });
+      }
+
+      for (const truck of this.trucksData) {
+        if (truck.marker) {
+          truck.marker.setPosition(new google.maps.LatLng(truck.location.x, truck.location.y));
+        } else {
+          truck.marker = new google.maps.Marker({
+            position: new google.maps.LatLng(truck.location.x, truck.location.y),
+            icon: {url: this.icons.TRUCK, scaledSize: new google.maps.Size(40, 40)},
+            map: this.map,
+          });
+        }
       }
     });
   }
 
   initMap(): void {
     const map = new window.google.maps.Map(this.mapElement.nativeElement, {
-      zoom: 13,
+      zoom: 14,
       center: {lat: 31.904424, lng: 35.206681},
       scrollwheel: false,
       mapTypeControl: false,
@@ -134,9 +165,9 @@ export class MapComponent implements OnInit, OnChanges {
       streetViewControl: false,
     });
     this.map = map;
-    // map.addListener('click', (mapsMouseEvent) => {
-    //   console.log(JSON.stringify(mapsMouseEvent.latLng.toJSON()));
-    // });
+    map.addListener('click', (mapsMouseEvent) => {
+      console.log(JSON.stringify(mapsMouseEvent.latLng.toJSON()));
+    });
     const drawingManager = new google.maps.drawing.DrawingManager({
       drawingControl: true,
       drawingControlOptions: {
@@ -208,7 +239,7 @@ export class MapComponent implements OnInit, OnChanges {
       }
     }
     return bounds;
-  }
+  };
 
 
   drawPolygon(area: Area): void {
@@ -234,7 +265,7 @@ export class MapComponent implements OnInit, OnChanges {
       icon: {url: this.icons[bin.status], scaledSize: new google.maps.Size(20, 20)},
       map: this.map,
     });
-    bin.marker.addListener('mouseover', () => {
+    bin.marker.addListener('click', () => {
       this.infowindow.open(this.map, bin.marker);
       this.infowindow.setContent(this.binToString(bin));
     });
@@ -299,8 +330,7 @@ export class MapComponent implements OnInit, OnChanges {
       this.areaService.unassignEmployee(areaId, this.currentEmployee.id).subscribe(value => {
         this.areaService.assignEmployee(areaId, employeeId).subscribe(value1 => {
           this.currentEmployee = this.employees.find(emp => emp.id === employeeId);
-          this.msg = [{
-            severity: 'success', summary: 'Confirmed',
+          this.msg = [{severity: 'success', summary: 'Confirmed',
             detail: this.currentEmployee.username + ' successfully assigned to ' + this.area.name
           }];
         });

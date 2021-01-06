@@ -1,6 +1,41 @@
-<div class="p-5">
-  <p-card [style]="{width:'50vw',marginRight:'auto',marginLeft:'auto'}">
-    <p-chart type="doughnut" [data]="barData"></p-chart>
+<div class="w-100 pb-3" >
 
-  </p-card>
+  <div class="card-deck" style="margin-left: 4em;max-width: 80vw">
+    <div class="custom-card">
+      <h3>Total Bins</h3>
+      <p class="card-number">{{bins.length}}</p>
+    </div>
+
+    <div class="custom-card">
+      <h3>Total Areas</h3>
+      <p class="card-number">{{areas.length}}</p>
+    </div>
+
+    <div class="custom-card">
+      <h3>Total Trucks</h3>
+      <p class="card-number">100</p>
+    </div>
+
+    <div class="custom-card">
+      <h3>Total Employees</h3>
+      <p class="card-number">{{employees.length}}</p>
+    </div>
+
+    <div class="custom-card">
+      <h3>Total Citizens</h3>
+      <p class="card-number">100</p>
+    </div>
+  </div>
+
+  <div class="custom-card ml-auto mr-auto m-4" style="background-color: white; width: 70vw">
+    <div class="mr-auto ml-auto">
+      <div style="text-align: center">
+        <h1>Bins States</h1>
+        <p-dropdown placeholder="All Areas" [options]="areasOptions" [(ngModel)]="selectedArea"
+                    (onChange)="changeBinsArea(selectedArea)"></p-dropdown>
+      </div>
+      <br/>
+      <p-chart width="400" height="400" type="doughnut" [data]="barData"></p-chart>
+    </div>
+  </div>
 </div>

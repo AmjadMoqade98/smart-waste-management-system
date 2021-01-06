@@ -3,16 +3,16 @@
 
 
   <div class="d-flex " >
-    <a class="nav-item nav-link active mt-2" routerLink="home" fragment="map" [class.link-active]="(activeFragment | async)==='map'" >Map</a>
+    <a class="nav-item nav-link active mt-2" routerLink="main" fragment="map" [class.link-active]="(activeFragment | async)==='map'" >Map</a>
 
-    <a class="nav-item nav-link active mt-2 " routerLink="home"  fragment="statistics" routerLinkActive="link-active"
+    <a class="nav-item nav-link active mt-2 " routerLink="main"  fragment="statistics" routerLinkActive="link-active"
        [routerLinkActiveOptions]="{}">Statistics</a>
   </div>
 
   <div class="dropdown">
     <button class="dropbtn">{{username}} <img src="https://i.ibb.co/3sdCpwJ/setting.png" style="max-width: 20px;max-height: 20px"></button>
     <div class="dropdown-content">
-      <a href="/login" (click)="logout()">logout</a>
+      <a (click)="logout()">logout</a>
     </div>
   </div>
 

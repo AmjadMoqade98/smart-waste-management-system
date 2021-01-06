@@ -1,1 +1,55 @@
-<p>employees works!</p>
+<div class="table-container" style="width: 80%">
+  <p-messages [value]="msg" (click)="clearMessages()"></p-messages>
+  <p-table #dt [value]="employees" [responsive]="true" rowHover="true" [filterDelay]="0" [columns]="cols" dataKey="id"
+           [paginator]="true" [rows]="rows"
+           [alwaysShowPaginator]="true"
+           [rowsPerPageOptions]="[2,5,10,20]">
+    <ng-template pTemplate="caption">
+      <div style="text-align: left"><h2>Employees</h2></div>
+      <div class="ml-auto" style="text-align: right">
+        <button type="button" pButton icon="fa fa-user-plus fa-lg" (click)="addEmployeeForm()" label="new Employee">
+        </button>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr [style]="{border:'none'}">
+        <th *ngFor="let col of cols">
+          {{col.header}}
+        </th>
+        <th [style]="{width:'15%'}"></th>
+      </tr>
+      <tr>
+        <th *ngFor="let col of cols">
+          <input pInputText type="text"
+                 (input)="dt.filter($event.target.value, col.field, 'startsWith')" placeholder="Search"
+                 class="p-column-filter">
+        </th>
+        <th></th>
+      </tr>
+
+    </ng-template>
+    <ng-template pTemplate="body" let-employee>
+      <tr [pSelectableRow]="employee">
+        <td *ngFor="let col of cols">
+          {{employee[col.field]}}
+        </td>
+        <td style="text-align: center">
+          <i (click)="deleteEmployee(employee)" class="fa fa-trash fa-lg ml-3" style="color: red" aria-hidden="true" title="delete"></i>
+          <i (click)="updateEmployeeForm(employee)" class="fa fa-edit fa-lg ml-3" style="color: blue" aria-hidden="true" title="update"></i>
+        </td>
+
+
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+      There are {{employees?.length}} emloyees
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog header="Employee" [(visible)]="isEmployeeForm" [style]="{width:'500px', maxWidth: '500px', overflowX:'hidden'}" [baseZIndex]="10000">
+  <app-employee-form [employee]="newEmployee" [action]="action" (onEmployeeAdded)="afterEmployeeAction($event)"></app-employee-form>
+</p-dialog>
+
