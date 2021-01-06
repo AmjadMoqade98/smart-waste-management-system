@@ -3,9 +3,6 @@ import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
 import {AdminAuthGuard} from './core/services/auth/admin-auth-guard.service';
 import {NoAuthGuard} from './core/services/auth/no-auth-guard.service';
 import {MatcherService} from './core/services/Matcher.service';
-import {HomeComponent} from './features/home/home.component';
-import {AuthComponent} from './features/auth/auth.component';
-import {ReportsComponent} from './features/reports/reports.component';
 
 const appRoutes: Routes = [
   {
