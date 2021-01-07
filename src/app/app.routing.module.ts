@@ -46,7 +46,7 @@ const appRoutes: Routes = [
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes, {preloadingStrategy: PreloadAllModules, anchorScrolling: 'enabled'})],
+  imports: [RouterModule.forRoot(appRoutes, {preloadingStrategy: PreloadAllModules, anchorScrolling: 'enabled' , useHash: true})],
   exports: [RouterModule],
   providers: [MatcherService]
 })
