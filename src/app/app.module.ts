@@ -13,7 +13,7 @@ import {environment} from '../environments/environment';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {TruckLocationsService} from './core/services/data/truck-locations.service';
 import {AuthService} from './core/services/auth/auth.service';
-import {HashLocationStrategy} from "@angular/common";
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {SharedModule} from './shared/shared.module';
 

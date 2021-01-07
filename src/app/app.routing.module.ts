@@ -6,14 +6,9 @@ import {MatcherService} from './core/services/Matcher.service';
 
 const appRoutes: Routes = [
   {
-    path: 'main',
+    path: '',
     loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule),
     canActivate: [AdminAuthGuard]
-  },
-  {
-    path: '' ,
-    pathMatch: 'full',
-    redirectTo: 'main'
   },
   {
     path: 'bins',
@@ -45,7 +40,7 @@ const appRoutes: Routes = [
     loadChildren: () => import('./features/not-found/not-found.module').then(m => m.NotFoundModule),
     canActivate : [NoAuthGuard],
   },
-  {path: '**', redirectTo: 'main', pathMatch: 'full'}
+  {path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 
 
