@@ -9,13 +9,14 @@
   max-height: 83vh;
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 600px) {
   .sidebar{
-    min-width: 100px;
+    width: 100%;
+    min-width: 100%;
   }
 }
 
-@media only screen and (min-width: 400px) {
+@media only screen and (min-width: 600px) {
   .sidebar{
     width:150px;
     min-width: 150px;

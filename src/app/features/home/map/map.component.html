@@ -1,7 +1,8 @@
 <div #map style="width: 100% ;" [ngStyle]="{'height' : msg.length > 0 ? '85%' : '100%'}"></div>
 <button (click)="move()">move</button>
+
 <p-dialog *ngIf="area" [(visible)]="areaDialog"
-          [style]="{width:'40vw',maxHeight:'55vh' ,backgroundColor:'white'}"
+          [style]="{width:'40vw',maxHeight:'70vh' ,backgroundColor:'white',minWidth:'250px'}"
           [draggable]="true">
   <p-header>
     <h4 style="display: inline">{{area.name}}</h4>
@@ -9,7 +10,7 @@
     <h4 style="display: inline" *ngIf="dialogEmployees"> - Employees</h4>
   </p-header>
 
-  <div *ngIf="dialogMain">
+  <div *ngIf="dialogMain" >
     <table>
       <tr>
         <td>total bins</td>
@@ -91,7 +92,7 @@
 
 
   <p-footer [style]="{float:'left',maxWidth:'100%'}">
-    <div *ngIf="dialogMain">
+    <div *ngIf="dialogMain" class="card-deck">
       <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'"
               class="custom-button mr-2 mt-3" (click)="showEmployeeDialog()">
         Employee
@@ -129,7 +130,7 @@
 </p-dialog>
 
 <p-dialog [(visible)]="isAreaForm"
-          [style]="{width:'35vw'}"
+          [style]="{width:'35vw',minWidth:'150px'}"
           [draggable]="false">
   <p-header>Area Data</p-header>
   <div class="p-field">

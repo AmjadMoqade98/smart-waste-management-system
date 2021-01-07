@@ -5,4 +5,9 @@ export interface Report {
   subject: string;
   userId:	number;
   date: Date;
+  userRole?: UserRole;
+}
+
+export enum UserRole {
+  'Employee', 'Citizen'
 }

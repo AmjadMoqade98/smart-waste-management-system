@@ -1,6 +1,6 @@
 <div class="w-100 pb-3" >
 
-  <div class="card-deck" style="margin-left: 4em;max-width: 80vw">
+  <div class="card-deck" style="margin-left: 3vw;max-width: 80vw">
     <div class="custom-card">
       <h3>Total Bins</h3>
       <p class="card-number">{{bins.length}}</p>
@@ -35,7 +35,7 @@
                     (onChange)="changeBinsArea(selectedArea)"></p-dropdown>
       </div>
       <br/>
-      <p-chart width="400" height="400" type="doughnut" [data]="barData"></p-chart>
+      <p-chart width="400" height="400" type="pie" [data]="barData"></p-chart>
     </div>
   </div>
 </div>

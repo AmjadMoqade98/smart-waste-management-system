@@ -1,7 +1,38 @@
 
+@media only screen and (max-width: 600px) {
+  .sidebar{
+    padding-bottom:0;
+  }
+  a{
+    padding-bottom: 0;
+  }
+
+  .link-active{
+    border-bottom:2px solid red;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .sidebar{
+    padding-bottom:5em;
+  }
+
+  a{
+    padding-bottom: 2em;
+  }
+
+  .link-active{
+    border-left:3px solid red;
+  }
+}
 
 .sidebar > a {
   padding: 10px;
+}
+
+.link-active{
+  color: white;
+  background-color: black;
 }
 
 a{
@@ -9,9 +40,6 @@ a{
   color:black;
 }
 
-
-.link-active{
-  color: white;
-  border-left:3px solid red;
-  background-color: black;
+.link-active > i  {
+  color: red;
 }

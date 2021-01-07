@@ -11,9 +11,20 @@
 {
   .p-inputtext{
     width: 6vw;
+    padding:0.3em;
   }
   .p-datatable-tbody > tr {
     outline: none;
+  }
+
+  .p-datatable-thead > tr >th {
+    outline: none;
+    padding: 0.5em;
+  }
+
+  .p-datatable-tbody > tr > td {
+    outline: none;
+    padding: 0.5em;
   }
 
   .p-dropdown{

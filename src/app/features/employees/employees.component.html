@@ -1,15 +1,17 @@
-<div class="table-container" style="width: 80%">
+<div class="table-container" style="width: 80%;">
   <p-messages [value]="msg" (click)="clearMessages()"></p-messages>
   <p-table #dt [value]="employees" [responsive]="true" rowHover="true" [filterDelay]="0" [columns]="cols" dataKey="id"
            [paginator]="true" [rows]="rows"
            [alwaysShowPaginator]="true"
            [rowsPerPageOptions]="[2,5,10,20]">
     <ng-template pTemplate="caption">
-      <div style="text-align: left"><h2>Employees</h2></div>
-      <div class="ml-auto" style="text-align: right">
-        <button type="button" pButton icon="fa fa-user-plus fa-lg" (click)="addEmployeeForm()" label="new Employee">
-        </button>
-      </div>
+     <div class="d-flex  flex-sm-row  flex-column justify-content-between">
+       <div style="text-align: left"><h2>Employees</h2></div>
+       <div >
+         <button type="button" pButton icon="fa fa-user-plus fa-lg" (click)="addEmployeeForm()" label="new Employee">
+         </button>
+       </div>
+     </div>
     </ng-template>
 
     <ng-template pTemplate="header">
@@ -49,7 +51,7 @@
   </p-table>
 </div>
 
-<p-dialog header="Employee" [(visible)]="isEmployeeForm" [style]="{width:'500px', maxWidth: '500px', overflowX:'hidden'}" [baseZIndex]="10000">
+<p-dialog header="Employee" [(visible)]="isEmployeeForm" [style]="{width:'500px'}" [baseZIndex]="10000">
   <app-employee-form [employee]="newEmployee" [action]="action" (onEmployeeAdded)="afterEmployeeAction($event)"></app-employee-form>
 </p-dialog>
 

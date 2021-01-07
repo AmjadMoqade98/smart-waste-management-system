@@ -1,60 +1,51 @@
 <form #f="ngForm" (ngSubmit)="submitEmployee(f)">
   <input ngModel="{{employee.id}}" name="id" hidden>
 
-  <div class="form-group row mb-4">
-    <div class="col-md-8">
-      <label>Name</label>
-      <input class="input-position" pInputText [(ngModel)]="employee.username" name="username" #username="ngModel"
-             placeholder="username" required="">
-      <div class="input-position invalid-feedback d-block" *ngIf="f.submitted && username.invalid">
+      <div class="p-inputgroup mb-2 w-100">
+        <span class="p-inputgroup-addon">username</span>
+        <input pInputText [(ngModel)]="employee.username" name="username" #username="ngModel"
+               placeholder="username" required="">
+      </div>
+      <div class="invalid-feedback d-block" *ngIf="f.submitted && username.invalid">
         <div *ngIf="username.errors.required">username is required</div>
       </div>
-    </div>
-  </div>
 
-  <div class="form-group row mb-4">
-    <div class="col-md-8">
-      <label>firstName</label>
-      <input class="input-position"  pInputText [(ngModel)]="employee.firstName" name="firstName" #firstName="ngModel"
+  <div class="p-inputgroup mb-2 w-100">
+    <span class="p-inputgroup-addon">firstName</span>
+      <input   pInputText [(ngModel)]="employee.firstName" name="firstName" #firstName="ngModel"
              placeholder="firstName" required="">
       <div class="input-position invalid-feedback d-block" *ngIf="f.submitted && firstName.invalid" >
         <div *ngIf="firstName.errors.required">firstName is required</div>
       </div>
     </div>
-  </div>
 
-  <div class="form-group row mb-4">
-    <div class="col-md-8">
-      <label>lastName</label>
-      <input class="input-position" pInputText [(ngModel)]="employee.lastName" name="lastName" #lastName="ngModel"
+  <div class="p-inputgroup mb-2 w-100">
+    <span class="p-inputgroup-addon">lastName</span>
+      <input  pInputText [(ngModel)]="employee.lastName" name="lastName" #lastName="ngModel"
              placeholder="lastName" required="">
       <div class="input-position invalid-feedback d-block" *ngIf="f.submitted && lastName.invalid" >
         <div *ngIf="lastName.errors.required">lastName is required</div>
       </div>
     </div>
-  </div>
 
-  <div class="form-group row mb-4">
-    <div class="col-md-8">
-      <label>phone</label>
-      <input class="input-position" pInputText [(ngModel)]="employee.phone" name="phone" #phone="ngModel"
-             placeholder="phone" required="">
-      <div class="input-position invalid-feedback d-block" *ngIf="f.submitted && phone.invalid" >
-        <div *ngIf="phone.errors.required">phone is required</div>
-      </div>
+  <div class="p-inputgroup mb-2 w-100">
+    <span class="p-inputgroup-addon">phone</span>
+    <input pKeyFilter="int" pInputText [(ngModel)]="employee.phone" name="phone" #phone="ngModel"
+            placeholder="phone  " required="">
+    <div  class="input-position invalid-feedback d-block" *ngIf="f.submitted && phone.invalid" >
+      <div *ngIf="phone.errors.required">phone is required</div>
     </div>
   </div>
 
-  <div class="form-group row mb-4">
-    <div class="col-md-8">
-      <label>address</label>
-      <input class="input-position" pInputText [(ngModel)]="employee.address" name="address" #address="ngModel"
+
+  <div class="p-inputgroup mb-2 w-100">
+    <span class="p-inputgroup-addon">address</span>
+      <input  pInputText [(ngModel)]="employee.address" name="address" #address="ngModel"
              placeholder="address" required="">
       <div class="input-position invalid-feedback d-block" *ngIf="f.submitted && address.invalid" >
         <div *ngIf="address.errors.required">address is required</div>
       </div>
     </div>
-  </div>
 
 
   <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'" type="submit"
