@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.scrollToSelector();
-    this.getRoutParms();
+    this.getRoutParams();
   }
 
   scrollToSelector(): void {
@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  getRoutParms(): void {
+  getRoutParams(): void {
     this.route.fragment.subscribe(f => {
       if (f) {
         const index = f.indexOf('?');

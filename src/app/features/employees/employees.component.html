@@ -51,7 +51,7 @@
   </p-table>
 </div>
 
-<p-dialog header="Employee" [(visible)]="isEmployeeForm" [style]="{width:'500px'}" [baseZIndex]="10000">
+<p-dialog header="Employee Form+-" [(visible)]="isEmployeeForm" [style]="{width:'450px'}" [baseZIndex]="10000">
   <app-employee-form [employee]="newEmployee" [action]="action" (onEmployeeAdded)="afterEmployeeAction($event)"></app-employee-form>
 </p-dialog>
 

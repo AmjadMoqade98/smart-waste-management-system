@@ -1,5 +1,5 @@
 <div #map style="width: 100% ;" [ngStyle]="{'height' : msg.length > 0 ? '85%' : '100%'}"></div>
-<button (click)="move()">move</button>
+<button pButton (click)="move()">Simulate Truck Route</button>
 
 <p-dialog *ngIf="area" [(visible)]="areaDialog"
           [style]="{width:'40vw',maxHeight:'70vh' ,backgroundColor:'white',minWidth:'250px'}"
