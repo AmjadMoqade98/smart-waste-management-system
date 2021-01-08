@@ -1,2 +1,71 @@
+<div class="table-container" style="width: 80%;">
+  <p-messages [value]="msg" (click)="clearMessages()"></p-messages>
+  <p-table #dt [value]="binsData" [responsive]="true" rowHover="true" [filterDelay]="0" [columns]="cols" dataKey="id"
+           [paginator]="true" [rows]="rows"
+           [alwaysShowPaginator]="true"
+           [rowsPerPageOptions]="[5,10,20]">
+    <ng-template pTemplate="caption">
+      <div class="d-flex  flex-sm-row  flex-column justify-content-between">
+        <div style="text-align: left"><h2>Bins</h2></div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr [style]="{border:'none'}">
+        <th *ngFor="let col of cols">
+          {{col.header}}
+        </th>
+        <th [style]="{width:'15%'}">Actions</th>
+      </tr>
+      <tr>
+        <th *ngFor="let col of cols" [ngSwitch]="col.field">
+          <div *ngSwitchCase="'status'">
+            <p-dropdown [options]="statusOptions"
+                        (onChange)="dt.filter($event.value, col.field, 'equals')" styleClass="ui-dropdown"></p-dropdown>
+          </div>
+          <div *ngSwitchCase="'area'">
+            <p-dropdown [options]="areasOptions"
+                        (onChange)="dt.filter($event.value, col.field, 'equals')" styleClass="ui-dropdown"></p-dropdown>
+          </div>
+
+          <div *ngSwitchCase="'employee'">
+            <p-dropdown [options]="employeesOptions"
+                        (onChange)="dt.filter($event.value, col.field, 'equals')" styleClass="ui-dropdown"></p-dropdown>
+          </div>
+        </th>
+        <th></th>
+      </tr>
+
+    </ng-template>
+    <ng-template pTemplate="body" let-bin>
+      <tr [pSelectableRow]="bin">
+        <td *ngFor="let col of cols" [ngSwitch]="col.field">
+          <div *ngIf="col.field === 'status' else elseBlock" style="max-height: 30px" >
+          <p class="status" *ngIf="bin[col.field] === 'UNDER_THRESHOLD'" style="background-color: green;"> {{bin[col.field]}}</p>
+          <p class="status" *ngIf="bin[col.field] === 'ABOUT_TO_THRESHOLD'" style="background-color: yellow;color: black"> {{bin[col.field]}}</p>
+          <p class="status" *ngIf="bin[col.field] === 'OVER_THRESHOLD'" style="background-color: #f54320"> {{bin[col.field]}}</p>
+          <p class="status" *ngIf="bin[col.field] === 'EMERGENCY'" style="background-color: red"> {{bin[col.field]}}</p>
+          </div>
+          <ng-template style="border: 1px solid red" #elseBlock >
+            {{bin[col.field]}}
+          </ng-template>
+
+        </td>
+        <td style="text-align: center">
+          <i (click)="confirmDelete(bin)" class="fa fa-trash fa-lg ml-3" style="color: red" aria-hidden="true" title="delete"></i>
+          <a [routerLink]="['']" fragment="map" [queryParams]="{binId: bin.id}">
+            <i class="fa fa-map-marker fa-lg ml-3" style="color: green" aria-hidden="true" title="show in map"></i>
+          </a>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+      There are {{bins?.length}} Bins in the system
+    </ng-template>
+  </p-table>
+</div>
+
+<p-confirmDialog [style]="{width: '20vw'}" [baseZIndex]="10000"></p-confirmDialog>
 
 

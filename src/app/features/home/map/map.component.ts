@@ -1,4 +1,4 @@
-import {AfterContentChecked, AfterViewChecked, Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {Bin} from '../../../core/models/bin.model';
 import {Area} from '../../../core/models/area.model';
 import {Polygon} from '../../../core/models/polygon.model';
@@ -7,27 +7,28 @@ import {Employee} from '../../../core/models/employee.model';
 import {AreaService} from '../../../core/services/data/area.service';
 import {ConfirmationService} from 'primeng/api';
 import {TruckLocationsService} from '../../../core/services/data/truck-locations.service';
-import {interval, Observable} from 'rxjs';
 import {Truck} from '../../../core/models/truck.model';
+import {TruckService} from '../../../core/services/data/truck.service';
+import {BinService} from '../../../core/services/data/bin.service';
+import {EmployeeService} from '../../../core/services/data/employee.service';
+import {TruckLocation} from '../../../core/models/truck-location.model';
 
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+  styleUrls: ['./map.component.css', '../../../../assets/styles/primeNG.scss']
 })
-export class MapComponent implements OnInit, OnChanges {
-
-  @Input() bins: Bin[];
-  @Input() areas: Area[];
-  @Input() employees: Employee[];
+export class MapComponent implements OnInit {
   @Input() routeParameter: any;
-  truckLocations: Observable<any>;
-  trucksData: Truck[];
+
+  bins: Bin[];
+  areas: Area[];
+  employees: Employee[];
+  truckLocations: TruckLocation[];
+  trucks: Truck[];
 
   isMapInit = false;
-  isAreas = false;
-  isBins = false;
   bin: Bin;
 
   area: Area;
@@ -67,110 +68,132 @@ export class MapComponent implements OnInit, OnChanges {
     };
 
   constructor(private areaService: AreaService, private confirmationService: ConfirmationService,
-              private truckLocationsService: TruckLocationsService) {
-    this.getTruckLocations();
+              private truckLocationsService: TruckLocationsService, private truckService: TruckService,
+              private binService: BinService, private employeeService: EmployeeService) {
   }
 
-
   ngOnInit(): void {
-    if (!this.isMapInit) {
-      this.initMap();
-      this.isMapInit = true;
-    }
+    this.initMap();
+    this.initializeData();
+    this.handleRouteParameters();
+    this.isMapInit = true;
+  }
+
+  initializeData(): void {
+    this.binService.getBins().subscribe(bins => {
+      this.bins = bins;
+      for (const bin of this.bins) {
+        this.renderBin(bin);
+      }
+    });
+    this.areaService.getAreas().subscribe(areas => {
+      this.areas = areas;
+      for (const area of this.areas) {
+        this.renderArea(area);
+      }
+    });
+    this.employeeService.getEmployees().subscribe(employees => {
+      this.employees = employees;
+    });
+    this.truckService.getTrucks().subscribe(trucks => {
+      this.trucks = trucks;
+    });
+
+    this.renderTrucks();
   }
 
   move(): void {
     const coor = [
-      {x: 35.2013423, y: 31.887267, },
-      {x: 35.2013262, y: 31.8873991, },
-      {x: 35.2013181, y: 31.8874651, },
-      {x: 35.2012993, y: 31.8875767, },
-      {x: 35.2012832, y: 31.8876541, },
-      {x: 35.2012752, y: 31.8877156, },
-      {x: 35.2012497, y: 31.8877646, },
-      {x: 35.2012189, y: 31.8879047, },
-      {x: 35.2012055, y: 31.8879639, },
-      {x: 35.2011853, y: 31.8880231, },
-      {x: 35.2011592, y: 31.8880846, },
-      {x: 35.2011116, y: 31.8881734, },
-      {x: 35.2010982, y: 31.8882486, },
-      {x: 35.2010754, y: 31.8883135, },
-      {x: 35.2010425, y: 31.8883732, },
-      {x: 35.2010154, y: 31.888435, },
-      {x: 35.2009775, y: 31.8885241, },
-      {x: 35.200956, y: 31.8886198, },
-      {x: 35.2009238, y: 31.888704, },
-      {x: 35.2008916, y: 31.8888156, },
-      {x: 35.2008595, y: 31.8888976, },
-      {x: 35.2008326, y: 31.88895, },
-      {x: 35.2007629, y: 31.8890753, },
-      {x: 35.2007414, y: 31.8891367, },
-      {x: 35.2007254, y: 31.8891994, },
-      {x: 35.2007066, y: 31.8892535, },
-      {x: 35.2006556, y: 31.8893986, },
-      {x: 35.2007361, y: 31.8894442, },
-      {x: 35.2008246, y: 31.8894624, },
-      {x: 35.2009989, y: 31.8894897, },
-      {x: 35.2010794, y: 31.8894579, },
-      {x: 35.2011465, y: 31.8894601, },
-      {x: 35.2012417, y: 31.8894658, },
-      {x: 35.2014335, y: 31.8894487, },
-      {x: 35.2014147, y: 31.8895512, },
-      {x: 35.2013785, y: 31.8896708, },
-      {x: 35.2013604, y: 31.8897898, },
-      {x: 35.201362, y: 31.8898356, },
-      {x: 35.2013629, y: 31.8898767, },
-      {x: 35.2013637, y: 31.8899361, },
-      {x: 35.2013664, y: 31.8899839, },
-      {x: 35.2013731, y: 31.8900283, },
-      {x: 35.2013765, y: 31.8900961, },
-      {x: 35.2013902, y: 31.8901425, },
-      {x: 35.2013852, y: 31.8902003, },
-      {x: 35.2014039, y: 31.8902936, },
-      {x: 35.2014214, y: 31.8903813, },
-      {x: 35.2014328, y: 31.8904411, },
-      {x: 35.2014412, y: 31.89048469999999, },
-      {x: 35.2014454, y: 31.8905508, },
-      {x: 35.2014495, y: 31.8906125, },
-      {x: 35.2014495, y: 31.8907138, },
-      {x: 35.2014415, y: 31.8907622, },
-      {x: 35.2014335, y: 31.8908584, },
-      {x: 35.2014308, y: 31.8909119, },
-      {x: 35.2014294, y: 31.890982, },
-      {x: 35.2014207, y: 31.8910466, },
-      {x: 35.2014164, y: 31.8910812, },
-      {x: 35.2014142, y: 31.8911531, },
-      {x: 35.2014117, y: 31.89119820000001, },
-      {x: 35.2014093, y: 31.8912661, },
-      {x: 35.201418, y: 31.8913059, },
-      {x: 35.2014267, y: 31.8913594, },
-      {x: 35.2014355, y: 31.8913879, },
-      {x: 35.2014442, y: 31.8914619, },
-      {x: 35.2014428, y: 31.8914972, },
-      {x: 35.2014415, y: 31.8915371, },
-      {x: 35.2014536, y: 31.8915929, },
-      {x: 35.201465, y: 31.8916891, },
-      {x: 35.2014573, y: 31.8918351, },
-      {x: 35.2014641, y: 31.8919002, },
-      {x: 35.2014656, y: 31.8920062, },
-      {x: 35.201471, y: 31.8920666, },
-      {x: 35.2014817, y: 31.8921582, },
-      {x: 35.2014898, y: 31.8922132, },
-      {x: 35.2015099, y: 31.8922816, },
-      {x: 35.20152, y: 31.8923864, },
-      {x: 35.2015277, y: 31.8924616, },
-      {x: 35.2015369, y: 31.8925425, },
-      {x: 35.2015402, y: 31.8925829, },
-      {x: 35.2015498, y: 31.89268059999999, },
-      {x: 35.20156, y: 31.8927453, },
-      {x: 35.2015705, y: 31.8928415, },
-      {x: 35.2015194, y: 31.8928611, },
-      {x: 35.2014563, y: 31.89288, },
-      {x: 35.2013792, y: 31.8928895, },
-      {x: 35.2013218, y: 31.8929033, },
-      {x: 35.201269, y: 31.8929148, },
-      {x: 35.2012158, y: 31.8929319, },
-      {x: 35.2011411, y: 31.892949, },
+      {x: 35.2013423, y: 31.887267,},
+      {x: 35.2013262, y: 31.8873991,},
+      {x: 35.2013181, y: 31.8874651,},
+      {x: 35.2012993, y: 31.8875767,},
+      {x: 35.2012832, y: 31.8876541,},
+      {x: 35.2012752, y: 31.8877156,},
+      {x: 35.2012497, y: 31.8877646,},
+      {x: 35.2012189, y: 31.8879047,},
+      {x: 35.2012055, y: 31.8879639,},
+      {x: 35.2011853, y: 31.8880231,},
+      {x: 35.2011592, y: 31.8880846,},
+      {x: 35.2011116, y: 31.8881734,},
+      {x: 35.2010982, y: 31.8882486,},
+      {x: 35.2010754, y: 31.8883135,},
+      {x: 35.2010425, y: 31.8883732,},
+      {x: 35.2010154, y: 31.888435,},
+      {x: 35.2009775, y: 31.8885241,},
+      {x: 35.200956, y: 31.8886198,},
+      {x: 35.2009238, y: 31.888704,},
+      {x: 35.2008916, y: 31.8888156,},
+      {x: 35.2008595, y: 31.8888976,},
+      {x: 35.2008326, y: 31.88895,},
+      {x: 35.2007629, y: 31.8890753,},
+      {x: 35.2007414, y: 31.8891367,},
+      {x: 35.2007254, y: 31.8891994,},
+      {x: 35.2007066, y: 31.8892535,},
+      {x: 35.2006556, y: 31.8893986,},
+      {x: 35.2007361, y: 31.8894442,},
+      {x: 35.2008246, y: 31.8894624,},
+      {x: 35.2009989, y: 31.8894897,},
+      {x: 35.2010794, y: 31.8894579,},
+      {x: 35.2011465, y: 31.8894601,},
+      {x: 35.2012417, y: 31.8894658,},
+      {x: 35.2014335, y: 31.8894487,},
+      {x: 35.2014147, y: 31.8895512,},
+      {x: 35.2013785, y: 31.8896708,},
+      {x: 35.2013604, y: 31.8897898,},
+      {x: 35.201362, y: 31.8898356,},
+      {x: 35.2013629, y: 31.8898767,},
+      {x: 35.2013637, y: 31.8899361,},
+      {x: 35.2013664, y: 31.8899839,},
+      {x: 35.2013731, y: 31.8900283,},
+      {x: 35.2013765, y: 31.8900961,},
+      {x: 35.2013902, y: 31.8901425,},
+      {x: 35.2013852, y: 31.8902003,},
+      {x: 35.2014039, y: 31.8902936,},
+      {x: 35.2014214, y: 31.8903813,},
+      {x: 35.2014328, y: 31.8904411,},
+      {x: 35.2014412, y: 31.89048469999999,},
+      {x: 35.2014454, y: 31.8905508,},
+      {x: 35.2014495, y: 31.8906125,},
+      {x: 35.2014495, y: 31.8907138,},
+      {x: 35.2014415, y: 31.8907622,},
+      {x: 35.2014335, y: 31.8908584,},
+      {x: 35.2014308, y: 31.8909119,},
+      {x: 35.2014294, y: 31.890982,},
+      {x: 35.2014207, y: 31.8910466,},
+      {x: 35.2014164, y: 31.8910812,},
+      {x: 35.2014142, y: 31.8911531,},
+      {x: 35.2014117, y: 31.89119820000001,},
+      {x: 35.2014093, y: 31.8912661,},
+      {x: 35.201418, y: 31.8913059,},
+      {x: 35.2014267, y: 31.8913594,},
+      {x: 35.2014355, y: 31.8913879,},
+      {x: 35.2014442, y: 31.8914619,},
+      {x: 35.2014428, y: 31.8914972,},
+      {x: 35.2014415, y: 31.8915371,},
+      {x: 35.2014536, y: 31.8915929,},
+      {x: 35.201465, y: 31.8916891,},
+      {x: 35.2014573, y: 31.8918351,},
+      {x: 35.2014641, y: 31.8919002,},
+      {x: 35.2014656, y: 31.8920062,},
+      {x: 35.201471, y: 31.8920666,},
+      {x: 35.2014817, y: 31.8921582,},
+      {x: 35.2014898, y: 31.8922132,},
+      {x: 35.2015099, y: 31.8922816,},
+      {x: 35.20152, y: 31.8923864,},
+      {x: 35.2015277, y: 31.8924616,},
+      {x: 35.2015369, y: 31.8925425,},
+      {x: 35.2015402, y: 31.8925829,},
+      {x: 35.2015498, y: 31.89268059999999,},
+      {x: 35.20156, y: 31.8927453,},
+      {x: 35.2015705, y: 31.8928415,},
+      {x: 35.2015194, y: 31.8928611,},
+      {x: 35.2014563, y: 31.89288,},
+      {x: 35.2013792, y: 31.8928895,},
+      {x: 35.2013218, y: 31.8929033,},
+      {x: 35.201269, y: 31.8929148,},
+      {x: 35.2012158, y: 31.8929319,},
+      {x: 35.2011411, y: 31.892949,},
     ];
 
     let i = 0;
@@ -182,31 +205,15 @@ export class MapComponent implements OnInit, OnChanges {
     }, 300);
   }
 
-  ngOnChanges(): void {
-    if (!this.isMapInit) {
-      this.initMap();
-      this.isMapInit = true;
-    }
-    if (this.bins && !this.isBins) {
-      this.isBins = true;
-      for (const bin of this.bins) {
-        this.drawMarker(bin);
-      }
-    }
-    if (this.areas && !this.isAreas) {
-      this.isAreas = true;
-      for (const area of this.areas) {
-        this.drawPolygon(area);
-      }
-    }
 
-    if (this.routeParameter && this.routeParameter.bin) {
-      const id = +this.routeParameter.bin;
-      for (const bin of this.bins) {
-        if (bin.id === id) {
-          this.infowindow.open(this.map, bin.marker);
-          this.infowindow.setContent(this.binToString(bin));
-          if (this.map.getBounds().contains(bin.marker.getPosition())) {
+  handleRouteParameters(): void {
+    if (this.routeParameter && this.routeParameter.binId) {
+      const id = +this.routeParameter.binId;
+      if (this.bins) {
+        for (const bin of this.bins) {
+          if (bin.id === id) {
+            this.infowindow.open(this.map, bin.marker);
+            this.infowindow.setContent(this.binToString(bin));
             this.map.setCenter(bin.marker.getPosition());
             this.map.setZoom(16);
             this.infowindow.addListener('closeclick', () => {
@@ -218,36 +225,6 @@ export class MapComponent implements OnInit, OnChanges {
         }
       }
     }
-  }
-
-  getTruckLocations(): void {
-    this.truckLocations = this.truckLocationsService.getTruckLocations();
-    this.truckLocations.subscribe(trucks => {
-      console.log(trucks);
-      if (!this.trucksData) {
-        this.trucksData = [];
-        Object.keys(trucks).map((key) => {
-          this.trucksData.push(trucks[key]);
-        });
-      } else {
-        let index = 0;
-        Object.keys(trucks).map((key) => {
-          this.trucksData[index++].location = trucks[key].location;
-        });
-      }
-
-      for (const truck of this.trucksData) {
-        if (truck.marker) {
-          truck.marker.setPosition(new google.maps.LatLng(truck.location.x, truck.location.y));
-        } else {
-          truck.marker = new google.maps.Marker({
-            position: new google.maps.LatLng(truck.location.x, truck.location.y),
-            icon: {url: this.icons.TRUCK, scaledSize: new google.maps.Size(40, 40)},
-            map: this.map,
-          });
-        }
-      }
-    });
   }
 
   initMap(): void {
@@ -334,10 +311,10 @@ export class MapComponent implements OnInit, OnChanges {
       }
     }
     return bounds;
-  }
+  };
 
 
-  drawPolygon(area: Area): void {
+  renderArea(area: Area): void {
     area.polygon = new google.maps.Polygon({
       paths: this.polygonToPath(area.polygonDto),
       strokeColor: '#0c0d0c',
@@ -354,7 +331,7 @@ export class MapComponent implements OnInit, OnChanges {
     });
   }
 
-  drawMarker(bin: Bin): void {
+  renderBin(bin: Bin): void {
     bin.marker = new google.maps.Marker({
       position: new google.maps.LatLng(bin.location.x, bin.location.y),
       icon: {url: this.icons[bin.status], scaledSize: new google.maps.Size(20, 20)},
@@ -364,7 +341,37 @@ export class MapComponent implements OnInit, OnChanges {
       this.infowindow.open(this.map, bin.marker);
       this.infowindow.setContent(this.binToString(bin));
     });
+  }
 
+  renderTrucks(): void {
+    this.truckLocationsService.getTruckLocations().subscribe(trucks => {
+      this.clearTrucks();
+      Object.keys(trucks).map((key) => {
+        this.truckLocations.push(trucks[key]);
+      });
+      for (const truck of this.truckLocations) {
+        truck.marker = new google.maps.Marker({
+          position: new google.maps.LatLng(truck.location.x, truck.location.y),
+          icon: {url: this.icons.TRUCK, scaledSize: new google.maps.Size(40, 40)},
+          map: this.map,
+        });
+        truck.marker.addListener('click', () => {
+          this.infowindow.open(this.map, truck.marker);
+          const truckModel = this.trucks.find(value => value.id === truck.truckId );
+          const truckEmp = this.employees.find(value => value.id === truckModel.employees[0]);
+          this.infowindow.setContent('Employee : ' + truckEmp.username);
+        });
+      }
+    });
+  }
+
+  clearTrucks(): void {
+    if (this.truckLocations && this.truckLocations.length > 0) {
+      for (const truck of this.truckLocations) {
+        truck.marker.setMap(null);
+      }
+    }
+    this.truckLocations = [];
   }
 
   binToString(bin: Bin): string {
@@ -481,7 +488,7 @@ export class MapComponent implements OnInit, OnChanges {
     const area1 = {id: area.id, polygonDto: area.polygonDto, name: area.name, polygon: null};
     this.areaService.addArea(area1).subscribe(response => {
       this.areas.push(response);
-      this.drawPolygon(response);
+      this.renderArea(response);
       this.msg = [{severity: 'success', summary: 'Confirmed', detail: 'area added'}];
       this.isAreaForm = false;
     });
@@ -528,3 +535,5 @@ export class MapComponent implements OnInit, OnChanges {
     this.msg = [];
   }
 }
+
+

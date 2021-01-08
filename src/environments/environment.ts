@@ -6,13 +6,14 @@ export const environment = {
   production: false,
   apiDomain: 'http://swms.ga/api/v1',
   firebaseConfig : {
-    apiKey: 'AIzaSyBQT-f2QXRLdR4WagirEkWVDxFM-P5To0o',
-    authDomain: 'swms-b6e17.firebaseapp.com',
-    databaseURL: 'https://swms-b6e17-default-rtdb.europe-west1.firebasedatabase.app',
-    projectId: 'swms-b6e17',
-    storageBucket: 'swms-b6e17.appspot.com',
-    messagingSenderId: '990108669682',
-    appId: '1:990108669682:web:06909bb78f4db0a45d626b'
+    apiKey: 'AIzaSyByJ_IG2LxHjPyG87wUKL3tvy49wO8vrPY',
+    authDomain: 'swms-70407.firebaseapp.com',
+    databaseURL: 'https://swms-70407-default-rtdb.firebaseio.com',
+    projectId: 'swms-70407',
+    storageBucket: 'swms-70407.appspot.com',
+    messagingSenderId: '929148700955',
+    appId: '1:929148700955:web:6fb1e36898578eed64ebbe',
+    measurementId: 'G-C8WZQYNLM6'
   },
 };
 

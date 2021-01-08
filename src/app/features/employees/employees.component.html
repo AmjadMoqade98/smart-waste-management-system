@@ -19,7 +19,7 @@
         <th *ngFor="let col of cols">
           {{col.header}}
         </th>
-        <th [style]="{width:'15%'}"></th>
+        <th [style]="{width:'15%'}">Actions</th>
       </tr>
       <tr>
         <th *ngFor="let col of cols">
@@ -54,4 +54,7 @@
 <p-dialog header="Employee Form+-" [(visible)]="isEmployeeForm" [style]="{width:'450px'}" [baseZIndex]="10000">
   <app-employee-form [employee]="newEmployee" [action]="action" (onEmployeeAdded)="afterEmployeeAction($event)"></app-employee-form>
 </p-dialog>
+
+<p-confirmDialog [style]="{width: '20vw'}" [baseZIndex]="10000"></p-confirmDialog>
+
 

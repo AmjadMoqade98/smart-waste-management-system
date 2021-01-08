@@ -4,6 +4,7 @@ export interface Report {
   body:	string;
   subject: string;
   userId:	number;
+  imageUrl: string;
   date: Date;
   userRole?: UserRole;
 }

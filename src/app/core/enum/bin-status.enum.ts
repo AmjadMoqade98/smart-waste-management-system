@@ -1,0 +1,6 @@
+export enum BinStatus {
+  UNDER_THRESHOLD = 1,
+  ABOUT_TO_THRESHOLD,
+  OVER_THRESHOLD,
+  EMERGENCY,
+}

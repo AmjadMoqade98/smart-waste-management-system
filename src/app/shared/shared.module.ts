@@ -32,6 +32,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import {TabViewModule} from 'primeng/tabview';
 import {TabMenuModule} from 'primeng/tabmenu';
+import {TruckService} from '../core/services/data/truck.service';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SidebarComponent],
@@ -71,7 +72,7 @@ import {TabMenuModule} from 'primeng/tabmenu';
   ],
 
   providers: [MessageService, EmployeeService, ConfirmationService, ReportService, CitizenService,
-    BinService, AreaService]
+    BinService, AreaService , TruckService]
 })
 // @ts-ignore
 export class SharedModule {

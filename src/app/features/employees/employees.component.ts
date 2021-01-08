@@ -5,11 +5,12 @@ import {EmployeeOptions} from './employee.options';
 import {AreaService} from '../../core/services/data/area.service';
 import {Area} from '../../core/models/area.model';
 import Swal from 'sweetalert2';
+import {ConfirmationService} from 'primeng/api';
 
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.scss', '../../../assets/styles/prime-table.scss']
+  styleUrls: ['./employees.component.scss', '../../../assets/styles/primeNG.scss']
 })
 export class EmployeesComponent implements OnInit {
   employees: Employee[];
@@ -24,10 +25,10 @@ export class EmployeesComponent implements OnInit {
 
   msg;
 
-  constructor(private employeeService: EmployeeService, private areaService: AreaService) {
+  constructor(private employeeService: EmployeeService, private areaService: AreaService,
+              private confirmationService: ConfirmationService) {
     this.initData();
     this.cols = EmployeeOptions.cols;
-    console.log(this.cols);
   }
 
   ngOnInit(): void {
@@ -87,24 +88,19 @@ export class EmployeesComponent implements OnInit {
   }
 
   deleteEmployee(employee): void {
-    console.log('ddddddddddddddddddd');
-    Swal.fire({
-      title: 'do you wanna delete this area ?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, my bad',
-    }).then((result) => {
-
-      if (result.isConfirmed) {
-        this.employeeService.deleteEmployee(employee.id).subscribe(value => {
-          this.msg = [{
-            severity: 'error', summary: 'Confirmed',
-            detail: employee.username + 'deleted successfully'
-          }];
-        });
-      }
-    });
+      this.confirmationService.confirm({
+        message: 'Are you sure that you want to delete this Employee?',
+        header: 'Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.employeeService.deleteEmployee(employee.id).subscribe(value => {
+            this.msg = [{
+              severity: 'error', summary: 'Confirmed',
+              detail: employee.username + 'deleted successfully'
+            }];
+          });
+        },
+      });
   }
 
   clearMessages(): void {

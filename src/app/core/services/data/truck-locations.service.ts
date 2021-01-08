@@ -24,4 +24,8 @@ export class TruckLocationsService{
   setTruckLocations(truckLocation: TruckLocation): void {
     this.ref.child(truckLocation.truckId).set(truckLocation);
   }
+
+  deleteTruckLocation(truckId: number): void {
+    this.ref.child(truckId).remove();
+  }
 }

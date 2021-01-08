@@ -66,7 +66,6 @@ export class ReportsComponent implements OnInit {
       if (this.flag === 2) {
         this.reportService.getReports().subscribe(reports => {
           this.reports = reports;
-          console.log(this.reports);
           this.currentReports = [];
           this.employeeReports = [];
           this.citizenReports = [];
@@ -88,7 +87,6 @@ export class ReportsComponent implements OnInit {
       if (this.flag === 2) {
         this.reportService.getReports().subscribe(reports => {
           this.reports = reports;
-          console.log(this.reports);
           this.currentReports = [];
           this.employeeReports = [];
           this.citizenReports = [];
@@ -131,6 +129,7 @@ export class ReportsComponent implements OnInit {
     reportD.body = report.body;
     reportD.date = '1/1/2021';
     reportD.bin = '' + report.binId;
+    reportD.imageUrl = report.imageUrl;
 
     for (const citizin of this.citizens) {
       if (citizin.id === report.userId) {
@@ -141,7 +140,7 @@ export class ReportsComponent implements OnInit {
       }
     }
 
-    if (reportD.username === '') {
+    if (!reportD.username) {
       for (const employee of this.employees) {
         if (employee.id === report.userId) {
           reportD.username = employee.username;
@@ -163,5 +162,6 @@ interface ReportData {
   phone: string;
   date: string;
   bin: string;
+  imageUrl: string;
 }
 

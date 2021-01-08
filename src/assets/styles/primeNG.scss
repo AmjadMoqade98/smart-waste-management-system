@@ -9,8 +9,9 @@
 }
 :host ::ng-deep .p-datatable
 {
+
   .p-inputtext{
-    width: 6vw;
+    width: 7vw;
     padding:0.3em;
   }
   .p-datatable-tbody > tr {
@@ -29,7 +30,7 @@
 
   .p-dropdown{
     float: left;
-    width: 80px;
+    width: 8vw;
   }
 
   .p-datatable-caption {
@@ -75,7 +76,10 @@
   }
 }
 
-:host ::ng-deep .p-confirmdialog-icon {
-  color:red !important;
+:host ::ng-deep .p-dialog.p-confirm-dialog .p-confirm-dialog-icon {
+  font-size: 2rem;
+  color: red;
 }
+
+
 
