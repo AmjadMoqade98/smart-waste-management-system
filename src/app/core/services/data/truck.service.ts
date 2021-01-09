@@ -79,6 +79,5 @@ export class TruckService {
       this.truckData = this.truckData.filter(value => true);
       this.truckState.next(this.truckData);
     }));
-
   }
 }

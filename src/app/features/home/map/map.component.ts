@@ -554,7 +554,7 @@ export class MapComponent implements OnInit {
   }
 
   deleteAreaEmployee(area: Area): void {
-    this.areaService.unassignEmployee(area.id, this.currentEmployee.id).subscribe(value => {
+      this.areaService.unassignEmployee(area.id, this.currentEmployee.id).subscribe(value => {
       this.currentEmployee = null;
       this.msg = [{severity: 'success', summary: 'Confirmed', detail: 'employee unassigned'}];
     });
