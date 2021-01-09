@@ -1,0 +1,92 @@
+<div class="table-container" style="width: 80%;">
+  <p-messages [value]="msg" (click)="clearMessages()"></p-messages>
+  <p-table #dt [value]="trucksData" [responsive]="true" rowHover="true" [filterDelay]="0" [columns]="cols" dataKey="id"
+           [paginator]="true" [rows]="rows"
+           [alwaysShowPaginator]="true"
+           [rowsPerPageOptions]="[5,10,20]">
+    <ng-template pTemplate="caption">
+
+      <div class="d-flex  flex-sm-row  flex-column justify-content-between">
+        <div style="text-align: left"><h2>Trucks <i class="fa fa-truck"></i></h2></div>
+        <div>
+          <div *ngIf="isAddingTruck" class="p-inputgroup mb-2 w-100">
+            <input pInputText style="width: 10em" [(ngModel)]="newTruck.number"
+                   placeholder="Truck Number"/>
+
+            <span class="p-inputgroup-addon">
+              <i *ngIf="newTruck.number.length>0" class="fa fa-check-circle fa-lg m-2" style="color: green;" (click)="addTruck()" title="save"></i>
+              <i  class="fa fa-times-circle fa-lg m-2" style="color: red;" (click)="isAddingTruck = false"
+                 title="cancel"></i>
+            </span>
+          </div>
+          <div *ngIf="!isAddingTruck">
+            <button type="button" pButton icon="fa fa-truck fa-lg" (click)="addTruckPrepare()" label="Add Truck">
+            </button>
+          </div>
+
+        </div>
+
+
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr [style]="{border:'none'}">
+        <th *ngFor="let col of cols">
+          {{col.header}}
+        </th>
+        <th [style]="{width:'15%'}">Actions</th>
+      </tr>
+      <tr>
+        <th *ngFor="let col of cols" [ngSwitch]="col.field">
+          <div *ngSwitchCase="'status'">
+            <p-dropdown [options]="statusOptions"
+                        (onChange)="dt.filter($event.value, col.field, 'equals')" styleClass="ui-dropdown"></p-dropdown>
+          </div>
+          <div *ngSwitchCase="'area'">
+            <p-dropdown [options]="areasOptions"
+                        (onChange)="dt.filter($event.value, col.field, 'equals')" styleClass="ui-dropdown"></p-dropdown>
+          </div>
+
+          <div *ngSwitchCase="'employee'">
+            <p-dropdown [options]="employeesOptions"
+                        (onChange)="dt.filter($event.value, col.field, 'equals')" styleClass="ui-dropdown"></p-dropdown>
+          </div>
+        </th>
+        <th></th>
+      </tr>
+
+    </ng-template>
+    <ng-template pTemplate="body" let-truck>
+      <tr [pSelectableRow]="truck">
+        <td *ngFor="let col of cols" [ngSwitch]="col.field">
+          <div *ngIf="col.field === 'status' else elseBlock" style="max-height: 30px">
+            <p class="status" *ngIf="truck[col.field] === 'FREE'"
+               style="background-color: green;"> {{truck[col.field]}}</p>
+            <p class="status" *ngIf="truck[col.field] === 'USED'"
+               style="background-color: red"> {{truck[col.field]}}</p>
+          </div>
+          <ng-template style="border: 1px solid red" #elseBlock>
+            {{truck[col.field]}}
+          </ng-template>
+
+        </td>
+        <td style="text-align: center">
+          <i (click)="confirmDelete(truck)" class="fa fa-trash fa-lg ml-3" style="color: red" aria-hidden="true"
+             title="delete"></i>
+          <a [routerLink]="['']" [queryParams]="{truckId: truck.id}" fragment="map">
+            <i class="fa fa-map-marker fa-lg ml-3" style="color: green" aria-hidden="true" title="show in map"></i>
+          </a>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+      There are {{trucks?.length}} trucks in the system
+    </ng-template>
+  </p-table>
+</div>
+
+<p-confirmDialog [style]="{width: '20vw'}" [baseZIndex]="10000"></p-confirmDialog>
+
+

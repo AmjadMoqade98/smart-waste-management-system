@@ -1,19 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {EmployeeService} from '../../core/services/data/employee.service';
-import {Employee} from '../../core/models/employee.model';
+import {EmployeeService} from '../../../core/services/data/employee.service';
+import {Employee} from '../../../core/models/employee.model';
 import {EmployeeOptions} from './employee.options';
-import {AreaService} from '../../core/services/data/area.service';
-import {Area} from '../../core/models/area.model';
+import {AreaService} from '../../../core/services/data/area.service';
+import {Area} from '../../../core/models/area.model';
 import Swal from 'sweetalert2';
 import {ConfirmationService} from 'primeng/api';
 
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.scss', '../../../assets/styles/primeNG.scss']
+  styleUrls: ['./employees.component.scss', '../../../../assets/styles/primeNG.scss']
 })
 export class EmployeesComponent implements OnInit {
-  employees: Employee[];
+  employees: any[];
   areas: Area[];
   cols: any[];
   action: string;
@@ -70,7 +70,7 @@ export class EmployeesComponent implements OnInit {
         severity: 'success', summary: 'Confirmed',
         detail: employee.username + 'added successfully to the system'
       }];
-      this.employees.find(value => value.id === employee.id).area = 'no Area';
+      this.employees.find(value => value.id === employee.id).area = 'No area';
     }
     if (this.action === 'update') {
       this.msg = [{
@@ -83,7 +83,6 @@ export class EmployeesComponent implements OnInit {
         this.employees.find(value => value.id === employee.id).area = 'no area';
       }
     }
-    console.log("wtf");
     this.isEmployeeForm = false;
   }
 

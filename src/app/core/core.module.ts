@@ -17,7 +17,7 @@ import {AngularFireDatabase} from '@angular/fire/database';
   imports: [
     CommonModule,
   ],
-  providers: [ApiService, BinService, AuthService, AdminAuthGuard, JwtService,
+  providers: [ApiService, AuthService, AdminAuthGuard, JwtService,
     UserService, AngularFireDatabase,
     {
       provide: HTTP_INTERCEPTORS,

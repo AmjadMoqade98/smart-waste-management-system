@@ -5,6 +5,6 @@ export interface Employee {
   lastName?:	string;
   phone?:	string;
   username?:	string;
-  area?: string;
-  areaIdsList: [];
+  areaIdsList?: number[];
+  vehicleId?: number;
 }

@@ -1,12 +1,15 @@
 table {
   border-collapse: separate;
-  border-spacing: 0 10px;
+  border-spacing: 0 5px;
   width: 50%;
+  min-width: 250px;
 }
-input{
+
+input {
   zoom: 0.9;
 }
-hr{
+
+hr {
   padding: 0;
   margin: 0
 }
@@ -17,10 +20,12 @@ hr{
   min-width: 80px;
 }
 
-.check-icon{
+.check-icon {
   color: black;
 }
-.check-icon:hover{
-  color:green;
+
+.check-icon:hover {
+  color: green;
 }
+
 

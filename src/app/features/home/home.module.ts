@@ -5,7 +5,6 @@ import { HomeComponent } from './home.component';
 import { MapComponent } from './map/map.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import {SharedModule} from '../../shared/shared.module';
-import {TruckLocationsService} from '../../core/services/data/truck-locations.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent }
@@ -18,6 +17,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule
   ],
-  providers: [TruckLocationsService]
+  providers: []
 })
-export class HomeModule { }
+export class HomeModule {}

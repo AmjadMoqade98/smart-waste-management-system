@@ -5,8 +5,9 @@ import {ApiService} from './api.service';
 import {shareReplay, switchMap, tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 
-@Injectable()
-// @ts-ignore
+@Injectable({
+  providedIn: 'root',
+})
 export class BinService {
   private readonly PATH = '/bins';
 

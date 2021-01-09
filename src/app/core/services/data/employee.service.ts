@@ -5,7 +5,9 @@ import {HttpClient} from '@angular/common/http';
 import {ApiService} from './api.service';
 import {shareReplay, switchMap, tap} from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EmployeeService {
 private readonly PATH = '/employees';
 

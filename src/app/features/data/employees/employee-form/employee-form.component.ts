@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Employee} from '../../../core/models/employee.model';
-import {EmployeeService} from '../../../core/services/data/employee.service';
+import {Employee} from '../../../../core/models/employee.model';
+import {EmployeeService} from '../../../../core/services/data/employee.service';
 import {NgForm} from '@angular/forms';
 
 @Component({
@@ -22,7 +22,6 @@ export class EmployeeFormComponent {
     if (f.valid) {
       this.spinner = true;
       if (this.action === 'add') {
-        console.log(this.employee);
         this.employeeService.addEmployee(this.employee).subscribe(employee1 => {
           this.onEmployeeAdded.emit(employee1);
         });

@@ -51,7 +51,6 @@ export class AuthService {
     this.http.post(environment.apiDomain + '/login', JSON.stringify(credentials), {observe: 'response'}).subscribe(
       (resp: HttpResponse<any>) => {
         this.jwtService.setToken(resp.headers.get('Authorization'));
-        console.log(resp.headers.get('Authorization'));
         this.userService.getCurrentUser().subscribe(response => {
           const user = response;
           user.token = resp.headers.get('Authorization');

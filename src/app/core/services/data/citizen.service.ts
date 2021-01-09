@@ -6,7 +6,9 @@ import {ApiService} from './api.service';
 import {shareReplay, switchMap, tap} from 'rxjs/operators';
 // tslint:disable-next-line:no-shadowed-variable
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CitizenService {
   private readonly PATH = '/citizens';
 

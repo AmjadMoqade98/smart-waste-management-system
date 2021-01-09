@@ -4,15 +4,18 @@ import {Observable, ReplaySubject, timer} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ApiService} from './api.service';
 import {shareReplay, switchMap, tap} from 'rxjs/operators';
+import {TruckLocationsService} from './truck-locations.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TruckService {
   private readonly PATH = '/vehicles';
 
   private truckData: Truck[] = [];
   private truckState: ReplaySubject<Truck[]> = new ReplaySubject<any>(1);
 
-  constructor(private http: HttpClient, private apiService: ApiService) {
+  constructor(private http: HttpClient, private apiService: ApiService, private truckLocationsService: TruckLocationsService) {
     this.LoadData();
   }
 
@@ -24,7 +27,8 @@ export class TruckService {
   }
 
   getTrucks(): Observable<Truck[]> {
-    return this.truckState.pipe(shareReplay({refCount: true, bufferSize: 1}));
+    return this.truckState.pipe(shareReplay({refCount: true, bufferSize: 1}), tap(x => {
+    }));
   }
 
   getTruck(id): Truck {
@@ -38,6 +42,7 @@ export class TruckService {
     return this.apiService.post(this.PATH, truck).pipe(tap(response => {
       this.truckData.push(response);
       this.truckState.next(this.truckData);
+      this.truckLocationsService.setTruckLocations({truckId: truck.id, location: {x: 31.901944822227613, y: 35.199795697527}});
     }));
   }
 
@@ -54,13 +59,26 @@ export class TruckService {
     return this.apiService.delete(this.PATH + '/' + id).pipe(tap(response => {
       this.truckData = this.truckData.filter(truck => truck.id !== id);
       this.truckState.next(this.truckData);
+      this.truckLocationsService.deleteTruckLocation(id);
     }));
   }
 
   assignEmployee(truckId, employeeId): Observable<any> {
-    return this.apiService.get(this.PATH + '/' + truckId + '/assignEmployee/' + employeeId).pipe(tap(response => {
-      this.truckData.find(truck => truck.id !== truckId).employees = [employeeId];
+    return this.apiService.get(this.PATH + '/' + truckId + '/assign-employee/' + employeeId).pipe(tap(response => {
+      const index = this.truckData.indexOf(this.truckData.find(truck => truck.id === truckId));
+      this.truckData[index].employees = [employeeId];
+      this.truckData = this.truckData.filter(value => true);
       this.truckState.next(this.truckData);
     }));
+  }
+
+  unassignEmployee(truckId, employeeId): Observable<any> {
+    return this.apiService.get(this.PATH + '/' + truckId + '/unassign-employee/' + employeeId).pipe(tap(response => {
+      const index = this.truckData.indexOf(this.truckData.find(truck => truck.id === truckId));
+      this.truckData[index].employees = [];
+      this.truckData = this.truckData.filter(value => true);
+      this.truckState.next(this.truckData);
+    }));
+
   }
 }
