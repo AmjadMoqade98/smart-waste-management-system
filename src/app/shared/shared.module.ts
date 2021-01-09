@@ -26,7 +26,8 @@ import {PasswordModule} from 'primeng/password';
 import {DropdownModule} from 'primeng/dropdown';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import {TabMenuModule} from 'primeng/tabmenu';
-
+import {RippleModule} from 'primeng/ripple';
+import {CrystalLightboxModule} from '@crystalui/angular-lightbox';
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SidebarComponent],
   imports: [
@@ -62,6 +63,8 @@ import {TabMenuModule} from 'primeng/tabmenu';
     DropdownModule,
     KeyFilterModule,
     TabMenuModule,
+    RippleModule,
+    CrystalLightboxModule,
   ],
 
   providers: [MessageService, ConfirmationService]

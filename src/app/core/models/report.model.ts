@@ -5,7 +5,7 @@ export interface Report {
   subject: string;
   userId:	number;
   imageUrl: string;
-  date: Date;
+  created: string;
   userRole?: UserRole;
 }
 

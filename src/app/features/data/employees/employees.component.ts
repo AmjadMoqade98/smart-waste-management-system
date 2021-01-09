@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {EmployeeService} from '../../../core/services/data/employee.service';
 import {Employee} from '../../../core/models/employee.model';
 import {EmployeeOptions} from './employee.options';
@@ -6,6 +6,8 @@ import {AreaService} from '../../../core/services/data/area.service';
 import {Area} from '../../../core/models/area.model';
 import Swal from 'sweetalert2';
 import {ConfirmationService} from 'primeng/api';
+import {forkJoin} from 'rxjs';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-employees',
@@ -18,11 +20,11 @@ export class EmployeesComponent implements OnInit {
   cols: any[];
   action: string;
 
+
   isEmployeeForm = false;
   newEmployee = {};
 
   rows = 5;
-
   msg;
 
   constructor(private employeeService: EmployeeService, private areaService: AreaService,
@@ -35,27 +37,37 @@ export class EmployeesComponent implements OnInit {
   }
 
   initData(): void {
-    this.areaService.getAreas().subscribe(areas => {
-      this.areas = areas;
-      this.employeeService.getEmployees().subscribe(employees => {
-        this.employees = employees;
-        for (const emp of this.employees) {
-          if (emp.areaIdsList && emp.areaIdsList.length > 0) {
-            // @ts-ignore
-            emp.area = this.areas.find(area => area.id === emp.areaIdsList[0]).name;
-          } else {
-            emp.area = 'No area';
-          }
-        }
-      });
+    forkJoin({
+      areas: this.areaService.getAreas().pipe(take(1)),
+      employees: this.employeeService.getEmployees().pipe(take(1)),
+    }).subscribe(value => {
+      this.areas = value.areas;
+      this.employees = value.employees;
+      this.initSubscribtions();
     });
   }
 
+  prepareEmployees(): void {
+    for (const emp of this.employees) {
+      if (emp.areaIdsList && emp.areaIdsList.length > 0) {
+        emp.area = this.areas.find(area => area.id === emp.areaIdsList[0]).name;
+      } else {
+        emp.area = 'No area';
+      }
+    }
+  }
+
+  initSubscribtions(): void {
+    this.employeeService.getEmployees().subscribe(value => {
+      this.employees = value;
+      this.prepareEmployees();
+    });
+  }
 
   addEmployeeForm(): void {
+    this.newEmployee = {};
     this.isEmployeeForm = true;
     this.action = 'add';
-    this.newEmployee = {};
   }
 
   updateEmployeeForm(employee): void {
@@ -87,19 +99,19 @@ export class EmployeesComponent implements OnInit {
   }
 
   deleteEmployee(employee): void {
-      this.confirmationService.confirm({
-        message: 'Are you sure that you want to delete this Employee?',
-        header: 'Confirmation',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.employeeService.deleteEmployee(employee.id).subscribe(value => {
-            this.msg = [{
-              severity: 'error', summary: 'Confirmed',
-              detail: employee.username + 'deleted successfully'
-            }];
-          });
-        },
-      });
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete this Employee?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.employeeService.deleteEmployee(employee.id).subscribe(value => {
+          this.msg = [{
+            severity: 'error', summary: 'Confirmed',
+            detail: employee.username + 'deleted successfully'
+          }];
+        });
+      },
+    });
   }
 
   clearMessages(): void {

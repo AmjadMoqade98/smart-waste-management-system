@@ -13,12 +13,18 @@
     width: 100%;
     min-width: 100%;
   }
+  .content {
+    max-height: 76vh;
+  }
 }
 
 @media only screen and (min-width: 600px) {
   .sidebar{
     width:150px;
     min-width: 150px;
+  }
+  .content {
+    max-height: 92vh;
   }
 }
 .sidebar{

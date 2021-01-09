@@ -8,6 +8,8 @@ import {AreaService} from '../../../core/services/data/area.service';
 import {ConfirmationService} from 'primeng/api';
 import {Router} from '@angular/router';
 import {EmployeeService} from '../../../core/services/data/employee.service';
+import {forkJoin} from 'rxjs';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-trucks',
@@ -40,42 +42,47 @@ export class TrucksComponent {
   }
 
   initializeData(): void {
-    this.areaService.getAreas().subscribe(value => {
-      this.flag++;
-      this.areas = value;
-      this.areasOptions = [];
-      this.areasOptions.push({label: 'All', value: null});
-      for (const area of this.areas) {
-        this.areasOptions.push({label: area.name, value: area.name});
-      }
-      if (this.flag === 2) {
-        this.truckService.getTrucks().subscribe(trucks => {
-          this.trucks = trucks;
-          this.prepareTableData(this.trucks);
-        });
-      }
-    });
-
-    this.employeeService.getEmployees().subscribe(employees => {
-      this.flag++;
-      this.employees = employees;
-      this.employeesOptions = [];
-      this.employeesOptions.push({label: 'All', value: null});
-      for (const employee of this.employees) {
-        this.employeesOptions.push({label: employee.username, value: employee.username});
-      }
-      if (this.flag === 2) {
-        this.truckService.getTrucks().subscribe(trucks => {
-          this.trucks = trucks;
-          this.prepareTableData(this.trucks);
-        });
-      }
+    forkJoin({
+      areas: this.areaService.getAreas().pipe(take(1)),
+      employees: this.employeeService.getEmployees().pipe(take(1)),
+      trucks: this.truckService.getTrucks().pipe(take(1)),
+    }).subscribe(value => {
+      this.areas = value.areas;
+      this.employees = value.employees;
+      this.trucks = value.trucks;
+      this.prepareAreas();
+      this.prepareEmployees();
+      this.prepareTableData();
+      this.initSubscribtions();
     });
   }
 
-  prepareTableData(trucks: Truck[]): void {
+  initSubscribtions(): void {
+    this.truckService.getTrucks().subscribe(value => {
+      this.trucks = value;
+      this.prepareTableData();
+    });
+  }
+
+  prepareAreas(): void {
+    this.areasOptions = [];
+    this.areasOptions.push({label: 'All', value: null});
+    for (const area of this.areas) {
+      this.areasOptions.push({label: area.name, value: area.name});
+    }
+  }
+
+  prepareEmployees(): void {
+    this.employeesOptions = [];
+    this.employeesOptions.push({label: 'All', value: null});
+    for (const employee of this.employees) {
+      this.employeesOptions.push({label: employee.username, value: employee.username});
+    }
+  }
+
+  prepareTableData(): void {
     this.trucksData = [];
-    for (const truck of trucks) {
+    for (const truck of this.trucks) {
       this.trucksData.push(this.prepareTruckData(truck));
     }
   }
@@ -122,9 +129,8 @@ export class TrucksComponent {
       this.msg = [{
         severity: 'success', summary: 'Confirmed', detail: 'truck added successfully'
       }];
-      this.trucks.push(value);
-      this.trucksData.push(this.prepareTruckData(value));
       this.isAddingTruck = false;
+      this.newTruck = {};
     });
   }
 
@@ -133,7 +139,6 @@ export class TrucksComponent {
     this.msg = [];
   }
 }
-
 
 export interface TruckData {
   id: number;

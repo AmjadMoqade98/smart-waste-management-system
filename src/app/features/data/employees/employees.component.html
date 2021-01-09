@@ -44,12 +44,12 @@
     </ng-template>
 
     <ng-template pTemplate="summary">
-      There are {{employees?.length}} emloyees
+      There are {{employees?.length}} employees
     </ng-template>
   </p-table>
 </div>
 
-<p-dialog header="Employee Form+-" [(visible)]="isEmployeeForm" [style]="{width:'450px'}" [baseZIndex]="10000">
+<p-dialog header="Employee Form" [(visible)]="isEmployeeForm" [style]="{width:'450px'}" [baseZIndex]="10000">
   <app-employee-form [employee]="newEmployee" [action]="action" (onEmployeeAdded)="afterEmployeeAction($event)"></app-employee-form>
 </p-dialog>
 

@@ -1,33 +1,12 @@
-<div class="w-100 pb-3" >
-
-  <div class="card-deck" style="margin-left: 3vw;max-width: 80vw">
-    <div class="custom-card">
-      <h3>Total Bins</h3>
-      <p class="card-number">{{bins.length}}</p>
-    </div>
-
-    <div class="custom-card">
-      <h3>Total Areas</h3>
-      <p class="card-number">{{areas.length}}</p>
-    </div>
-
-    <div class="custom-card">
-      <h3>Total Trucks</h3>
-      <p class="card-number">100</p>
-    </div>
-
-    <div class="custom-card">
-      <h3>Total Employees</h3>
-      <p class="card-number">{{employees.length}}</p>
-    </div>
-
-    <div class="custom-card">
-      <h3>Total Citizens</h3>
-      <p class="card-number">100</p>
-    </div>
+<div class="w-100 pb-3">
+    <div class="d-flex flex-wrap align-content-center justify-content-center  flex-sm-row flex-column">
+      <div *ngFor="let card of cardsInfo" class="custom-card m-2" style="max-width: 370px">
+        <h3>{{card.label}}</h3>
+        <p class="card-number">{{card.value}}</p>
+      </div>
   </div>
 
-  <div class="custom-card ml-auto mr-auto m-4" style="background-color: white; width: 70vw">
+  <div class="custom-card ml-auto mr-auto m-4" style="background-color: white; width: 70vw ;min-width: 345px">
     <div class="mr-auto ml-auto">
       <div style="text-align: center">
         <h1>Bins States</h1>

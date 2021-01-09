@@ -1,5 +1,6 @@
+<p-messages [value]="msg" [style]="{zoom:'0.9'}" (click)="clearMessages()"></p-messages>
 <div #map style="width: 100% ;" [ngStyle]="{'height' : msg.length > 0 ? '85%' : '100%'}"></div>
-<button pButton (click)="move()">Simulate Truck Route</button>
+<!--<button pButton (click)="move()">Simulate Truck Route</button>-->
 
 <p-dialog *ngIf="area" [(visible)]="areaDialog"
           [style]="{width:'40vw',maxHeight:'70vh' ,backgroundColor:'white',minWidth:'350px'}"
@@ -11,61 +12,21 @@
   </p-header>
 
   <div *ngIf="dialogMain">
-    <table>
-      <tr>
-        <td>total bins</td>
-        <td>{{currentBins}}</td>
-      </tr>
-      <hr/>
-      <tr>
-        <td>under threshold bins</td>
-        <td>{{currentUTBins}}</td>
-      </tr>
-      <hr/>
-      <tr>
-        <td>about threshold bins</td>
-        <td>{{currentATBins}}</td>
-      </tr>
-      <hr/>
-      <tr>
-        <td>over threshold bins</td>
-        <td>{{currentOTBins}}</td>
-      </tr>
-      <hr/>
-      <tr>
-        <td>Emergency bins</td>
-        <td>{{currentEBins}}</td>
-      </tr>
-    </table>
+    <div *ngFor="let info of areaInfo" >
+      <div class="p-inputgroup mb-2">
+        <span class="p-inputgroup-addon" style="min-width: 165px">{{info.label}}</span>
+        <input pInputText  disabled="true" value="{{info.value}}" style="font-weight: bold;color: black;text-align: center"/>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="dialogEmployee && currentEmployee">
-    <table>
-      <tr style="border-bottom: 1px solid black">
-        <td>username</td>
-        <td>{{currentEmployee.username}}</td>
-      </tr>
-      <hr/>
-      <tr>
-        <td>firstName</td>
-        <td>{{currentEmployee.firstName}}</td>
-      </tr>
-      <hr/>
-      <tr>
-        <td>lastName</td>
-        <td> {{currentEmployee.lastName}}</td>
-      </tr>
-      <hr/>
-      <tr>
-        <td>phone</td>
-        <td>{{currentEmployee.phone}}</td>
-      </tr>
-      <hr/>
-      <tr>
-        <td>address</td>
-        <td>{{currentEmployee.address}}</td>
-      </tr>
-    </table>
+    <div *ngFor="let info of employeeInfo" >
+      <div class="p-inputgroup mb-2">
+        <span class="p-inputgroup-addon" style="min-width: 165px">{{info.label}}</span>
+        <input pInputText  disabled="true" value="{{info.value}}" style="font-weight: bold;color: black;text-align: center"/>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="dialogEmployee && !currentEmployee">
@@ -85,7 +46,7 @@
         <tr>
           <td class="p-1 d-flex justify-content-between d-inline">
               <p style="display: inline"> {{employee.username}}</p>
-            <button style="display: inline;" appHoverColor [defaultBackgroundColor]="'green'"
+            <button style="display: inline;" appHoverColor [defaultBackgroundColor]="'#0f802d'"
                     [defaultColor]="'#ffffff'"
                     class="custom-button" (click)="assignEmployeeToArea(area , employee)">
               Assign <i class="fa fa-check"></i>
@@ -132,7 +93,7 @@
               class="custom-button mr-2 mt-3" (click)="showAreaDialog()">
         Back
       </button>
-      <button *ngIf="currentEmployee" appHoverColor style="width: 12em" [defaultBackgroundColor]="'red'" [defaultColor]="'white'"
+      <button *ngIf="currentEmployee" appHoverColor style="width: 12em" [defaultBackgroundColor]="'#ba091b'" [defaultColor]="'white'"
               class="custom-button " (click)="deleteAreaEmployee(area)">
         unassign Employee
       </button>
@@ -162,7 +123,6 @@
 </p-dialog>
 
 <p-confirmDialog [style]="{width: '20vw'}" [baseZIndex]="10000"></p-confirmDialog>
-<p-messages [value]="msg" [style]="{zoom:'0.9'}" (click)="clearMessages()"></p-messages>
 
 
 

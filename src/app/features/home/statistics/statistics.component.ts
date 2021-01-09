@@ -1,69 +1,63 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {BinService} from '../../../core/services/data/bin.service';
 import {Bin} from '../../../core/models/bin.model';
 import {Area} from '../../../core/models/area.model';
 import {Employee} from '../../../core/models/employee.model';
 import {AreaService} from '../../../core/services/data/area.service';
 import {EmployeeService} from '../../../core/services/data/employee.service';
+import {TruckService} from '../../../core/services/data/truck.service';
+import {Citizen} from '../../../core/models/citizen.model';
+import {CitizenService} from '../../../core/services/data/citizen.service';
+import {Truck} from '../../../core/models/truck.model';
+import {forkJoin} from 'rxjs';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.css']
 })
-export class StatisticsComponent implements OnInit, OnChanges {
+export class StatisticsComponent {
   bins: Bin[] = [];
   areas: Area[] = [];
   employees: Employee[] = [];
+  citizens: Citizen[] = [];
+  trucks: Truck[] = [];
 
   areasOptions = [];
-
-  selectedArea = null ;
-
   barData;
-  totalBins = 0;
-  ATBins = 0;
-  OTBins = 0;
-  UTBins = 0;
-  EBins = 0;
+  selectedArea = null;
+  cardsInfo;
 
-  constructor(private binService: BinService, private areaService: AreaService, private employeeService: EmployeeService) {
+  constructor(private binService: BinService, private areaService: AreaService, private employeeService: EmployeeService,
+              private trucksService: TruckService, private citizenService: CitizenService) {
     this.initializeData();
   }
 
-  ngOnInit(): void {
-  }
-
-  ngOnChanges(): void {
-  }
-
   initializeData(): void {
-    this.binService.getBins().subscribe(bins => {
-      this.bins = bins;
-      this.prepareBar();
-    });
-    this.areaService.getAreas().subscribe(areas => {
-      this.areas = areas;
-      this.prepareAreas(areas);
-    });
-    this.employeeService.getEmployees().subscribe(employees => {
-      this.employees = employees;
+    forkJoin({
+      bins: this.binService.getBins().pipe(take(1)),
+      areas: this.areaService.getAreas().pipe(take(1)),
+      employees: this.employeeService.getEmployees().pipe(take(1)),
+      citizens: this.citizenService.getCitizens().pipe(take(1)),
+      trucks: this.trucksService.getTrucks().pipe(take(1)),
+    }).subscribe(value => {
+      this.bins = value.bins;
+      this.areas = value.areas;
+      this.employees = value.employees;
+      this.citizens = value.citizens;
+      this.trucks = value.trucks;
+      this.cardsInfo = [
+        {label: 'total bins', value: this.bins.length},
+        {label: 'total areas', value: this.areas.length},
+        {label: 'total employees', value: this.employees.length},
+        {label: 'total registered citizens', value: this.citizens.length},
+        {label: 'total trucks', value: this.trucks.length},
+      ];
+      this.prepareBarData(null);
+      this.prepareAreas(this.areas);
     });
   }
-
-  prepareBar(): void {
-    this.totalBins = this.bins.length;
-    this.ATBins = 0;
-    this.OTBins = 0;
-    this.UTBins = 0;
-    this.EBins = 0;
-    for (const bin of this.bins) {
-      this.getBinState(bin);
-    }
-
-    this.setBarData();
-  }
-
 
   prepareAreas(areas: Area[]): void {
     this.areasOptions.push({label: 'All Areas', value: null});
@@ -74,48 +68,43 @@ export class StatisticsComponent implements OnInit, OnChanges {
   }
 
   changeBinsArea(area: Area): void {
-    this.totalBins = 0;
-    this.ATBins = 0;
-    this.UTBins = 0;
-    this.OTBins = 0;
-    this.EBins = 0;
+    this.prepareBarData(area);
+  }
+
+  prepareBarData(area): void {
+    let totalBins = 0;
+    let ATBins = 0;
+    let UTBins = 0;
+    let OTBins = 0;
+    let EBins = 0;
     for (const bin of this.bins) {
       if (area == null || bin.areaId === area.id) {
-        this.totalBins++;
-        this.getBinState(bin);
+        totalBins++;
+        switch (bin.status) {
+          case 'UNDER_THRESHOLD': {
+            UTBins++;
+            break;
+          }
+          case 'ABOUT_TO_THRESHOLD': {
+            ATBins++;
+            break;
+          }
+          case 'OVER_THRESHOLD': {
+            OTBins++;
+            break;
+          }
+          case 'EMERGENCY': {
+            EBins++;
+            break;
+          }
+        }
       }
     }
-    this.barData.datasets[0].data = [this.UTBins, this.ATBins, this.OTBins, this.EBins] ;
-    this.setBarData();
-  }
-
-  getBinState(bin: Bin): void {
-    switch (bin.status) {
-      case 'UNDER_THRESHOLD': {
-        this.UTBins++;
-        break;
-      }
-      case 'ABOUT_TO_THRESHOLD': {
-        this.ATBins++;
-        break;
-      }
-      case 'OVER_THRESHOLD': {
-        this.OTBins++;
-        break;
-      }
-      case 'EMERGENCY': {
-        this.EBins++;
-        break;
-      }
-    }
-  }
-
-  setBarData(): void {
     this.barData = {
       labels: ['UNDER_THRESHOLD', 'ABOUT_TO_THRESHOLD', 'OVER_THRESHOLD', 'EMERGENCY'],
       datasets: [
         {
-          data: [this.UTBins, this.ATBins, this.OTBins, this.EBins],
+          data: [UTBins, ATBins, OTBins, EBins],
           backgroundColor: [
             '#2aeb77',
             '#f5cf27',

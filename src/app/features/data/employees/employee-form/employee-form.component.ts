@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Employee} from '../../../../core/models/employee.model';
 import {EmployeeService} from '../../../../core/services/data/employee.service';
 import {NgForm} from '@angular/forms';
@@ -8,17 +8,23 @@ import {NgForm} from '@angular/forms';
   templateUrl: './employee-form.component.html',
   styleUrls: ['./employee-form.component.css']
 })
-export class EmployeeFormComponent {
+export class EmployeeFormComponent implements OnChanges{
 
   @Output() onEmployeeAdded: EventEmitter<any> = new EventEmitter<any>();
   @Input() employee: Employee;
   @Input() action: string ;
 
   spinner = false;
+  flag = false;
 
   constructor(private employeeService: EmployeeService) {
   }
+  ngOnChanges(): void {
+    this.flag = false;
+  }
+
   submitEmployee(f: NgForm): void{
+    this.flag = true;
     if (f.valid) {
       this.spinner = true;
       if (this.action === 'add') {

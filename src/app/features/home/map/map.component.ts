@@ -12,6 +12,8 @@ import {TruckService} from '../../../core/services/data/truck.service';
 import {BinService} from '../../../core/services/data/bin.service';
 import {EmployeeService} from '../../../core/services/data/employee.service';
 import {TruckLocation} from '../../../core/models/truck-location.model';
+import {forkJoin} from 'rxjs';
+import {take} from 'rxjs/operators';
 
 
 @Component({
@@ -29,20 +31,19 @@ export class MapComponent implements OnInit {
   truckLocations: TruckLocation[];
   trucks: Truck[];
 
+  freeTrucks: number;
   isMapInit = false;
   bin: Bin;
 
   area: Area;
   currentBins: number;
-  currentUTBins: number;
-  currentATBins: number;
-  currentOTBins: number;
-  currentEBins: number;
 
   areaDialog = false;
   dialogMain = true;
   dialogEmployees = false;
   dialogEmployee = false;
+  areaInfo = [];
+  employeeInfo = [];
 
   currentEmployee: Employee;
 
@@ -70,7 +71,7 @@ export class MapComponent implements OnInit {
 
   constructor(private areaService: AreaService, private confirmationService: ConfirmationService,
               private truckLocationsService: TruckLocationsService, private truckService: TruckService,
-              private binService: BinService, private employeeService: EmployeeService,) {
+              private binService: BinService, private employeeService: EmployeeService) {
   }
 
   ngOnInit(): void {
@@ -87,125 +88,126 @@ export class MapComponent implements OnInit {
         this.renderBin(bin);
       }
     });
-    this.areaService.getAreas().subscribe(areas => {
-      this.areas = areas;
-      for (const area of this.areas) {
-        this.renderArea(area);
-      }
-    });
+
     this.employeeService.getEmployees().subscribe(employees => {
       this.employees = employees;
-      this.freeEmployees = this.employees.filter(value => value.areaIdsList.length === 0);
-    });
-    this.truckService.getTrucks().subscribe(trucks => {
-      this.trucks = trucks;
-    });
+      this.freeEmployees = this.employees.filter(employee => employee.areaIdsList.length === 0);
 
-    this.renderTrucks();
+      this.areaService.getAreas().subscribe(areas => {
+        this.areas = areas;
+        for (const area of this.areas) {
+          this.renderArea(area);
+        }
+      });
+      this.truckService.getTrucks().subscribe(trucks => {
+        this.trucks = trucks;
+        this.renderTrucks();
+      });
+    });
   }
 
-  move(): void {
-    const coor = [
-      {x: 35.2013423, y: 31.887267,},
-      {x: 35.2013262, y: 31.8873991,},
-      {x: 35.2013181, y: 31.8874651,},
-      {x: 35.2012993, y: 31.8875767,},
-      {x: 35.2012832, y: 31.8876541,},
-      {x: 35.2012752, y: 31.8877156,},
-      {x: 35.2012497, y: 31.8877646,},
-      {x: 35.2012189, y: 31.8879047,},
-      {x: 35.2012055, y: 31.8879639,},
-      {x: 35.2011853, y: 31.8880231,},
-      {x: 35.2011592, y: 31.8880846,},
-      {x: 35.2011116, y: 31.8881734,},
-      {x: 35.2010982, y: 31.8882486,},
-      {x: 35.2010754, y: 31.8883135,},
-      {x: 35.2010425, y: 31.8883732,},
-      {x: 35.2010154, y: 31.888435,},
-      {x: 35.2009775, y: 31.8885241,},
-      {x: 35.200956, y: 31.8886198,},
-      {x: 35.2009238, y: 31.888704,},
-      {x: 35.2008916, y: 31.8888156,},
-      {x: 35.2008595, y: 31.8888976,},
-      {x: 35.2008326, y: 31.88895,},
-      {x: 35.2007629, y: 31.8890753,},
-      {x: 35.2007414, y: 31.8891367,},
-      {x: 35.2007254, y: 31.8891994,},
-      {x: 35.2007066, y: 31.8892535,},
-      {x: 35.2006556, y: 31.8893986,},
-      {x: 35.2007361, y: 31.8894442,},
-      {x: 35.2008246, y: 31.8894624,},
-      {x: 35.2009989, y: 31.8894897,},
-      {x: 35.2010794, y: 31.8894579,},
-      {x: 35.2011465, y: 31.8894601,},
-      {x: 35.2012417, y: 31.8894658,},
-      {x: 35.2014335, y: 31.8894487,},
-      {x: 35.2014147, y: 31.8895512,},
-      {x: 35.2013785, y: 31.8896708,},
-      {x: 35.2013604, y: 31.8897898,},
-      {x: 35.201362, y: 31.8898356,},
-      {x: 35.2013629, y: 31.8898767,},
-      {x: 35.2013637, y: 31.8899361,},
-      {x: 35.2013664, y: 31.8899839,},
-      {x: 35.2013731, y: 31.8900283,},
-      {x: 35.2013765, y: 31.8900961,},
-      {x: 35.2013902, y: 31.8901425,},
-      {x: 35.2013852, y: 31.8902003,},
-      {x: 35.2014039, y: 31.8902936,},
-      {x: 35.2014214, y: 31.8903813,},
-      {x: 35.2014328, y: 31.8904411,},
-      {x: 35.2014412, y: 31.89048469999999,},
-      {x: 35.2014454, y: 31.8905508,},
-      {x: 35.2014495, y: 31.8906125,},
-      {x: 35.2014495, y: 31.8907138,},
-      {x: 35.2014415, y: 31.8907622,},
-      {x: 35.2014335, y: 31.8908584,},
-      {x: 35.2014308, y: 31.8909119,},
-      {x: 35.2014294, y: 31.890982,},
-      {x: 35.2014207, y: 31.8910466,},
-      {x: 35.2014164, y: 31.8910812,},
-      {x: 35.2014142, y: 31.8911531,},
-      {x: 35.2014117, y: 31.89119820000001,},
-      {x: 35.2014093, y: 31.8912661,},
-      {x: 35.201418, y: 31.8913059,},
-      {x: 35.2014267, y: 31.8913594,},
-      {x: 35.2014355, y: 31.8913879,},
-      {x: 35.2014442, y: 31.8914619,},
-      {x: 35.2014428, y: 31.8914972,},
-      {x: 35.2014415, y: 31.8915371,},
-      {x: 35.2014536, y: 31.8915929,},
-      {x: 35.201465, y: 31.8916891,},
-      {x: 35.2014573, y: 31.8918351,},
-      {x: 35.2014641, y: 31.8919002,},
-      {x: 35.2014656, y: 31.8920062,},
-      {x: 35.201471, y: 31.8920666,},
-      {x: 35.2014817, y: 31.8921582,},
-      {x: 35.2014898, y: 31.8922132,},
-      {x: 35.2015099, y: 31.8922816,},
-      {x: 35.20152, y: 31.8923864,},
-      {x: 35.2015277, y: 31.8924616,},
-      {x: 35.2015369, y: 31.8925425,},
-      {x: 35.2015402, y: 31.8925829,},
-      {x: 35.2015498, y: 31.89268059999999,},
-      {x: 35.20156, y: 31.8927453,},
-      {x: 35.2015705, y: 31.8928415,},
-      {x: 35.2015194, y: 31.8928611,},
-      {x: 35.2014563, y: 31.89288,},
-      {x: 35.2013792, y: 31.8928895,},
-      {x: 35.2013218, y: 31.8929033,},
-      {x: 35.201269, y: 31.8929148,},
-      {x: 35.2012158, y: 31.8929319,},
-      {x: 35.2011411, y: 31.892949,},
-    ];
-
-    let i = 0;
-    setInterval(() => {
-      console.log(coor[i].x + ',' + coor[i].y);
-
-      this.truckLocationsService.setTruckLocations({truckId: 4, location: {x: coor[i].y, y: coor[i].x}});
-      i++;
-    }, 300);
-  }
+  // move(): void {
+  //   const coor = [
+  //     {x: 35.2013423, y: 31.887267,},
+  //     {x: 35.2013262, y: 31.8873991,},
+  //     {x: 35.2013181, y: 31.8874651,},
+  //     {x: 35.2012993, y: 31.8875767,},
+  //     {x: 35.2012832, y: 31.8876541,},
+  //     {x: 35.2012752, y: 31.8877156,},
+  //     {x: 35.2012497, y: 31.8877646,},
+  //     {x: 35.2012189, y: 31.8879047,},
+  //     {x: 35.2012055, y: 31.8879639,},
+  //     {x: 35.2011853, y: 31.8880231,},
+  //     {x: 35.2011592, y: 31.8880846,},
+  //     {x: 35.2011116, y: 31.8881734,},
+  //     {x: 35.2010982, y: 31.8882486,},
+  //     {x: 35.2010754, y: 31.8883135,},
+  //     {x: 35.2010425, y: 31.8883732,},
+  //     {x: 35.2010154, y: 31.888435,},
+  //     {x: 35.2009775, y: 31.8885241,},
+  //     {x: 35.200956, y: 31.8886198,},
+  //     {x: 35.2009238, y: 31.888704,},
+  //     {x: 35.2008916, y: 31.8888156,},
+  //     {x: 35.2008595, y: 31.8888976,},
+  //     {x: 35.2008326, y: 31.88895,},
+  //     {x: 35.2007629, y: 31.8890753,},
+  //     {x: 35.2007414, y: 31.8891367,},
+  //     {x: 35.2007254, y: 31.8891994,},
+  //     {x: 35.2007066, y: 31.8892535,},
+  //     {x: 35.2006556, y: 31.8893986,},
+  //     {x: 35.2007361, y: 31.8894442,},
+  //     {x: 35.2008246, y: 31.8894624,},
+  //     {x: 35.2009989, y: 31.8894897,},
+  //     {x: 35.2010794, y: 31.8894579,},
+  //     {x: 35.2011465, y: 31.8894601,},
+  //     {x: 35.2012417, y: 31.8894658,},
+  //     {x: 35.2014335, y: 31.8894487,},
+  //     {x: 35.2014147, y: 31.8895512,},
+  //     {x: 35.2013785, y: 31.8896708,},
+  //     {x: 35.2013604, y: 31.8897898,},
+  //     {x: 35.201362, y: 31.8898356,},
+  //     {x: 35.2013629, y: 31.8898767,},
+  //     {x: 35.2013637, y: 31.8899361,},
+  //     {x: 35.2013664, y: 31.8899839,},
+  //     {x: 35.2013731, y: 31.8900283,},
+  //     {x: 35.2013765, y: 31.8900961,},
+  //     {x: 35.2013902, y: 31.8901425,},
+  //     {x: 35.2013852, y: 31.8902003,},
+  //     {x: 35.2014039, y: 31.8902936,},
+  //     {x: 35.2014214, y: 31.8903813,},
+  //     {x: 35.2014328, y: 31.8904411,},
+  //     {x: 35.2014412, y: 31.89048469999999,},
+  //     {x: 35.2014454, y: 31.8905508,},
+  //     {x: 35.2014495, y: 31.8906125,},
+  //     {x: 35.2014495, y: 31.8907138,},
+  //     {x: 35.2014415, y: 31.8907622,},
+  //     {x: 35.2014335, y: 31.8908584,},
+  //     {x: 35.2014308, y: 31.8909119,},
+  //     {x: 35.2014294, y: 31.890982,},
+  //     {x: 35.2014207, y: 31.8910466,},
+  //     {x: 35.2014164, y: 31.8910812,},
+  //     {x: 35.2014142, y: 31.8911531,},
+  //     {x: 35.2014117, y: 31.89119820000001,},
+  //     {x: 35.2014093, y: 31.8912661,},
+  //     {x: 35.201418, y: 31.8913059,},
+  //     {x: 35.2014267, y: 31.8913594,},
+  //     {x: 35.2014355, y: 31.8913879,},
+  //     {x: 35.2014442, y: 31.8914619,},
+  //     {x: 35.2014428, y: 31.8914972,},
+  //     {x: 35.2014415, y: 31.8915371,},
+  //     {x: 35.2014536, y: 31.8915929,},
+  //     {x: 35.201465, y: 31.8916891,},
+  //     {x: 35.2014573, y: 31.8918351,},
+  //     {x: 35.2014641, y: 31.8919002,},
+  //     {x: 35.2014656, y: 31.8920062,},
+  //     {x: 35.201471, y: 31.8920666,},
+  //     {x: 35.2014817, y: 31.8921582,},
+  //     {x: 35.2014898, y: 31.8922132,},
+  //     {x: 35.2015099, y: 31.8922816,},
+  //     {x: 35.20152, y: 31.8923864,},
+  //     {x: 35.2015277, y: 31.8924616,},
+  //     {x: 35.2015369, y: 31.8925425,},
+  //     {x: 35.2015402, y: 31.8925829,},
+  //     {x: 35.2015498, y: 31.89268059999999,},
+  //     {x: 35.20156, y: 31.8927453,},
+  //     {x: 35.2015705, y: 31.8928415,},
+  //     {x: 35.2015194, y: 31.8928611,},
+  //     {x: 35.2014563, y: 31.89288,},
+  //     {x: 35.2013792, y: 31.8928895,},
+  //     {x: 35.2013218, y: 31.8929033,},
+  //     {x: 35.201269, y: 31.8929148,},
+  //     {x: 35.2012158, y: 31.8929319,},
+  //     {x: 35.2011411, y: 31.892949,},
+  //   ];
+  //
+  //   let i = 0;
+  //   setInterval(() => {
+  //     console.log(coor[i].x + ',' + coor[i].y);
+  //
+  //     this.truckLocationsService.setTruckLocations({truckId: 4, location: {x: coor[i].y, y: coor[i].x}});
+  //     i++;
+  //   }, 300);
+  // }
 
 
   handleRouteParameters(): void {
@@ -328,8 +330,10 @@ export class MapComponent implements OnInit {
     return bounds;
   };
 
-
   renderArea(area: Area): void {
+    if (area.polygon) {
+      area.polygon.setMap(null);
+    }
     area.polygon = new google.maps.Polygon({
       paths: this.polygonToPath(area.polygonDto),
       strokeColor: '#0c0d0c',
@@ -359,23 +363,33 @@ export class MapComponent implements OnInit {
   }
 
   renderTrucks(): void {
+    this.freeTrucks = 0;
     this.truckLocationsService.getTruckLocations().subscribe(trucks => {
       this.clearTrucks();
       Object.keys(trucks).map((key) => {
         this.truckLocations.push(trucks[key]);
       });
       for (const truck of this.truckLocations) {
-        truck.marker = new google.maps.Marker({
-          position: new google.maps.LatLng(truck.location.x, truck.location.y),
-          icon: {url: this.icons.TRUCK, scaledSize: new google.maps.Size(40, 40)},
-          map: this.map,
-        });
-        truck.marker.addListener('click', () => {
-          this.infowindow.open(this.map, truck.marker);
-          const truckModel = this.trucks.find(value => value.id === truck.truckId);
-          const truckEmp = this.employees.find(value => value.id === truckModel.employees[0]);
-          this.infowindow.setContent('Employee : ' + truckEmp.username);
-        });
+        const truckModel = this.trucks.find(value => value.id === truck.truckId);
+        if (truckModel) {
+          truck.marker = new google.maps.Marker({
+            position: new google.maps.LatLng(truck.location.x, truck.location.y),
+            icon: {url: this.icons.TRUCK, scaledSize: new google.maps.Size(40, 40)},
+            map: this.map,
+          });
+          let markerContent = '';
+          if (truckModel.employees && truckModel.employees.length > 0) {
+            const truckEmp = this.employees.find(value => value.id === truckModel.employees[0]);
+            markerContent = 'Employee : ' + truckEmp.username;
+          } else {
+            this.freeTrucks++;
+            markerContent = this.freeTrucks + '  free trucks';
+          }
+          truck.marker.addListener('click', () => {
+            this.infowindow.open(this.map, truck.marker);
+            this.infowindow.setContent(markerContent);
+          });
+        }
       }
     });
   }
@@ -383,7 +397,9 @@ export class MapComponent implements OnInit {
   clearTrucks(): void {
     if (this.truckLocations && this.truckLocations.length > 0) {
       for (const truck of this.truckLocations) {
-        truck.marker.setMap(null);
+        if (truck.marker) {
+          truck.marker.setMap(null);
+        }
       }
     }
     this.truckLocations = [];
@@ -403,7 +419,6 @@ export class MapComponent implements OnInit {
     return path;
   }
 
-  // @ts-ignore
   calculateArea(areaId: number): void {
     const lbins: Bin[] = [];
     for (const bin of this.bins) {
@@ -412,33 +427,51 @@ export class MapComponent implements OnInit {
       }
     }
     this.currentBins = lbins.length;
-    this.currentATBins = 0;
-    this.currentOTBins = 0;
-    this.currentUTBins = 0;
-    this.currentEBins = 0;
+    let currentATBins = 0;
+    let currentOTBins = 0;
+    let currentUTBins = 0;
+    let currentEBins = 0;
     for (const bin of lbins) {
       switch (bin.status) {
         case 'UNDER_THRESHOLD': {
-          this.currentUTBins++;
+          currentUTBins++;
           break;
         }
         case 'ABOUT_TO_THRESHOLD': {
-          this.currentATBins++;
+          currentATBins++;
           break;
         }
         case 'OVER_THRESHOLD': {
-          this.currentOTBins++;
+          currentOTBins++;
           break;
         }
         case 'EMERGENCY': {
-          this.currentEBins++;
+          currentEBins++;
           break;
         }
       }
+      this.areaInfo = [
+        {label: 'total bins', value: lbins.length},
+        {label: 'under threshold bins', value: currentUTBins},
+        {label: 'about threshold bins', value: currentATBins},
+        {label: 'over threshold bins', value: currentOTBins},
+        {label: 'Emergency bins', value: currentEBins},
+      ];
     }
 
     this.areaService.getEmployee(areaId).subscribe(employee => {
       this.currentEmployee = employee[0];
+      console.log(this.currentEmployee);
+      if (this.currentEmployee) {
+        this.employeeInfo = [
+          {label: 'username', value: this.currentEmployee.username},
+          {label: 'first name', value: this.currentEmployee.firstName},
+          {label: 'last name', value: this.currentEmployee.lastName},
+          {label: 'phone', value: this.currentEmployee.phone},
+          {label: 'address', value: this.currentEmployee.address},
+        ];
+      }
+
     });
   }
 
@@ -451,15 +484,17 @@ export class MapComponent implements OnInit {
           severity: 'success', summary: 'Confirmed',
           detail: this.currentEmployee.username + ' successfully assigned to ' + this.area.name
         }];
+        this.employeeService.refreshEmployees();
       });
-      this.truckService.unassignEmployee(this.currentEmployee.vehicleId, this.currentEmployee.id).subscribe(value => {
-        this.truckService.assignEmployee(this.currentEmployee.vehicleId, employee.id).subscribe();
+      const vehicleId = this.currentEmployee.vehicleId;
+      this.truckService.unassignEmployee(vehicleId, this.currentEmployee.id).subscribe(value => {
+        this.truckService.assignEmployee(vehicleId, employee.id).subscribe();
       });
 
     } else {
       let freeTruck;
       for (const truck of this.trucks) {
-        if (truck.employees.length === 0) {
+        if (!truck.employees || truck.employees.length === 0) {
           freeTruck = truck;
         }
       }
@@ -520,7 +555,6 @@ export class MapComponent implements OnInit {
   addArea(area): void {
     const area1 = {id: area.id, polygonDto: area.polygonDto, name: area.name, polygon: null};
     this.areaService.addArea(area1).subscribe(response => {
-      this.areas.push(response);
       this.renderArea(response);
       this.msg = [{severity: 'success', summary: 'Confirmed', detail: 'area added'}];
       this.isAreaForm = false;
@@ -528,10 +562,12 @@ export class MapComponent implements OnInit {
   }
 
   deleteArea(area: Area): void {
-    this.areaService.deleteArea(this.area.id).subscribe(value => {
+    this.area.polygon.setMap(null);
+    area.polygon.setMap(null);
+    this.areaService.deleteArea(area.id).subscribe(value => {
       this.msg = [{severity: 'error', summary: 'Confirmed', detail: 'area deleted'}];
       this.areas = this.areas.filter(area1 => area1.id !== area.id);
-      this.area.polygon.setMap(null);
+    }, error => {
     });
     this.areaDialog = false;
     this.dialogMain = false;
@@ -554,7 +590,7 @@ export class MapComponent implements OnInit {
   }
 
   deleteAreaEmployee(area: Area): void {
-      this.areaService.unassignEmployee(area.id, this.currentEmployee.id).subscribe(value => {
+    this.areaService.unassignEmployee(area.id, this.currentEmployee.id).subscribe(value => {
       this.currentEmployee = null;
       this.msg = [{severity: 'success', summary: 'Confirmed', detail: 'employee unassigned'}];
     });

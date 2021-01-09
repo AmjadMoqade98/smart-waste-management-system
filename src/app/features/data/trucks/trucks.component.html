@@ -14,7 +14,7 @@
                    placeholder="Truck Number"/>
 
             <span class="p-inputgroup-addon">
-              <i *ngIf="newTruck.number.length>0" class="fa fa-check-circle fa-lg m-2" style="color: green;" (click)="addTruck()" title="save"></i>
+              <i *ngIf="newTruck.number" class="fa fa-check-circle fa-lg m-2" style="color: green;" (click)="addTruck()" title="save"></i>
               <i  class="fa fa-times-circle fa-lg m-2" style="color: red;" (click)="isAddingTruck = false"
                  title="cancel"></i>
             </span>
@@ -72,8 +72,10 @@
 
         </td>
         <td style="text-align: center">
-          <i (click)="confirmDelete(truck)" class="fa fa-trash fa-lg ml-3" style="color: red" aria-hidden="true"
+          <i *ngIf="truck.status === 'FREE' " (click)="confirmDelete(truck)" class="fa fa-trash fa-lg ml-3" style="color: red" aria-hidden="true"
              title="delete"></i>
+          <i *ngIf="truck.status === 'USED'" class="fa fa-trash fa-lg ml-3" style="color: white"></i>
+
           <a [routerLink]="['']" [queryParams]="{truckId: truck.id}" fragment="map">
             <i class="fa fa-map-marker fa-lg ml-3" style="color: green" aria-hidden="true" title="show in map"></i>
           </a>

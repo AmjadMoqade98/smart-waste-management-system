@@ -8,6 +8,9 @@ import {ConfirmationService} from 'primeng/api';
 import {Router} from '@angular/router';
 import {EmployeeService} from '../../../core/services/data/employee.service';
 import {Employee} from '../../../core/models/employee.model';
+import {forkJoin} from 'rxjs';
+import {take} from 'rxjs/operators';
+import {log} from 'util';
 
 
 @Component({
@@ -30,8 +33,6 @@ export class BinsComponent implements OnInit {
   msg;
   rows = 5;
 
-  flag = 0;
-
   constructor(private binService: BinService, private areaService: AreaService, private confirmationService: ConfirmationService,
               private router: Router, private employeeService: EmployeeService) {
     this.initializeData();
@@ -41,32 +42,41 @@ export class BinsComponent implements OnInit {
   }
 
   initializeData(): void {
-    this.areaService.getAreas().subscribe(value => {
-      this.flag++;
-      this.areas = value;
-      this.areasOptions = [];
-      this.areasOptions.push({label: 'All', value: null});
-      for (const area of this.areas) {
-        this.areasOptions.push({label: area.name, value: area.name});
-      }
-
+    forkJoin({
+      bins: this.binService.getBins().pipe(take(1)),
+      areas: this.areaService.getAreas().pipe(take(1)),
+      employees: this.employeeService.getEmployees().pipe(take(1)),
+    }).subscribe(value => {
+      this.areas = value.areas;
+      this.employees = value.employees;
+      this.bins = value.bins;
+      this.prepareAreas();
+      this.prepareEmployees();
+      this.initSubscribtions();
     });
+  }
 
-    this.employeeService.getEmployees().subscribe(employees => {
-      this.flag++;
-      this.employees = employees;
-      this.employeesOptions = [];
-      this.employeesOptions.push({label: 'All', value: null});
-      for (const employee of this.employees) {
-        this.employeesOptions.push({label: employee.username, value: employee.username});
-      }
-      if (this.flag === 2) {
-        this.binService.getBins().subscribe(bins => {
-          this.bins = bins;
-          this.prepareTableData(this.bins);
-        });
-      }
+  initSubscribtions(): void {
+    this.binService.getBins().subscribe(value => {
+      this.bins = value;
+      this.prepareTableData(this.bins);
     });
+  }
+
+  prepareAreas(): void {
+    this.areasOptions = [];
+    this.areasOptions.push({label: 'All', value: null});
+    for (const area of this.areas) {
+      this.areasOptions.push({label: area.name, value: area.name});
+    }
+  }
+
+  prepareEmployees(): void {
+    this.employeesOptions = [];
+    this.employeesOptions.push({label: 'All', value: null});
+    for (const employee of this.employees) {
+      this.employeesOptions.push({label: employee.username, value: employee.username});
+    }
   }
 
   prepareTableData(bins: Bin[]): void {

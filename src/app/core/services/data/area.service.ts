@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Observable, ReplaySubject, timer} from 'rxjs';
+import {Observable, ReplaySubject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ApiService} from './api.service';
-import {shareReplay, switchMap, tap} from 'rxjs/operators';
+import {shareReplay, tap} from 'rxjs/operators';
 import {Area} from '../../models/area.model';
+import {EmployeeService} from './employee.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class AreaService {
   private areaData: Area[] = [];
   private areaState: ReplaySubject<Area[]> = new ReplaySubject<any>(1);
 
-  constructor(private http: HttpClient, private apiService: ApiService) {
+  constructor(private http: HttpClient, private apiService: ApiService, private employeeService: EmployeeService) {
     this.LoadData();
   }
 
@@ -37,8 +38,12 @@ export class AreaService {
   }
 
   addArea(area: Area): Observable<Area> {
+    console.log(this.areaData);
     return this.apiService.post(this.PATH, area).pipe(tap(response => {
+      console.log(response);
+      console.log(this.areaData);
       this.areaData.push(response);
+      console.log(this.areaData);
       this.areaState.next(this.areaData);
     }));
   }
@@ -64,10 +69,16 @@ export class AreaService {
   }
 
   assignEmployee(areaId: number , employeeId: number): Observable<any> {
-    return this.apiService.get(this.PATH + '/' + areaId + '/assign-employee/' + employeeId);
+    return this.apiService.get(this.PATH + '/' + areaId + '/assign-employee/' + employeeId).pipe(tap(x => {
+      // this is a bad practice i had to to because the api is fucked up
+      this.employeeService.refreshEmployees();
+    }));
   }
 
   unassignEmployee(areaId: number , employeeId: number ): Observable<any> {
-    return this.apiService.get(this.PATH + '/' + areaId + '/unassign-employee/' + employeeId);
+    return this.apiService.get(this.PATH + '/' + areaId + '/unassign-employee/' + employeeId).pipe(tap(x => {
+      // this is a bad practice i had to to because the api is fucked up
+      this.employeeService.refreshEmployees();
+    }));
   }
 }

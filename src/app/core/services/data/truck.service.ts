@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {ApiService} from './api.service';
 import {shareReplay, switchMap, tap} from 'rxjs/operators';
 import {TruckLocationsService} from './truck-locations.service';
+import {EmployeeService} from './employee.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,8 @@ export class TruckService {
   private truckData: Truck[] = [];
   private truckState: ReplaySubject<Truck[]> = new ReplaySubject<any>(1);
 
-  constructor(private http: HttpClient, private apiService: ApiService, private truckLocationsService: TruckLocationsService) {
+  constructor(private http: HttpClient, private apiService: ApiService, private truckLocationsService: TruckLocationsService,
+              private employeeService: EmployeeService) {
     this.LoadData();
   }
 
@@ -42,7 +44,7 @@ export class TruckService {
     return this.apiService.post(this.PATH, truck).pipe(tap(response => {
       this.truckData.push(response);
       this.truckState.next(this.truckData);
-      this.truckLocationsService.setTruckLocations({truckId: truck.id, location: {x: 31.901944822227613, y: 35.199795697527}});
+      this.truckLocationsService.setTruckLocations({truckId: response.id, location: {x: 31.901944822227613, y: 35.199795697527}});
     }));
   }
 
@@ -64,11 +66,15 @@ export class TruckService {
   }
 
   assignEmployee(truckId, employeeId): Observable<any> {
+    console.log('assign');
+    console.log(truckId);
     return this.apiService.get(this.PATH + '/' + truckId + '/assign-employee/' + employeeId).pipe(tap(response => {
       const index = this.truckData.indexOf(this.truckData.find(truck => truck.id === truckId));
       this.truckData[index].employees = [employeeId];
       this.truckData = this.truckData.filter(value => true);
       this.truckState.next(this.truckData);
+      // this is a bad practice i had to to because the api is fucked up
+      this.employeeService.refreshEmployees();
     }));
   }
 
@@ -78,6 +84,8 @@ export class TruckService {
       this.truckData[index].employees = [];
       this.truckData = this.truckData.filter(value => true);
       this.truckState.next(this.truckData);
+      // this is a bad practice i had to to because the api is fucked up
+      this.employeeService.refreshEmployees();
     }));
   }
 }

@@ -7,6 +7,17 @@
   border-radius: 0.3em;
   padding: .5em 1em;
 }
+
+::ng-deep .p-highlight{
+  border: none;
+  outline: none;
+}
+
+::ng-deep .p-selectable-row{
+  border: none;
+  outline: none;
+}
+
 :host ::ng-deep .p-datatable
 {
 
@@ -65,6 +76,9 @@
       display: none !important;
     }
 
+    .p-datatable-tbody > tr {
+      border-bottom: 1px solid #1a252b;
+    };
     .p-datatable-tbody > tr > td {
       text-align: left;
       display: block;
@@ -80,12 +94,37 @@
         font-weight: bold;
       }
     }
+
+    // custom for the report page since i needed div for tricky toggle
+    .p-datatable-tbody > tr > div > td {
+      text-align: left;
+      display: block;
+      width: 100% !important;
+      float: left;
+      clear: left;
+      position: relative;
+
+      .p-column-title {
+        padding: .4em;
+        min-width: 30%;
+        display: inline-block;
+        margin: -.4em 1em -.4em -.4em;
+        font-weight: bold;
+      }
+    }
   }
 }
 
 :host ::ng-deep .p-dialog.p-confirm-dialog .p-confirm-dialog-icon {
   font-size: 2rem;
   color: red;
+}
+
+
+::ng-deep .p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link:not(.p-disabled):focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: none;
 }
 
 

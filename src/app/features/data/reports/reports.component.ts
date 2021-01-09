@@ -1,23 +1,34 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Report, UserRole} from '../../../core/models/report.model';
 import {ReportService} from '../../../core/services/data/report.service';
 import {EmployeeService} from '../../../core/services/data/employee.service';
 import {CitizenService} from '../../../core/services/data/citizen.service';
 import {Employee} from '../../../core/models/employee.model';
 import {Citizen} from '../../../core/models/citizen.model';
+import {forkJoin} from 'rxjs';
+import {take} from 'rxjs/operators';
+import {isDate} from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.scss']
+  styleUrls: ['./reports.component.scss', '../../../../assets/styles/primeNG.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
-export class ReportsComponent implements OnInit {
-  reports: Report[] = [];
-  currentReports: ReportData[] = [];
-  citizenReports: ReportData[] = [];
-  employeeReports: ReportData[] = [];
+export class ReportsComponent {
+  reports: Report[];
+  currentReports: ReportData[];
+  citizenReports: ReportData[];
+  employeeReports: ReportData[];
   employees: Employee[];
   citizens: Citizen[];
+
+  selectedReport;
+  numberOfRows = 5;
+
+  showEmployeeReports = true;
+  showCitizenReports = false;
 
   items = [
     {
@@ -46,79 +57,32 @@ export class ReportsComponent implements OnInit {
     },
   ];
 
-  showEmployeeReports = true;
-  showCitizenReports = false;
-
-  numberOfRows = 5;
-  flag = 0;
-
-  constructor(private reportService: ReportService, private employeeService: EmployeeService, private citizenService: CitizenService) {
+  constructor(private reportService: ReportService, private employeeService: EmployeeService,
+              private citizenService: CitizenService) {
     this.initializeData();
   }
 
-  ngOnInit(): void {
-  }
-
   initializeData(): void {
-    this.employeeService.getEmployees().subscribe(value => {
-      this.flag++;
-      this.employees = value;
-      if (this.flag === 2) {
-        this.reportService.getReports().subscribe(reports => {
-          this.reports = reports;
-          this.currentReports = [];
-          this.employeeReports = [];
-          this.citizenReports = [];
-          for (const report of this.reports) {
-            this.prepareReportData(report);
-          }
-          for (let i = 0; i < this.numberOfRows; i++) {
-            if (this.employeeReports[i]) {
-              this.currentReports.push(this.employeeReports[i]);
-            }
-          }
-        });
+    forkJoin({
+      employees: this.employeeService.getEmployees().pipe(take(1)),
+      citizens: this.citizenService.getCitizens().pipe(take(1)),
+      reports: this.reportService.getReports().pipe(take(1)),
+    }).subscribe(value => {
+      this.employees = value.employees;
+      this.citizens = value.citizens;
+      this.reports = value.reports;
+      this.currentReports = [];
+      this.employeeReports = [];
+      this.citizenReports = [];
+      for (const report of this.reports) {
+        this.prepareReportData(report);
       }
-    });
-    this.citizenService.getCitizens().subscribe(value => {
-      this.flag++;
-      this.citizens = value;
-
-      if (this.flag === 2) {
-        this.reportService.getReports().subscribe(reports => {
-          this.reports = reports;
-          this.currentReports = [];
-          this.employeeReports = [];
-          this.citizenReports = [];
-          for (const report of this.reports) {
-            this.prepareReportData(report);
-          }
-          for (let i = 0; i < this.numberOfRows; i++) {
-            if (this.employeeReports[i]) {
-              this.currentReports.push(this.employeeReports[i]);
-            }
-          }
-        });
-      }
-    });
-  }
-
-  paginate(event): void {
-    this.currentReports = [];
-    this.numberOfRows = event.rows;
-    const start = event.page * this.numberOfRows;
-    const end = event.page * this.numberOfRows + this.numberOfRows;
-    for (let i = start; i < end; i++) {
-      if (this.showCitizenReports) {
-        if (this.citizenReports[i]) {
-          this.currentReports.push(this.citizenReports[i]);
-        }
-      } else {
+      for (let i = 0; i < this.numberOfRows; i++) {
         if (this.employeeReports[i]) {
           this.currentReports.push(this.employeeReports[i]);
         }
       }
-    }
+    });
   }
 
   prepareReportData(report: Report): ReportData {
@@ -126,9 +90,11 @@ export class ReportsComponent implements OnInit {
     reportD.id = report.id;
     reportD.title = report.subject;
     reportD.body = report.body;
-    reportD.date = '1/1/2021';
+    reportD.date = report.created.slice(0, 10);
     reportD.bin = '' + report.binId;
-    reportD.imageUrl = report.imageUrl;
+    if (report.imageUrl) {
+      reportD.image = report.imageUrl;
+    }
 
     for (const citizin of this.citizens) {
       if (citizin.id === report.userId) {
@@ -161,6 +127,6 @@ interface ReportData {
   phone: string;
   date: string;
   bin: string;
-  imageUrl: string;
+  image: any;
 }
 

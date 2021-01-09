@@ -1,8 +1,12 @@
-.comment {
-
+.report-content{
+  background-color: #e3e3e3;
+  color: black;
+  border-radius: 1%;
+  padding: 1em;
+  border: 1px solid #c9c9c9;
 }
 
-a {
+a{
   text-decoration: none;
   cursor: pointer;
 }
@@ -10,6 +14,17 @@ a {
 ::ng-deep .p-card .p-card-content {
   padding: 0;
 }
+
+::ng-deep .p-datatable {
+  .p-datatable-tbody > tr {
+    background: #ffffff;
+    color: #495057;
+    transition:none;
+    outline: none;
+  }
+}
+
+
 
 ::ng-deep .p-card{
   width: 80%;
@@ -21,10 +36,5 @@ a {
 
 
 
-::ng-deep .p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link:not(.p-disabled):focus {
-  outline: 0 none;
-  outline-offset: 0;
-  box-shadow: none;
-}
 
 

@@ -1,55 +1,56 @@
 <form #f="ngForm" (ngSubmit)="submitEmployee(f)">
   <input ngModel="{{employee.id}}" name="id" hidden>
 
-      <div class="p-inputgroup mb-2 w-100">
-        <span class="p-inputgroup-addon">username</span>
-        <input pInputText [(ngModel)]="employee.username" name="username" #username="ngModel"
-               placeholder="username" required="">
-      </div>
-      <div class="invalid-feedback d-block" *ngIf="f.submitted && username.invalid">
-        <div *ngIf="username.errors.required">username is required</div>
-      </div>
 
-  <div class="p-inputgroup mb-2 w-100">
-    <span class="p-inputgroup-addon">firstName</span>
-      <input   pInputText [(ngModel)]="employee.firstName" name="firstName" #firstName="ngModel"
-             placeholder="firstName" required="">
-      <div class="input-position invalid-feedback d-block" *ngIf="f.submitted && firstName.invalid" >
-        <div *ngIf="firstName.errors.required">firstName is required</div>
-      </div>
-    </div>
+  <div class="p-inputgroup mt-2 w-100">
+    <span class="p-inputgroup-addon">username</span>
+    <input pInputText [(ngModel)]="employee.username" name="username" #username="ngModel"
+           placeholder="username" required="">
+  </div>
+  <div class="invalid-feedback d-block" *ngIf="flag && f.submitted && username.errors.required">
+    <div >username is required</div>
+  </div>
 
-  <div class="p-inputgroup mb-2 w-100">
-    <span class="p-inputgroup-addon">lastName</span>
-      <input  pInputText [(ngModel)]="employee.lastName" name="lastName" #lastName="ngModel"
-             placeholder="lastName" required="">
-      <div class="input-position invalid-feedback d-block" *ngIf="f.submitted && lastName.invalid" >
-        <div *ngIf="lastName.errors.required">lastName is required</div>
-      </div>
-    </div>
+  <div class="p-inputgroup mt-2 w-100">
+    <span class="p-inputgroup-addon">first name</span>
+    <input pInputText [(ngModel)]="employee.firstName" name="firstName" #firstName="ngModel"
+           placeholder="first name" required="">
+  </div>
+  <div class="input-position invalid-feedback d-block" *ngIf="flag && f.submitted && firstName.errors.required">
+    <div >first name is required</div>
+  </div>
 
-  <div class="p-inputgroup mb-2 w-100">
+  <div class="p-inputgroup mt-2 w-100">
+    <span class="p-inputgroup-addon">last name</span>
+    <input pInputText [(ngModel)]="employee.lastName" name="lastName" #lastName="ngModel"
+           placeholder="last name" required="">
+  </div>
+  <div class="input-position invalid-feedback d-block" *ngIf="flag && f.submitted && lastName.errors.required">
+    <div >last name is required</div>
+  </div>
+
+  <div class="p-inputgroup mt-2 w-100">
     <span class="p-inputgroup-addon">phone</span>
     <input pKeyFilter="int" pInputText [(ngModel)]="employee.phone" name="phone" #phone="ngModel"
-            placeholder="phone  " required="">
-    <div  class="input-position invalid-feedback d-block" *ngIf="f.submitted && phone.invalid" >
-      <div *ngIf="phone.errors.required">phone is required</div>
-    </div>
+           placeholder="phone  " required="">
+  </div>
+  <div class="input-position invalid-feedback d-block" *ngIf="flag && f.submitted && phone.errors.required">
+    <div> phone is required</div>
   </div>
 
 
-  <div class="p-inputgroup mb-2 w-100">
+  <div class="p-inputgroup mt-2 w-100">
     <span class="p-inputgroup-addon">address</span>
-      <input  pInputText [(ngModel)]="employee.address" name="address" #address="ngModel"
-             placeholder="address" required="">
-      <div class="input-position invalid-feedback d-block" *ngIf="f.submitted && address.invalid" >
-        <div *ngIf="address.errors.required">address is required</div>
-      </div>
-    </div>
+    <input pInputText [(ngModel)]="employee.address" name="address" #address="ngModel"
+           placeholder="address" required="">
+  </div>
+  <div class="input-position invalid-feedback d-block" *ngIf="flag && f.submitted && address.errors.required">
+    <div >address is required</div>
+  </div>
 
 
   <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'" type="submit"
-          class="mt-2 custom-button">Submit
+          class="mt-3 custom-button">Submit
   </button>
 </form>
 

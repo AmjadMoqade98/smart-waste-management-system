@@ -7,6 +7,7 @@ import {ReportsComponent} from './reports/reports.component';
 import {EmployeesComponent} from './employees/employees.component';
 import {EmployeeFormComponent} from './employees/employee-form/employee-form.component';
 import {TrucksComponent} from './trucks/trucks.component';
+import {RippleModule} from 'primeng/ripple';
 
 
 const routes: Routes = [

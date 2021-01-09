@@ -9,10 +9,10 @@ import {shareReplay, switchMap, tap} from 'rxjs/operators';
   providedIn: 'root',
 })
 export class EmployeeService {
-private readonly PATH = '/employees';
+  private readonly PATH = '/employees';
 
-private employeeData: Employee[] = [];
-private employeeState: ReplaySubject<Employee[]> = new ReplaySubject<any>(1);
+  private employeeData: Employee[] = [];
+  private employeeState: ReplaySubject<Employee[]> = new ReplaySubject<any>(1);
 
   constructor(private http: HttpClient, private apiService: ApiService) {
     this.LoadData();
@@ -20,10 +20,10 @@ private employeeState: ReplaySubject<Employee[]> = new ReplaySubject<any>(1);
 
   LoadData(): void {
     timer(0, 1000 * 60 * 15).pipe(switchMap(() => this.apiService.get(this.PATH))).subscribe(data => {
-    this.employeeState.next(data);
-    this.employeeData = data;
-  });
-}
+      this.employeeState.next(data);
+      this.employeeData = data;
+    });
+  }
 
   getEmployees(): Observable<Employee[]> {
     return this.employeeState.pipe(shareReplay({refCount: true, bufferSize: 1}));
@@ -57,5 +57,12 @@ private employeeState: ReplaySubject<Employee[]> = new ReplaySubject<any>(1);
       this.employeeData = this.employeeData.filter(employee => employee.id !== id);
       this.employeeState.next(this.employeeData);
     }));
+  }
+
+  refreshEmployees(): void {
+    this.apiService.get(this.PATH).subscribe(data => {
+      this.employeeState.next(data);
+      this.employeeData = data;
+    });
   }
 }
