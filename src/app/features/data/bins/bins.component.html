@@ -6,7 +6,7 @@
            [rowsPerPageOptions]="[5,10,20]">
     <ng-template pTemplate="caption">
       <div class="d-flex  flex-sm-row  flex-column justify-content-between">
-        <div style="text-align: left"><h2>Bins</h2></div>
+        <div style="text-align: left"><h2>Bins <i class="fa fa-trash fa-lg"></i></h2></div>
       </div>
     </ng-template>
 
@@ -42,7 +42,7 @@
         <td *ngFor="let col of cols" [ngSwitch]="col.field">
           <div *ngIf="col.field === 'status' else elseBlock" style="max-height: 30px" >
           <p class="status" *ngIf="bin[col.field] === 'UNDER_THRESHOLD'" style="background-color: green;"> {{bin[col.field]}}</p>
-          <p class="status" *ngIf="bin[col.field] === 'ABOUT_TO_THRESHOLD'" style="background-color: yellow;color: black"> {{bin[col.field]}}</p>
+          <p class="status" *ngIf="bin[col.field] === 'ABOUT_TO_THRESHOLD'" style="background-color: #ff911c;"> {{bin[col.field]}}</p>
           <p class="status" *ngIf="bin[col.field] === 'OVER_THRESHOLD'" style="background-color: #f54320"> {{bin[col.field]}}</p>
           <p class="status" *ngIf="bin[col.field] === 'EMERGENCY'" style="background-color: red"> {{bin[col.field]}}</p>
           </div>

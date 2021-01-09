@@ -8,7 +8,7 @@
   }
 
   .link-active{
-    border-bottom:2px solid red;
+    border-bottom:3px solid #238af8;
   }
 }
 
@@ -22,7 +22,7 @@
   }
 
   .link-active{
-    border-left:3px solid red;
+    border-left:3px solid #238af8;
   }
 }
 
@@ -32,14 +32,14 @@
 
 .link-active{
   color: white;
-  background-color: black;
+  background-color: #1a252b;
 }
 
 a{
   text-decoration: none;
-  color:black;
+  color:#1a252b;
 }
 
 .link-active > i  {
-  color: red;
+  color: #238af8;
 }

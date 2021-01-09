@@ -4,7 +4,9 @@ import {Observable, ReplaySubject} from 'rxjs';
 import {TruckLocation} from '../../models/truck-location.model';
 import {shareReplay} from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TruckLocationsService{
   ref: any;
   list;

@@ -27,12 +27,15 @@ export class HomeComponent implements OnInit {
 
 
   handleRouteParams(): void {
+    console.log(this.route.snapshot.queryParams);
+
     this.route.fragment.subscribe(f => {
       const element = document.querySelector('#' + f);
-      if (element && !this.route.snapshot.queryParams) {
+      if (element && Object.keys(this.route.snapshot.queryParams).length === 0) {
         element.scrollIntoView();
       }
     });
+
     this.routeParameter = this.route.snapshot.queryParams;
   }
 }

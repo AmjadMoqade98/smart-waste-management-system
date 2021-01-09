@@ -23,16 +23,11 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
 import {ChartModule} from 'primeng/chart';
 import {CardModule} from 'primeng/card';
 import {PaginatorModule} from 'primeng/paginator';
-import {ReportService} from '../core/services/data/report.service';
-import {CitizenService} from '../core/services/data/citizen.service';
-import {BinService} from '../core/services/data/bin.service';
-import {AreaService} from '../core/services/data/area.service';
 import {PasswordModule} from 'primeng/password';
 import {DropdownModule} from 'primeng/dropdown';
 import {KeyFilterModule} from 'primeng/keyfilter';
 import {TabViewModule} from 'primeng/tabview';
 import {TabMenuModule} from 'primeng/tabmenu';
-import {TruckService} from '../core/services/data/truck.service';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SidebarComponent],
@@ -71,8 +66,7 @@ import {TruckService} from '../core/services/data/truck.service';
     TabMenuModule,
   ],
 
-  providers: [MessageService, EmployeeService, ConfirmationService, ReportService, CitizenService,
-    BinService, AreaService , TruckService]
+  providers: [MessageService, ConfirmationService]
 })
 // @ts-ignore
 export class SharedModule {

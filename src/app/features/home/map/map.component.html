@@ -2,7 +2,7 @@
 <button pButton (click)="move()">Simulate Truck Route</button>
 
 <p-dialog *ngIf="area" [(visible)]="areaDialog"
-          [style]="{width:'40vw',maxHeight:'70vh' ,backgroundColor:'white',minWidth:'250px'}"
+          [style]="{width:'40vw',maxHeight:'70vh' ,backgroundColor:'white',minWidth:'350px'}"
           [draggable]="true">
   <p-header>
     <h4 style="display: inline">{{area.name}}</h4>
@@ -10,7 +10,7 @@
     <h4 style="display: inline" *ngIf="dialogEmployees"> - Employees</h4>
   </p-header>
 
-  <div *ngIf="dialogMain" >
+  <div *ngIf="dialogMain">
     <table>
       <tr>
         <td>total bins</td>
@@ -68,23 +68,30 @@
     </table>
   </div>
 
+  <div *ngIf="dialogEmployee && !currentEmployee">
+    No Employee in Charge!
+  </div>
+
   <div *ngIf="dialogEmployees">
-    <p-table #dt [value]="employees">
+    <p-table #dt [value]="freeEmployees">
       <ng-template pTemplate="header">
-        <tr>
+        <tr [style]="{maxHeight:'40px'}">
           <input pInputText type="text"
                  (input)="dt.filter($event.target.value, 'username', 'startsWith')" placeholder="Search for username"
-                 class="p-column-filter filter">
+                 class="p-column-filter filter" [style]="{'width': '12vw'}">
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-employee>
         <tr>
-          <td>{{employee.username}}</td>
-          <td style="text-align: right">
-            <i class="fa fa-check-circle fa-lg ml-3 check-icon" style="cursor: pointer" aria-hidden="true"
-               title="assign"
-               (click)="assignEmployeeToArea(area.id , employee.id)"></i>
+          <td class="p-1 d-flex justify-content-between d-inline">
+              <p style="display: inline"> {{employee.username}}</p>
+            <button style="display: inline;" appHoverColor [defaultBackgroundColor]="'green'"
+                    [defaultColor]="'#ffffff'"
+                    class="custom-button" (click)="assignEmployeeToArea(area , employee)">
+              Assign <i class="fa fa-check"></i>
+            </button>
           </td>
+
         </tr>
       </ng-template>
     </p-table>
@@ -124,6 +131,10 @@
       <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'"
               class="custom-button mr-2 mt-3" (click)="showAreaDialog()">
         Back
+      </button>
+      <button *ngIf="currentEmployee" appHoverColor style="width: 12em" [defaultBackgroundColor]="'red'" [defaultColor]="'white'"
+              class="custom-button " (click)="deleteAreaEmployee(area)">
+        unassign Employee
       </button>
     </div>
   </p-footer>

@@ -25,6 +25,7 @@ export class MapComponent implements OnInit {
   bins: Bin[];
   areas: Area[];
   employees: Employee[];
+  freeEmployees: Employee[];
   truckLocations: TruckLocation[];
   trucks: Truck[];
 
@@ -69,7 +70,7 @@ export class MapComponent implements OnInit {
 
   constructor(private areaService: AreaService, private confirmationService: ConfirmationService,
               private truckLocationsService: TruckLocationsService, private truckService: TruckService,
-              private binService: BinService, private employeeService: EmployeeService) {
+              private binService: BinService, private employeeService: EmployeeService,) {
   }
 
   ngOnInit(): void {
@@ -94,6 +95,7 @@ export class MapComponent implements OnInit {
     });
     this.employeeService.getEmployees().subscribe(employees => {
       this.employees = employees;
+      this.freeEmployees = this.employees.filter(value => value.areaIdsList.length === 0);
     });
     this.truckService.getTrucks().subscribe(trucks => {
       this.trucks = trucks;
@@ -207,20 +209,33 @@ export class MapComponent implements OnInit {
 
 
   handleRouteParameters(): void {
-    if (this.routeParameter && this.routeParameter.binId) {
-      const id = +this.routeParameter.binId;
-      if (this.bins) {
-        for (const bin of this.bins) {
-          if (bin.id === id) {
-            this.infowindow.open(this.map, bin.marker);
-            this.infowindow.setContent(this.binToString(bin));
-            this.map.setCenter(bin.marker.getPosition());
-            this.map.setZoom(16);
-            this.infowindow.addListener('closeclick', () => {
-              this.map.setZoom(14);
-              this.map.setCenter({lat: 31.904424, lng: 35.206681});
-              google.maps.event.clearListeners(this.infowindow, 'closeclick');
-            });
+    if (this.routeParameter) {
+      if (this.routeParameter.binId) {
+        const id = +this.routeParameter.binId;
+        if (this.bins) {
+          for (const bin of this.bins) {
+            if (bin.id === id) {
+              this.infowindow.open(this.map, bin.marker);
+              this.infowindow.setContent(this.binToString(bin));
+              this.map.setCenter(bin.marker.getPosition());
+              this.map.setZoom(16);
+              this.infowindow.addListener('closeclick', () => {
+                this.map.setZoom(14);
+                this.map.setCenter({lat: bin.location.x, lng: bin.location.y});
+                google.maps.event.clearListeners(this.infowindow, 'closeclick');
+              });
+            }
+          }
+        }
+      }
+      if (this.routeParameter.truckId) {
+        const id = +this.routeParameter.truckId;
+        if (this.truckLocations) {
+          for (const truck of this.truckLocations) {
+            if (truck.truckId === id) {
+              this.map.setZoom(16);
+              this.map.setCenter({lat: truck.location.x, lng: truck.location.y});
+            }
           }
         }
       }
@@ -357,7 +372,7 @@ export class MapComponent implements OnInit {
         });
         truck.marker.addListener('click', () => {
           this.infowindow.open(this.map, truck.marker);
-          const truckModel = this.trucks.find(value => value.id === truck.truckId );
+          const truckModel = this.trucks.find(value => value.id === truck.truckId);
           const truckEmp = this.employees.find(value => value.id === truckModel.employees[0]);
           this.infowindow.setContent('Employee : ' + truckEmp.username);
         });
@@ -424,28 +439,52 @@ export class MapComponent implements OnInit {
 
     this.areaService.getEmployee(areaId).subscribe(employee => {
       this.currentEmployee = employee[0];
+      console.log(this.currentEmployee);
     });
   }
 
-  assignEmployeeToArea(areaId: number, employeeId: number): void {
+  assignEmployeeToArea(area: Area, employee: Employee): void {
+    console.log(employee);
     if (this.currentEmployee) {
-      this.areaService.unassignEmployee(areaId, this.currentEmployee.id).subscribe(value => {
-        this.areaService.assignEmployee(areaId, employeeId).subscribe(value1 => {
-          this.currentEmployee = this.employees.find(emp => emp.id === employeeId);
-          this.msg = [{
-            severity: 'success', summary: 'Confirmed',
-            detail: this.currentEmployee.username + ' successfully assigned to ' + this.area.name
-          }];
-        });
-      });
-    } else {
-      this.areaService.assignEmployee(areaId, employeeId).subscribe(value => {
-        this.currentEmployee = this.employees.find(emp => emp.id === employeeId);
+      console.log('current Emp');
+      this.areaService.unassignEmployee(area.id, this.currentEmployee.id).subscribe();
+      this.areaService.assignEmployee(area.id, employee.id).subscribe(value1 => {
+        this.currentEmployee = this.employees.find(emp => emp.id === employee.id);
         this.msg = [{
           severity: 'success', summary: 'Confirmed',
           detail: this.currentEmployee.username + ' successfully assigned to ' + this.area.name
         }];
       });
+      this.truckService.unassignEmployee(this.currentEmployee.vehicleId, this.currentEmployee.id).subscribe(value => {
+        this.truckService.assignEmployee(this.currentEmployee.vehicleId, employee.id).subscribe();
+      });
+
+    } else {
+      console.log('not current Emp');
+      let freeTruck;
+      for (const truck of this.trucks) {
+        if (truck.employees.length === 0) {
+          freeTruck = truck;
+        }
+      }
+
+      console.log(freeTruck);
+      if (freeTruck) {
+        this.areaService.assignEmployee(area.id, employee.id).subscribe(value => {
+          this.employees.find(emp => emp.id === employee.id).areaIdsList = [area.id];
+          this.currentEmployee = this.employees.find(emp => emp.id === employee.id);
+          this.msg = [{
+            severity: 'success', summary: 'Confirmed',
+            detail: this.currentEmployee.username + ' successfully assigned to ' + this.area.name
+          }];
+        });
+        this.truckService.assignEmployee(freeTruck.id, employee.id).subscribe(value => {
+          this.employees.find(emp => emp.id === employee.id).vehicleId = freeTruck.id;
+          this.currentEmployee = this.employees.find(emp => emp.id === employee.id);
+        });
+      } else {
+        this.msg = [{severity: 'error', summary: 'Error!', detail: 'There is no any available trukcs'}];
+      }
     }
   }
 
@@ -518,6 +557,15 @@ export class MapComponent implements OnInit {
       google.maps.event.clearListeners(area.polygon, 'rightclick');
       this.msg = [{severity: 'success', summary: 'Confirmed', detail: 'area updated'}];
     });
+  }
+
+  deleteAreaEmployee(area: Area): void {
+    console.log(this.currentEmployee);
+    this.areaService.unassignEmployee(area.id, this.currentEmployee.id).subscribe(value => {
+      this.currentEmployee = null;
+      this.msg = [{severity: 'success', summary: 'Confirmed', detail: 'employee unassigned'}];
+    });
+    this.truckService.unassignEmployee(this.currentEmployee.vehicleId, this.currentEmployee.id).subscribe();
   }
 
   confirmDelete(area: Area): void {

@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Report, UserRole} from '../../core/models/report.model';
-import {ReportService} from '../../core/services/data/report.service';
-import {EmployeeService} from '../../core/services/data/employee.service';
-import {CitizenService} from '../../core/services/data/citizen.service';
-import {Employee} from '../../core/models/employee.model';
-import {Citizen} from '../../core/models/citizen.model';
+import {Report, UserRole} from '../../../core/models/report.model';
+import {ReportService} from '../../../core/services/data/report.service';
+import {EmployeeService} from '../../../core/services/data/employee.service';
+import {CitizenService} from '../../../core/services/data/citizen.service';
+import {Employee} from '../../../core/models/employee.model';
+import {Citizen} from '../../../core/models/citizen.model';
 
 @Component({
   selector: 'app-reports',

@@ -49,6 +49,13 @@
   border:0 none ;
 }
 
+::ng-deep * :focus {
+  outline:0 !important;
+}
+
+::ng-deep .p-inputgroup input:first-child {
+  border: 1px solid #ced4da;
+}
 /* Responsive */
 @media screen and (max-width: 60em) {
   :host ::ng-deep .p-datatable {

@@ -5,7 +5,9 @@ import {ApiService} from './api.service';
 import {shareReplay, switchMap, tap} from 'rxjs/operators';
 import {Area} from '../../models/area.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AreaService {
   private readonly PATH = '/areas';
 

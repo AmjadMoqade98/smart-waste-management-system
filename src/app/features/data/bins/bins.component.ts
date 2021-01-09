@@ -1,19 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {BinService} from '../../core/services/data/bin.service';
-import {Bin} from '../../core/models/bin.model';
+import {BinService} from '../../../core/services/data/bin.service';
+import {Bin} from '../../../core/models/bin.model';
 import {BinOptions} from './bins.options';
-import {AreaService} from '../../core/services/data/area.service';
-import {Area} from '../../core/models/area.model';
+import {AreaService} from '../../../core/services/data/area.service';
+import {Area} from '../../../core/models/area.model';
 import {ConfirmationService} from 'primeng/api';
 import {Router} from '@angular/router';
-import {EmployeeService} from '../../core/services/data/employee.service';
-import {Employee} from '../../core/models/employee.model';
+import {EmployeeService} from '../../../core/services/data/employee.service';
+import {Employee} from '../../../core/models/employee.model';
 
 
 @Component({
   selector: 'app-bins',
   templateUrl: './bins.component.html',
-  styleUrls: ['./bins.component.scss', '../../../assets/styles/primeNG.scss']
+  styleUrls: ['./bins.component.scss', '../../../../assets/styles/primeNG.scss']
 })
 export class BinsComponent implements OnInit {
 
@@ -107,7 +107,6 @@ export class BinsComponent implements OnInit {
       },
     });
   }
-
 
   clearMessages(): void {
     this.msg = [];

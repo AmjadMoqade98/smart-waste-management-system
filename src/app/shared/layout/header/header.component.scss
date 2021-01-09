@@ -1,20 +1,14 @@
 .nav-item {
   color: white;
   font-size: 1em;
-  border-bottom: 3px solid black;
+  border-bottom: 3px solid #1a252b;
 }
 .nav-dropdown{
   color:white;
   font-size: 1em;
 }
 
-.map-active{
-  color: red;
-}
 
-.statistics-active {
-  color: red;
-}
 .nav-dropdown-menu{
   list-style-type: none;
   position: relative;
@@ -30,7 +24,7 @@
 }
 
 .nav-item:hover {
-  border-bottom: 3px solid red;
+  border-bottom: 3px solid #238af8;
 }
 
 .navbar {
@@ -63,7 +57,7 @@
 }
 
 .dropbtn {
-  background-color: black;
+  background-color: #1a252b;
   color: white;
   padding: 16px;
   font-size: 16px;
@@ -80,7 +74,7 @@
 }
 
 .dropdown-content a {
-  color: black;
+  color: #1a252b;
   padding: 12px 16px;
   text-decoration: none;
   display: block;

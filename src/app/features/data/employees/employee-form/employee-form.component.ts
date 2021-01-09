@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Employee} from '../../../core/models/employee.model';
-import {EmployeeService} from '../../../core/services/data/employee.service';
+import {Employee} from '../../../../core/models/employee.model';
+import {EmployeeService} from '../../../../core/services/data/employee.service';
 import {NgForm} from '@angular/forms';
 
 @Component({

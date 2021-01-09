@@ -18,6 +18,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule
   ],
-  providers: [TruckLocationsService]
+  providers: []
 })
 export class HomeModule { }
