@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HeaderComponent} from './layout/header/header.component';
 import {FooterComponent} from './layout/footer/footer.component';
 import {RouterModule} from '@angular/router';
@@ -13,7 +13,7 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {HoverZoomDirective} from './directives/hover-zoom.directive';
 import {HoverColorDirective} from './directives/hover-color.directive';
 import {SidebarComponent} from './layout/sidebar/sidebar.component';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {TableModule} from 'primeng/table';
 import {MessageModule} from 'primeng/message';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
@@ -28,6 +28,7 @@ import {KeyFilterModule} from 'primeng/keyfilter';
 import {TabMenuModule} from 'primeng/tabmenu';
 import {RippleModule} from 'primeng/ripple';
 import {CrystalLightboxModule} from '@crystalui/angular-lightbox';
+import {CalendarModule} from 'primeng/calendar';
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SidebarComponent],
   imports: [
@@ -39,6 +40,7 @@ import {CrystalLightboxModule} from '@crystalui/angular-lightbox';
     CommonModule,
   ],
   exports: [
+    ReactiveFormsModule,
     ButtonModule,
     InputTextModule,
     DialogModule,
@@ -65,9 +67,10 @@ import {CrystalLightboxModule} from '@crystalui/angular-lightbox';
     TabMenuModule,
     RippleModule,
     CrystalLightboxModule,
+    CalendarModule,
   ],
 
-  providers: [MessageService, ConfirmationService]
+  providers: [MessageService, ConfirmationService, DatePipe]
 })
 // @ts-ignore
 export class SharedModule {

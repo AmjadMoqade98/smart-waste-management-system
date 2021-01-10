@@ -103,7 +103,6 @@
       float: left;
       clear: left;
       position: relative;
-
       .p-column-title {
         padding: .4em;
         min-width: 30%;
@@ -127,5 +126,8 @@
   box-shadow: none;
 }
 
+::ng-deep .p-calendar .p-inputtext {
+  padding: .2em;
+}
 
 

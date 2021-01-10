@@ -12,8 +12,6 @@ import {TruckService} from '../../../core/services/data/truck.service';
 import {BinService} from '../../../core/services/data/bin.service';
 import {EmployeeService} from '../../../core/services/data/employee.service';
 import {TruckLocation} from '../../../core/models/truck-location.model';
-import {forkJoin} from 'rxjs';
-import {take} from 'rxjs/operators';
 
 
 @Component({
@@ -95,6 +93,7 @@ export class MapComponent implements OnInit {
 
       this.areaService.getAreas().subscribe(areas => {
         this.areas = areas;
+        console.log(this.areas);
         for (const area of this.areas) {
           this.renderArea(area);
         }
@@ -332,6 +331,7 @@ export class MapComponent implements OnInit {
 
   renderArea(area: Area): void {
     if (area.polygon) {
+      console.log('null');
       area.polygon.setMap(null);
     }
     area.polygon = new google.maps.Polygon({
@@ -555,7 +555,6 @@ export class MapComponent implements OnInit {
   addArea(area): void {
     const area1 = {id: area.id, polygonDto: area.polygonDto, name: area.name, polygon: null};
     this.areaService.addArea(area1).subscribe(response => {
-      this.renderArea(response);
       this.msg = [{severity: 'success', summary: 'Confirmed', detail: 'area added'}];
       this.isAreaForm = false;
     });
@@ -578,13 +577,8 @@ export class MapComponent implements OnInit {
   updateArea(area): void {
     const area1 = {id: area.id, polygonDto: area.polygonDto, name: area.name, polygon: null};
     this.areaService.updateArea(area1.id, area1).subscribe(response => {
+      area.polygon.setMap(null);
       this.isAreaForm = false;
-      const index = this.areas.indexOf(this.areas.find(area2 => {
-        area2.id === area1.id;
-      }));
-      this.areas[index] = response;
-      this.areas[index].polygon = area.polygon;
-      google.maps.event.clearListeners(area.polygon, 'rightclick');
       this.msg = [{severity: 'success', summary: 'Confirmed', detail: 'area updated'}];
     });
   }

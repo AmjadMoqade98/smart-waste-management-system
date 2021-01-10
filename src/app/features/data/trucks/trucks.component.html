@@ -1,8 +1,7 @@
 <div class="table-container" style="width: 80%;">
   <p-messages [value]="msg" (click)="clearMessages()"></p-messages>
-  <p-table #dt [value]="trucksData" [responsive]="true" rowHover="true" [filterDelay]="0" [columns]="cols" dataKey="id"
-           [paginator]="true" [rows]="rows"
-           [alwaysShowPaginator]="true"
+  <p-table #dt [value]="trucksData" dataKey="id" [responsive]="true" rowHover="true" [filterDelay]="0"
+           [columns]="cols"  [paginator]="true" [rows]="rows" [alwaysShowPaginator]="true"
            [rowsPerPageOptions]="[5,10,20]">
     <ng-template pTemplate="caption">
 

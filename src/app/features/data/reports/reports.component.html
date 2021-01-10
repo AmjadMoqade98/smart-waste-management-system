@@ -1,27 +1,34 @@
-<p-card>
-  <p-tabMenu [style]="{'marginBottom':'1em'}" [model]="items" >
-    <ng-template pTemplate="item" let-item let-i="index">
-      {{item.label}}
-    </ng-template>
-  </p-tabMenu>
-  <p-table [value]="currentReports" dataKey="id" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[1,2,5,10]"
+<div class="table-container" style="background-color: white;zoom:1;">
+  <div class="d-flex flex-md-row flex-column justify-content-between mb-3" style="background-color: #dedede">
+    <p-tabMenu [style]="{'background': '#dedede'}"  class="flex-grow-1"  [model]="items" >
+      <ng-template pTemplate="item" let-item let-i="index">
+        {{item.label}}
+      </ng-template>
+    </p-tabMenu>
+      <div class="p-2 d-flex mt-auto" style="border-bottom: 2px solid #dee2e6;" >
+        <label class="p-0 mr-2" style="margin-top: 4px;color: #2196F3" >Filter Date</label>
+        <p-calendar class="p-0" inputId="date" [(ngModel)]="date"  (onSelect)="updateDate()"></p-calendar>
+      </div>
+  </div>
+  <p-table [value]="currentReports"  dataKey="id" [paginator]="true" [filterDelay]="0"
+           [rows]="5" [rowsPerPageOptions]="[1,2,5,10]"
            selectionMode="single" [(selection)]="selectedReport">
-    <ng-template pTemplate="body" let-report let-expanded="expanded">
+    <ng-template pTemplate="body" let-report let-expanded="expanded" let-i="rowIndex">
       <tr [pRowToggler]="selectedReport" class="w-100">
-        <div style="padding: 0.3em;position: relative;" [pRowToggler]="selectedReport" [pSelectableRow]="report">
+        <div class="custom-row" [pRowToggler]="selectedReport" [pSelectableRow]="report">
           <td style="width: 150px">
             <h6 ><i class="pi pi-user"></i> {{report.username}}</h6>
           </td>
           <td style="width: 150px" >
             <p ><i class="pi pi-phone"></i> {{report.phone}} </p>
           </td>
-          <td style="width: 100px"><a  [routerLink]="['']" fragment="map" [queryParams]="{binId: report.bin}">
+          <td style="width: 100px;"><a  style="color: black" [routerLink]="['']" fragment="map" [queryParams]="{binId: report.bin}">
             <i class="pi pi-trash"></i> {{report.bin}}</a>
           </td>
           <td style="width: 100px">
             <p>{{report.date}}</p>
           </td>
-          <td><i style="position: absolute;right:5px;bottom: 20px" [class]="selectedReport?.id == report.id ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i></td>
+          <td><i style="position: absolute;right:10px;bottom: 20px;background-color: #2196F3;border-radius: 50%;color: white; padding: 0.3em" [class]="selectedReport?.id == report.id ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i></td>
         </div>
       </tr>
     </ng-template>
@@ -35,6 +42,6 @@
       </div>
     </ng-template>
   </p-table>
-</p-card>
+</div>
 
 

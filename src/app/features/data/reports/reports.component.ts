@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Report, UserRole} from '../../../core/models/report.model';
 import {ReportService} from '../../../core/services/data/report.service';
 import {EmployeeService} from '../../../core/services/data/employee.service';
@@ -7,7 +7,7 @@ import {Employee} from '../../../core/models/employee.model';
 import {Citizen} from '../../../core/models/citizen.model';
 import {forkJoin} from 'rxjs';
 import {take} from 'rxjs/operators';
-import {isDate} from 'rxjs/internal-compatibility';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-reports',
@@ -29,6 +29,8 @@ export class ReportsComponent {
 
   showEmployeeReports = true;
   showCitizenReports = false;
+
+  date = new Date().toLocaleDateString();
 
   items = [
     {
@@ -58,7 +60,7 @@ export class ReportsComponent {
   ];
 
   constructor(private reportService: ReportService, private employeeService: EmployeeService,
-              private citizenService: CitizenService) {
+              private citizenService: CitizenService, private datePipe: DatePipe) {
     this.initializeData();
   }
 
@@ -71,12 +73,13 @@ export class ReportsComponent {
       this.employees = value.employees;
       this.citizens = value.citizens;
       this.reports = value.reports;
-      this.currentReports = [];
       this.employeeReports = [];
       this.citizenReports = [];
       for (const report of this.reports) {
         this.prepareReportData(report);
       }
+
+      this.currentReports = [];
       for (let i = 0; i < this.numberOfRows; i++) {
         if (this.employeeReports[i]) {
           this.currentReports.push(this.employeeReports[i]);
@@ -90,7 +93,7 @@ export class ReportsComponent {
     reportD.id = report.id;
     reportD.title = report.subject;
     reportD.body = report.body;
-    reportD.date = report.created.slice(0, 10);
+    reportD.date = this.datePipe.transform(report.created, 'yyyy-MM-dd');
     reportD.bin = '' + report.binId;
     if (report.imageUrl) {
       reportD.image = report.imageUrl;
@@ -117,7 +120,32 @@ export class ReportsComponent {
     }
     return reportD;
   }
+
+  updateDate(): void {
+    this.currentReports = [];
+    const date = this.datePipe.transform(this.date, 'yyyy-MM-dd');
+
+    if (this.showEmployeeReports) {
+      for (let i = 0; this.currentReports.length < this.numberOfRows && this.employeeReports[i] ; i++) {
+        if (this.employeeReports[i].date === date) {
+          this.currentReports.push(this.employeeReports[i]);
+
+        }
+      }
+    } else {
+      for (let i = 0; this.currentReports.length < this.numberOfRows && this.citizenReports[i];i++) {
+        if (this.citizenReports[i].date === date) {
+          this.currentReports.push(this.citizenReports[i]);
+        }
+      }
+    }
+
+    console.log(this.currentReports);
+  }
+
+
 }
+
 
 interface ReportData {
   id: number;
