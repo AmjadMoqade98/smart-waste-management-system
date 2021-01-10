@@ -34,9 +34,11 @@
         <td *ngFor="let col of cols">
           {{employee[col.field]}}
         </td>
-        <td style="text-align: center">
-          <i (click)="deleteEmployee(employee)" class="fa fa-trash fa-lg ml-3" style="color: red" aria-hidden="true" title="delete"></i>
-          <i (click)="updateEmployeeForm(employee)" class="fa fa-edit fa-lg ml-3" style="color: blue" aria-hidden="true" title="update"></i>
+        <td style="text-align: center;position:relative;">
+          <i (click)="deleteEmployee(employee)" class="fa fa-trash fa-lg ml-3" style="color: red;" aria-hidden="true" title="delete"></i>
+          <div style="display: inline;position: absolute;top: 10px;">
+            <i (click)="updateEmployeeForm(employee)" class="fa fa-edit fa-lg ml-3" style="color: seagreen;" aria-hidden="true" title="update"></i>
+          </div>
         </td>
 
 

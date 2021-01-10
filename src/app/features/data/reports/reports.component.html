@@ -1,5 +1,5 @@
-<div class="table-container" style="background-color: white;zoom:1;">
-  <div class="d-flex flex-md-row flex-column justify-content-between mb-3" style="background-color: #dedede">
+<div class="table-container" style="background-color: white;zoom:0.9;">
+  <div class="d-flex flex-md-row flex-column justify-content-between mb-3" style="background-color: #1a252b">
     <p-tabMenu [style]="{'background': '#dedede'}"  class="flex-grow-1"  [model]="items" >
       <ng-template pTemplate="item" let-item let-i="index">
         {{item.label}}
@@ -26,9 +26,9 @@
             <i class="pi pi-trash"></i> {{report.bin}}</a>
           </td>
           <td style="width: 100px">
-            <p>{{report.date}}</p>
+            <p >{{report.date}}</p>
           </td>
-          <td><i style="position: absolute;right:10px;bottom: 20px;background-color: #2196F3;border-radius: 50%;color: white; padding: 0.3em" [class]="selectedReport?.id == report.id ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i></td>
+          <td><i style="position: absolute;right:10px;bottom: 10px;background-color: #2196F3;border-radius: 50%;color: white; padding: 0.3em" [class]="selectedReport?.id == report.id ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i></td>
         </div>
       </tr>
     </ng-template>
@@ -40,6 +40,10 @@
           <img src="{{report.image}}}"  width="40%" height="350px" style="min-width: 200px" lightbox/>
         </div>
       </div>
+    </ng-template>
+
+    <ng-template pTemplate="summary">
+      There are {{employeeReports?.length + citizenReports?.length}} total  Reports
     </ng-template>
   </p-table>
 </div>

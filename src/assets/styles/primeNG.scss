@@ -27,6 +27,7 @@
   }
   .p-datatable-tbody > tr {
     outline: none;
+    transition:none;
   }
 
   .p-datatable-thead > tr >th {
@@ -78,6 +79,7 @@
 
     .p-datatable-tbody > tr {
       border-bottom: 1px solid #1a252b;
+
     };
     .p-datatable-tbody > tr > td {
       text-align: left;
@@ -131,3 +133,6 @@
 }
 
 
+
+//::ng-deep .p-datatable .p-datatable-tbody > tr:nth-child(odd){background-color: #dedede}
+//::ng-deep .p-datatable .p-datatable-tbody > tr:nth-child(even){background-color: white}

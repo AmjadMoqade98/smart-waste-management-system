@@ -38,10 +38,8 @@ export class ReportsComponent {
         this.currentReports = [];
         this.showCitizenReports = false;
         this.showEmployeeReports = true;
-        for (let i = 0; i < this.numberOfRows; i++) {
-          if (this.employeeReports[i]) {
-            this.currentReports.push(this.employeeReports[i]);
-          }
+        for (const emp of this.employeeReports) {
+          this.currentReports.push(emp);
         }
       }
     },
@@ -50,10 +48,8 @@ export class ReportsComponent {
         this.currentReports = [];
         this.showCitizenReports = true;
         this.showEmployeeReports = false;
-        for (let i = 0; i < this.numberOfRows; i++) {
-          if (this.citizenReports[i]) {
-            this.currentReports.push(this.citizenReports[i]);
-          }
+        for (const citizen of this.citizenReports) {
+          this.currentReports.push(citizen);
         }
       }
     },
@@ -80,10 +76,8 @@ export class ReportsComponent {
       }
 
       this.currentReports = [];
-      for (let i = 0; i < this.numberOfRows; i++) {
-        if (this.employeeReports[i]) {
-          this.currentReports.push(this.employeeReports[i]);
-        }
+      for (const emp of this.employeeReports) {
+        this.currentReports.push(emp);
       }
     });
   }
@@ -126,21 +120,18 @@ export class ReportsComponent {
     const date = this.datePipe.transform(this.date, 'yyyy-MM-dd');
 
     if (this.showEmployeeReports) {
-      for (let i = 0; this.currentReports.length < this.numberOfRows && this.employeeReports[i] ; i++) {
-        if (this.employeeReports[i].date === date) {
-          this.currentReports.push(this.employeeReports[i]);
-
+      for (const emp of this.employeeReports) {
+        if (emp.date === date) {
+          this.currentReports.push(emp);
         }
       }
     } else {
-      for (let i = 0; this.currentReports.length < this.numberOfRows && this.citizenReports[i];i++) {
-        if (this.citizenReports[i].date === date) {
-          this.currentReports.push(this.citizenReports[i]);
+      for (const citizen of this.citizenReports) {
+        if (citizen.date === date) {
+          this.currentReports.push(citizen);
         }
       }
     }
-
-    console.log(this.currentReports);
   }
 
 
