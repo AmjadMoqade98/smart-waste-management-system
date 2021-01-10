@@ -46,13 +46,10 @@
         <tr>
           <td class="p-1 d-flex justify-content-between d-inline">
               <p style="display: inline"> {{employee.username}}</p>
-            <button style="display: inline;" appHoverColor [defaultBackgroundColor]="'#0f802d'"
-                    [defaultColor]="'#ffffff'"
-                    class="custom-button" (click)="assignEmployeeToArea(area , employee)">
-              Assign <i class="fa fa-check"></i>
-            </button>
-          </td>
 
+              <i class="fa fa-check-circle" (click)="assignEmployeeToArea(area , employee)"
+              style="color: seagreen"></i>
+          </td>
         </tr>
       </ng-template>
     </p-table>

@@ -28,4 +28,20 @@ hr {
   color: green;
 }
 
+.fa{
+  padding-right: 0.2em;
+  font-size: 1.5em;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.fa:hover{
+  font-size: 1.8em;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr:nth-child(even) {background-color: white}
+::ng-deep .p-datatable .p-datatable-tbody > tr:nth-child(odd){background-color: #dedede}
+::ng-deep .p-datatable .p-datatable-tbody > tr{
+  padding: 0.1em;
+}
+
 
