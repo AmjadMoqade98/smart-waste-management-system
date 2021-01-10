@@ -5,13 +5,20 @@ table {
   min-width: 250px;
 }
 
-input {
-  zoom: 0.9;
-}
 
 hr {
   padding: 0;
   margin: 0
+}
+
+.row-addon {
+  display: inline;
+  background-color: #e9ecef;
+  margin: 0;
+  padding: 10px;
+  min-width: 165px;
+  border-radius: 3px;
+  color: #6c757d;
 }
 
 .custom-button {
@@ -28,20 +35,30 @@ hr {
   color: green;
 }
 
-.fa{
+.assign-icon{
   padding-right: 0.2em;
+  margin-right: 10px;
   font-size: 1.5em;
   margin-top: auto;
   margin-bottom: auto;
 }
+
 .fa:hover{
   font-size: 1.8em;
 }
 
-::ng-deep .p-datatable .p-datatable-tbody > tr:nth-child(even) {background-color: white}
-::ng-deep .p-datatable .p-datatable-tbody > tr:nth-child(odd){background-color: #dedede}
+::ng-deep .p-datatable .p-datatable-tbody {
+}
+
 ::ng-deep .p-datatable .p-datatable-tbody > tr{
-  padding: 0.1em;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  margin-bottom: 50px !important;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr >  td{
+  border: none;
+
 }
 
 

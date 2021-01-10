@@ -94,7 +94,6 @@ export class TrucksComponent {
     truckD.area = 'No Area';
     truckD.employee = 'No Employee';
     truckD.status = 'FREE';
-
     if (truck.employees && truck.employees.length > 0) {
       const employee = this.employees.find(value => value.id === truck.employees[0]);
       truckD.employee = employee.username;

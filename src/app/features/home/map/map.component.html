@@ -34,20 +34,22 @@
   </div>
 
   <div *ngIf="dialogEmployees">
-    <p-table #dt [value]="freeEmployees">
+    <p-table #dt [value]="freeEmployees" >
       <ng-template pTemplate="header">
-        <tr [style]="{maxHeight:'40px'}">
+        <tr>
           <input pInputText type="text"
-                 (input)="dt.filter($event.target.value, 'username', 'startsWith')" placeholder="Search for username"
-                 class="p-column-filter filter" [style]="{'width': '12vw'}">
+                 (input)="dt.filter($event.target.value, 'username', 'startsWith')"
+                 placeholder="Search for username"
+                 class="p-column-filter filter" style="min-width: 165px;margin-bottom: 10px">
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-employee>
         <tr>
-          <td class="p-1 d-flex justify-content-between d-inline">
-              <p style="display: inline"> {{employee.username}}</p>
-
-              <i class="fa fa-check-circle" (click)="assignEmployeeToArea(area , employee)"
+          <td class="p-0  d-flex justify-content-between d-inline " >
+            <div class="row-addon">
+              <p  class="mb-auto mt-auto" style="display: inline;margin: 0;"> {{employee.username}}</p>
+            </div>
+              <i class="assign-icon fa fa-check-circle" (click)="assignEmployeeToArea(area , employee)"
               style="color: seagreen"></i>
           </td>
         </tr>

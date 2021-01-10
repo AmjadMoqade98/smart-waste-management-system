@@ -8,13 +8,16 @@
 
 @media screen and (min-width: 60em) {
   .custom-row{
-    padding: 0.1em;
+    padding: 0.5em;
     position: relative;
-    border-bottom: 1px solid #c9c9c9;
-    margin-top: 10px;
+    border-bottom: 1px solid #e9ecef;
   }
 }
 
+p{
+  padding: 0;
+  margin: 0;
+}
 a{
   text-decoration: none;
   cursor: pointer;
@@ -25,19 +28,19 @@ a{
 }
 
 ::ng-deep .p-datatable {
+  .p-datatable-tbody {
+    border-bottom: 1px solid #c9c9c9;
+  }
   .p-datatable-tbody > tr {
-    background: #ffffff;
     color: #495057;
-    transition:none;
-    outline: none;
   }
 }
 
 ::ng-deep .p-tabmenu .p-tabmenu-nav {
-  background: #dedede;
+  background: #1a252b;
 
   .p-tabmenuitem .p-menuitem-link {
-    background: #dedede;
+    background:#1a252b;
   }
 
   .p-tabmenuitem.p-highlight .p-menuitem-link {
