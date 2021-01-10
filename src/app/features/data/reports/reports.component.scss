@@ -1,9 +1,18 @@
 .report-content{
-  background-color: #e3e3e3;
+  background-color: #f5f5f5;
   color: black;
   border-radius: 1%;
   padding: 1em;
   border: 1px solid #c9c9c9;
+}
+
+@media screen and (min-width: 60em) {
+  .custom-row{
+    padding: 0.1em;
+    position: relative;
+    border-bottom: 1px solid #c9c9c9;
+    margin-top: 10px;
+  }
 }
 
 a{
@@ -24,14 +33,16 @@ a{
   }
 }
 
+::ng-deep .p-tabmenu .p-tabmenu-nav {
+  background: #dedede;
 
+  .p-tabmenuitem .p-menuitem-link {
+    background: #dedede;
+  }
 
-::ng-deep .p-card{
-  width: 80%;
-  margin: 10px;
-  padding: 0;
-  margin-right: auto;
-  margin-left: auto;
+  .p-tabmenuitem.p-highlight .p-menuitem-link {
+    border: 1px solid white;
+  }
 }
 
 

@@ -93,9 +93,9 @@
               class="custom-button mr-2 mt-3" (click)="showAreaDialog()">
         Back
       </button>
-      <button *ngIf="currentEmployee" appHoverColor style="width: 12em" [defaultBackgroundColor]="'#ba091b'" [defaultColor]="'white'"
+      <button *ngIf="currentEmployee && dialogEmployee" appHoverColor style="width: 12em" [defaultBackgroundColor]="'#ba091b'" [defaultColor]="'white'"
               class="custom-button " (click)="deleteAreaEmployee(area)">
-        unassign Employee
+        unassign employee
       </button>
     </div>
   </p-footer>
