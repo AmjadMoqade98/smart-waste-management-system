@@ -13,6 +13,7 @@ export class AppComponent {
   constructor( private authService: AuthService) {
     this.authService.populate();
     this.isAdmin = this.authService.isAdmin;
+    console.log(document.cookie);
   }
 
   title = 'SWMS';
