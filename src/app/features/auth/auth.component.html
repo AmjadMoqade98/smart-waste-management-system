@@ -1,29 +1,34 @@
- <div class="d-flex align-items-center justify-content-center h-100 w-100 ">
+ <div class="d-flex flex-column align-items-center justify-content-center h-100 w-100 ">
+
+
    <div class="login-card">
-     <h1 class="text-center mb-3">Sign In</h1>
-     <form [formGroup]="authForm" (ngSubmit)="submitForm()">
-       <fieldset [disabled]="isSubmitting" >
-         <input
-           formControlName="username"
-           placeholder="Username"
-           class="form-control form-control-md mt-2 mb-2 "
-           type="text"/>
-         <input
-           formControlName="password"
-           placeholder="Password"
-           class="form-control form-control-md mt-2 mb-2"
-           type="password"
-         />
-         <div class="d-flex justify-content-center">
-           <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'" style=""
-                   class="custom-button mt-4" [disabled]="!authForm.valid" type="submit">
-             Sign In
-             <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
-           </button>
-         </div>
-       </fieldset>
-       <div *ngIf="errors" class="alert alert-danger mt-3 mb-3">{{errors}}</div>
-     </form>
+     <img src="https://i.ibb.co/BssrRw1/logo-with-background.png" width="100%" height="200px">
+     <div class="login-form">
+       <h1 class="text-center mb-3">Sign In</h1>
+       <form [formGroup]="authForm" (ngSubmit)="submitForm()">
+         <fieldset [disabled]="isSubmitting" >
+           <input
+             formControlName="username"
+             placeholder="Username"
+             class="form-control form-control-md mt-2 mb-2 "
+             type="text"/>
+           <input
+             formControlName="password"
+             placeholder="Password"
+             class="form-control form-control-md mt-2 mb-2"
+             type="password"
+           />
+           <div class="d-flex justify-content-center">
+             <button appHoverColor [defaultBackgroundColor]="'#238af8'" [defaultColor]="'#ffffff'" style=""
+                     class="custom-button mt-4" [disabled]="!authForm.valid" type="submit">
+               Sign In
+               <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
+             </button>
+           </div>
+         </fieldset>
+         <div *ngIf="errors" class="alert alert-danger mt-3 mb-3">{{errors}}</div>
+       </form>
+     </div>
    </div>
 
  </div>
