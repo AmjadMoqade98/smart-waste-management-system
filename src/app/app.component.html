@@ -1,4 +1,6 @@
 <div class="d-flex flex-column main h-100">
+  <app-loading-bar></app-loading-bar>
+
   <div *ngIf="isAdmin | async" class="header">
     <app-header></app-header>
   </div>
@@ -12,6 +14,7 @@
         <router-outlet></router-outlet>
       </div>
     </div>
+
 
 <!--    <div *ngIf="isAdmin | async" class="footer">-->
 <!--      <app-footer></app-footer>-->

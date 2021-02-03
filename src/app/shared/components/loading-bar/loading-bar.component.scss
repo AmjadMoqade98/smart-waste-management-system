@@ -1,0 +1,28 @@
+.loading-bar {
+  position: fixed;
+  z-index: 9999;
+  height: 2px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+.loading-bar__inner {
+  height: inherit;
+  width: 0;
+  transition: width 0s 0s, opacity 0s 0s;
+  background-color: greenyellow;
+}
+.loading-bar--start {
+  .loading-bar__inner {
+    transition: width 0.8s 0s, opacity 0s 0s;
+    width: 20%;
+  }
+}
+.loading-bar--complete {
+  .loading-bar__inner {
+    width: 100%;
+    transition: width 0.8s 0s, opacity 0.2s (0.8s + .1s);
+    opacity: 0;
+  }
+}

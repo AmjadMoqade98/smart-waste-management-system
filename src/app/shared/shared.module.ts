@@ -29,8 +29,19 @@ import {TabMenuModule} from 'primeng/tabmenu';
 import {RippleModule} from 'primeng/ripple';
 import {CrystalLightboxModule} from '@crystalui/angular-lightbox';
 import {CalendarModule} from 'primeng/calendar';
+import {LoadingBarComponent} from './components/loading-bar/loading-bar.component';
+import {TotopComponent} from './components/totop/totop.component';
+
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, HoverZoomDirective, HoverColorDirective, SidebarComponent],
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    HoverZoomDirective,
+    HoverColorDirective,
+    SidebarComponent,
+    LoadingBarComponent,
+    TotopComponent,
+  ],
   imports: [
     HttpClientModule,
     RouterModule,
@@ -68,6 +79,8 @@ import {CalendarModule} from 'primeng/calendar';
     RippleModule,
     CrystalLightboxModule,
     CalendarModule,
+    LoadingBarComponent,
+    TotopComponent,
   ],
 
   providers: [MessageService, ConfirmationService, DatePipe]

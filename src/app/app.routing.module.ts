@@ -12,22 +12,26 @@ const appRoutes: Routes = [
     canActivate: [AdminAuthGuard]
   },
 
-  { path: 'data',
+  {
+    path: 'data',
     loadChildren: () => import('./features/data/data.module').then(m => m.DataModule),
     canActivate: [AdminAuthGuard],
   },
   {
     path: 'auth/login',
     loadChildren: () => import('./features/auth/auth.module').then(m => m.AuthModule),
-    canActivate : [NoAuthGuard],
+    canActivate: [NoAuthGuard],
   },
   {path: '**', redirectTo: '', pathMatch: 'full'}
 ];
 
 
-
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes, { anchorScrolling: 'enabled' , useHash: true})],
+  imports: [RouterModule.forRoot(appRoutes, {
+    anchorScrolling: 'enabled',
+    scrollPositionRestoration: 'enabled',
+    useHash: true,
+  })],
   exports: [RouterModule],
   providers: [MatcherService]
 })
