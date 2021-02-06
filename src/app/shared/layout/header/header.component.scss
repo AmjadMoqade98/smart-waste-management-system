@@ -17,10 +17,10 @@
 
 .navbar-brand{
   color: #238af8;
-  max-height:55px;
+  max-height:60px;
+  width: 120px;
   min-height:55px;
   min-width: 100px;
-  width: 8vw;
 }
 
 .nav-item:hover {
@@ -85,3 +85,6 @@
 .dropdown:hover .dropdown-content {display: block;}
 
 
+::ng-deep .p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link {
+  border: none;
+}

@@ -19,7 +19,7 @@ export class BinService {
   }
 
   LoadData(): void {
-    timer(0, 1000 * 60 * 15).pipe(switchMap(() => this.apiService.get(this.PATH))).subscribe(data => {
+    timer(0, 1000 * 60).pipe(switchMap(() => this.apiService.get(this.PATH))).subscribe(data => {
       this.BinState.next(data);
       this.BinData = data;
     });

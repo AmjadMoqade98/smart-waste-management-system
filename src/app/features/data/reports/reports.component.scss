@@ -3,14 +3,12 @@
   color: black;
   border-radius: 1%;
   padding: 1em;
-  border: 1px solid #c9c9c9;
 }
 
 @media screen and (min-width: 60em) {
   .custom-row{
     padding: 0.5em;
     position: relative;
-    border-bottom: 1px solid #e9ecef;
   }
 }
 
@@ -36,17 +34,23 @@ a{
   }
 }
 
-::ng-deep .p-tabmenu .p-tabmenu-nav {
-  background: #1a252b;
+::ng-deep .p-tabmenu {
+  border: none !important;
 
-  .p-tabmenuitem .p-menuitem-link {
-    background:#1a252b;
-  }
+  .p-tabmenu-nav {
+    background: #1a252b;
+    border: none !important;
 
-  .p-tabmenuitem.p-highlight .p-menuitem-link {
-    border: 1px solid white;
+    .p-tabmenuitem .p-menuitem-link {
+      background:#1a252b;
+      height: 100%;
+    }
   }
 }
+
+
+
+
 
 
 

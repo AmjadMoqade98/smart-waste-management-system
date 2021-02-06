@@ -26,7 +26,7 @@ a{
 
 .table-container {
   width:80%;
-  border:1px gray solid ;
+  box-shadow:  0 0 1px;
   margin: 2em;
   margin-right: auto;
   margin-left: auto;
@@ -74,5 +74,38 @@ button:disabled{
 
 .spinner-container {
   margin-left: 50%;
+}
+
+
+@keyframes site-preloader-animation {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+.site-preloader::before {
+  box-sizing: border-box;
+  content: '';
+  display: block;
+  position: absolute;
+  left: calc(50% - 50px);
+  top: calc(50% - 50px);
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  border: 3px solid #93c444;
+  border-top-color: white;
+
+  animation-name: site-preloader-animation;
+  animation-duration: .5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.site-preloader__fade {
+  transition: opacity .3s;
+  opacity: 0;
 }
 

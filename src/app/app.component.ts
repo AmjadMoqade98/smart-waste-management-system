@@ -24,8 +24,6 @@ export class AppComponent {
   ) {
     this.authService.populate();
     this.isAdmin = this.authService.isAdmin;
-    console.log(document.cookie);
-
     if (isPlatformBrowser(this.platformId)) {
       this.zone.runOutsideAngular(() => {
         this.router.events.pipe(filter(event => event instanceof NavigationEnd), first()).subscribe(() => {

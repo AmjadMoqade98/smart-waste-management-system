@@ -1,17 +1,23 @@
+<p-messages [value]="msg" (click)="clearMessages()"></p-messages>
 <div class="table-container" style="background-color: white;zoom:0.9;">
-  <div class="d-flex flex-md-row flex-column justify-content-between mb-3" style="background-color: #1a252b">
-    <p-tabMenu [style]="{'background': '#dedede'}"  class="flex-grow-1"  [model]="items" >
+  <div class="d-flex flex-md-row flex-column justify-content-between" style="background-color: #1a252b">
+    <p-tabMenu [style]="{'background': '#dedede'}"   [model]="items1" [activeItem]="items1[0]" >
+      <ng-template pTemplate="item" let-item let-i="index"  >
+        {{item.label}}
+      </ng-template>
+    </p-tabMenu>
+
+    <p-tabMenu [style]="{'background': '#dedede'}"   [model]="items2" [activeItem]="items2[0]" >
       <ng-template pTemplate="item" let-item let-i="index">
         {{item.label}}
       </ng-template>
     </p-tabMenu>
-      <div class="p-2 d-flex mt-auto" style="border-bottom: 2px solid #dee2e6;" >
-        <label class="p-0 mr-2" style="margin-top: 4px;color: #2196F3" >Filter Date</label>
-        <p-calendar class="p-0" inputId="date" [(ngModel)]="date"  (onSelect)="updateDate()"></p-calendar>
-      </div>
+  </div>
+  <div style="height: 30px">
+
   </div>
   <p-table [value]="currentReports"  dataKey="id" [paginator]="true" [filterDelay]="0"
-           [rows]="5" [rowsPerPageOptions]="[1,2,5,10]"
+           [rows]="10" [rowsPerPageOptions]="[1,2,5,10]"
            selectionMode="single" [(selection)]="selectedReport">
     <ng-template pTemplate="body" let-report let-expanded="expanded" let-i="rowIndex">
       <tr [pRowToggler]="selectedReport" class="w-100">
@@ -37,8 +43,13 @@
         <p style="font-weight:bold ">{{report.title}}</p>
         <p>{{report.body}}</p>
         <div *ngIf="report.image" lightbox-group  style="text-align: center">
-          <img src="{{report.image}}}"  width="40%" height="350px" style="min-width: 200px" lightbox/>
+          <img src="{{report.image}}}"  width="40%" height="350px" style="min-width: 200px;margin: 50px" lightbox/>
         </div>
+        <button *ngIf="showNonProcessed" appHoverColor [defaultBackgroundColor]="'#0f802d'" [defaultColor]="'#ffffff'"
+                class="custom-button mr-2 mt-5" (click)="ProcessedReport(report)">
+          Processed
+          <i class="pi pi-check"></i>
+        </button>
       </div>
     </ng-template>
 

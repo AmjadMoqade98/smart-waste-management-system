@@ -96,10 +96,8 @@ export class TrucksComponent {
     truckD.status = 'FREE';
     if (truck.employees && truck.employees.length > 0) {
       const employee = this.employees.find(value => value.id === truck.employees[0]);
-      console.log(employee);
       truckD.employee = employee.username;
       const area = this.areas.find(value => value.id === employee.areaIdsList[0]);
-      console.log(area);
       truckD.area = area.name;
       truckD.status = 'USED';
     }

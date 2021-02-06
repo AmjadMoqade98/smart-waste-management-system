@@ -31,7 +31,6 @@ export class AuthComponent implements OnInit {
   submitForm(): void {
     this.isSubmitting = true;
     const credentials = this.authForm.value;
-    console.log(credentials);
     this.authService.tryLogin(credentials);
     this.authService.isAdmin.pipe(skip(1)).subscribe(value => {
       this.isSubmitting = false;

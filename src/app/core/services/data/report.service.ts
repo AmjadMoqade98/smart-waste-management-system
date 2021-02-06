@@ -8,7 +8,7 @@ import {shareReplay, switchMap, tap} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class ReportService{
+export class ReportService {
   private readonly PATH = '/reports';
 
   private reportData: Report[] = [];
@@ -19,7 +19,7 @@ export class ReportService{
   }
 
   LoadData(): void {
-    timer(0, 1000 * 60 * 15).pipe(switchMap(() => this.apiService.get(this.PATH))).subscribe(data => {
+   this.apiService.get(this.PATH).subscribe(data => {
       this.reportState.next(data);
       this.reportData = data;
     });
@@ -43,18 +43,20 @@ export class ReportService{
     }));
   }
 
-  updateReport(id, report: Report): Observable<Report> {
-    return this.apiService.put(this.PATH + '/' + id, report).pipe(tap(response => {
+  updateReport(id, status: string): Observable<Report> {
+    return this.apiService.put(this.PATH + '?id=' + id + '&status=' + status).pipe(tap(response => {
       const oldreport = this.reportData.find(report1 => report1.id === response.id);
       const index = this.reportData.indexOf(oldreport);
-      this.reportData[index] = response;
+
+      // ToDo: fix this to the proper way when the api get fixed
+      this.reportData[index].status = 'SOLVED';
       this.reportState.next(this.reportData);
     }));
   }
 
   deleteReport(id): Observable<any> {
     return this.apiService.delete(this.PATH + '/' + id).pipe(tap(response => {
-      this.reportData = this.reportData.filter(report => report.id != id);
+      this.reportData = this.reportData.filter(report => report.id !== id);
       this.reportState.next(this.reportData);
     }));
   }

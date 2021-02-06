@@ -4,7 +4,6 @@ import {Observable, ReplaySubject, timer} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ApiService} from './api.service';
 import {shareReplay, switchMap, tap} from 'rxjs/operators';
-// tslint:disable-next-line:no-shadowed-variable
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +19,7 @@ export class CitizenService {
   }
 
   LoadData(): void {
-    timer(0, 1000 * 60 * 15).pipe(switchMap(() => this.apiService.get(this.PATH))).subscribe(data => {
+    this.apiService.get(this.PATH).subscribe(data => {
       this.citizenState.next(data);
       this.citizenData = data;
     });

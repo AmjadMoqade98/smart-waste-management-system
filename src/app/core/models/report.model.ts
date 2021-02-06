@@ -7,6 +7,7 @@ export interface Report {
   imageUrl: string;
   created: string;
   userRole?: UserRole;
+  status: 'SENT'|'REVIEWED'|'PENDING'|'SOLVED';
 }
 
 export enum UserRole {

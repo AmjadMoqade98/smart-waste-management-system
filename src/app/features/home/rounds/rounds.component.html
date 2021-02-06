@@ -1,0 +1,43 @@
+<div class="container center">
+
+  <div class="finished">
+    <div class="title" style="background-color: rgb(190, 81, 81)">
+      <h4>FINISHED</h4>
+    </div>
+    <div class="filters">
+      <p-dropdown [options]="areasOptions" [(ngModel)]="selectedArea"  (onChange)="filterRounds()" ></p-dropdown>
+      <p-dropdown [options]="employeesOptions" [(ngModel)]="selectedEmployee" (onChange)="filterRounds()" ></p-dropdown>
+    </div>
+    <div class="drives-summary">
+      <span style="color: red">{{late}} drives late</span>
+      <span style="color: green">{{onTime}} drives on time</span>
+    </div>
+    <div class="rounds-container">
+      <div *ngFor="let round of currentFinished" class="round" (click)="focusArea(34)">
+        <span><i class="fa fa-user"></i> {{round.employee.username}}</span>
+        <span><i class="fa fa-map-marker"></i> {{round.area.name}}</span>
+        <span><i class="fa fa-clock-o"></i> {{round.startTime}} -> {{round.endTime}}</span>
+        <span><i class="fa fa-clock-o" [style]="{color: (round.late > 60)? 'red' : 'green'}"></i> {{lateFormatter(round.late)}}</span>
+        <span><img src="https://i.ibb.co/Jk6nS1c/defult-Bin.png"> {{round.bins.length}}</span>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <div class="processing">
+    <div class="title" style="background-color: rgb(78, 158, 95)">
+      <div class="video__icon">
+        <div class="circle--outer"></div>
+        <div class="circle--inner"></div>
+      </div>
+      <h4>PROCESSING</h4>
+    </div>
+    <div class="rounds-container">
+      <div *ngFor="let round of currentProcessing" class="round" (click)="focusArea(34)">
+        <span><i class="fa fa-user"></i> {{round.employee.username}}</span>
+        <span><i class="fa fa-map-marker"></i> {{round.area.name}}</span>
+        <span><i class="fa fa-clock-o"></i> {{round.startTime}}</span>
+        <span><i class="fa fa-clock-o" [style]="{color: (round.late > 60)? 'red' : 'green'}"></i> {{lateFormatter(round.late)}}</span>
+      </div>
+    </div>
+  </div>
+</div>

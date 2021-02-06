@@ -1,0 +1,175 @@
+hr {
+  height: 905px;
+  position: relative;
+  top: 8px;
+}
+
+.container {
+  width: 80%;
+  padding: 10px;
+  min-height: 90vh;
+  max-height: 90vh;
+  display: flex;
+  gap: 10px;
+}
+
+
+@media screen and (max-width: 1200px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .filters {
+    left: 20% !important;
+  }
+
+  .drives-summary {
+    left: 25% !important;
+    top:15% !important;
+  }
+}
+
+.title {
+  display: flex;
+  position: relative;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  margin: 1em;
+  height: 56px;
+  width: 90%;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.finished {
+  position: relative;
+  flex: 1;
+  min-width: 400px;
+}
+
+.processing {
+  min-width: 400px;
+  flex: 1;
+}
+
+.rounds-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+  padding: 1em;
+  margin-top: 5em;
+}
+
+.round {
+  background-color: white;
+  box-shadow: 0 0 5px;
+  padding: 8px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 97%;
+}
+
+.round span i, img {
+  margin-right: 0.7em;
+  width: 16px;
+  height: 16px;
+}
+
+.round:hover {
+  background-color: rgb(7, 52, 70);
+  cursor: pointer;
+  color: white;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  left: 70%;
+}
+
+.drives-summary {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  left: 70%;
+  top: 21%;
+  min-width: 400px;
+}
+
+
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.video__icon {
+  position: absolute;
+  width: 50px;
+  left: 20px;
+  top: 15px;
+}
+
+.video__icon .circle--outer {
+  border: 1px solid #e50040;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 0 auto 5px;
+  position: relative;
+  top: -10px;
+  opacity: 0.8;
+  -webkit-animation: circle 2s ease-in-out infinite;
+  animation: circle 2s ease-in-out infinite;
+}
+
+.video__icon .circle--inner {
+  background: #e50040;
+  left: 15px;
+  top: 0px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  opacity: 0.8;
+}
+
+.video__icon .circle--inner:after {
+  content: "";
+  display: block;
+  border: 2px solid #e50040;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  top: -4px;
+  left: -4px;
+  position: absolute;
+  opacity: 0.8;
+  -webkit-animation: circle 2s ease-in-out 0.2s infinite;
+  animation: circle 2s ease-in-out 0.2s infinite;
+}
+
+.video__icon p {
+  color: #000;
+  text-align: center;
+}
+
+@keyframes circle {
+  from {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  to {
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}

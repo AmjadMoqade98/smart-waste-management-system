@@ -16,9 +16,9 @@
     </div>
 
 
-<!--    <div *ngIf="isAdmin | async" class="footer">-->
-<!--      <app-footer></app-footer>-->
-<!--    </div>-->
+    <div *ngIf="(isAdmin | async) == false" class="footer">
+      <app-footer></app-footer>
+    </div>
 
 </div>
 

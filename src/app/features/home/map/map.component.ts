@@ -75,32 +75,31 @@ export class MapComponent implements OnInit {
   ngOnInit(): void {
     this.initMap();
     this.initializeData();
-    this.handleRouteParameters();
     this.isMapInit = true;
   }
 
   initializeData(): void {
-    this.binService.getBins().subscribe(bins => {
-      this.bins = bins;
-      for (const bin of this.bins) {
-        this.renderBin(bin);
-      }
-    });
-
     this.employeeService.getEmployees().subscribe(employees => {
       this.employees = employees;
       this.freeEmployees = this.employees.filter(employee => employee.areaIdsList.length === 0);
 
-      this.areaService.getAreas().subscribe(areas => {
-        this.areas = areas;
-        console.log(this.areas);
-        for (const area of this.areas) {
-          this.renderArea(area);
+      this.binService.getBins().subscribe(bins => {
+        this.bins = bins;
+        for (const bin of this.bins) {
+          this.renderBin(bin);
         }
+        this.areaService.getAreas().subscribe(areas => {
+          this.areas = areas;
+          for (const area of this.areas) {
+            this.renderArea(area);
+          }
+          this.handleRouteParameters();
+        });
       });
       this.truckService.getTrucks().subscribe(trucks => {
         this.trucks = trucks;
         this.renderTrucks();
+        this.handleRouteParameters();
       });
     });
   }
@@ -240,6 +239,12 @@ export class MapComponent implements OnInit {
           }
         }
       }
+      if (this.routeParameter.areaId) {
+        const area = this.areas.find(value => value.id == this.routeParameter.areaId);
+        if (area) {
+          this.map.fitBounds(this.getBounds(area.polygon));
+        }
+      }
     }
   }
 
@@ -327,19 +332,27 @@ export class MapComponent implements OnInit {
       }
     }
     return bounds;
-  };
+  }
 
   renderArea(area: Area): void {
     if (area.polygon) {
-      console.log('null');
       area.polygon.setMap(null);
     }
+    let Areacolor = '#7bd768';
+    for (const bin of this.bins){
+      if (bin.areaId === area.id) {
+        if (bin.status === 'EMERGENCY'){
+          Areacolor = '#d23838';
+        }
+      }
+    }
+
     area.polygon = new google.maps.Polygon({
       paths: this.polygonToPath(area.polygonDto),
       strokeColor: '#0c0d0c',
       strokeOpacity: 0.8,
       strokeWeight: 1,
-      fillColor: '#2f5382',
+      fillColor: Areacolor,
       fillOpacity: 0.2,
       draggable: false
     });
@@ -461,7 +474,6 @@ export class MapComponent implements OnInit {
 
     this.areaService.getEmployee(areaId).subscribe(employee => {
       this.currentEmployee = employee[0];
-      console.log(this.currentEmployee);
       if (this.currentEmployee) {
         this.employeeInfo = [
           {label: 'username', value: this.currentEmployee.username},

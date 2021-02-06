@@ -31,6 +31,7 @@ import {CrystalLightboxModule} from '@crystalui/angular-lightbox';
 import {CalendarModule} from 'primeng/calendar';
 import {LoadingBarComponent} from './components/loading-bar/loading-bar.component';
 import {TotopComponent} from './components/totop/totop.component';
+import {ToggleButtonModule} from 'primeng/togglebutton';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import {TotopComponent} from './components/totop/totop.component';
     CalendarModule,
     LoadingBarComponent,
     TotopComponent,
+    ToggleButtonModule,
   ],
 
   providers: [MessageService, ConfirmationService, DatePipe]

@@ -19,7 +19,7 @@ export class EmployeeService {
   }
 
   LoadData(): void {
-    timer(0, 1000 * 60 * 15).pipe(switchMap(() => this.apiService.get(this.PATH))).subscribe(data => {
+    this.apiService.get(this.PATH).subscribe(data => {
       this.employeeState.next(data);
       this.employeeData = data;
     });

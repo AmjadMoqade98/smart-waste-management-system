@@ -38,12 +38,8 @@ export class AreaService {
   }
 
   addArea(area: Area): Observable<Area> {
-    console.log(this.areaData);
     return this.apiService.post(this.PATH, area).pipe(tap(response => {
-      console.log(response);
-      console.log(this.areaData);
       this.areaData.push(response);
-      console.log(this.areaData);
       this.areaState.next(this.areaData);
     }));
   }

@@ -22,7 +22,7 @@ export class TruckService {
   }
 
   LoadData(): void {
-    timer(0, 1000 * 60 * 15).pipe(switchMap(() => this.apiService.get(this.PATH))).subscribe(data => {
+   this.apiService.get(this.PATH).subscribe(data => {
       this.truckState.next(data);
       this.truckData = data;
     });
@@ -66,8 +66,6 @@ export class TruckService {
   }
 
   assignEmployee(truckId, employeeId): Observable<any> {
-    console.log('assign');
-    console.log(truckId);
     return this.apiService.get(this.PATH + '/' + truckId + '/assign-employee/' + employeeId).pipe(tap(response => {
       const index = this.truckData.indexOf(this.truckData.find(truck => truck.id === truckId));
       this.truckData[index].employees = [employeeId];

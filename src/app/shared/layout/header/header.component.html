@@ -1,11 +1,14 @@
 <div class="d-flex justify-content-between ">
-  <img class="navbar-brand ml-2"  src="https://i.ibb.co/ZN4Mr8n/logo.png">
+  <img class="navbar-brand ml-2" routerLink="main" fragment="map" style="cursor: pointer"
+       src="https://i.ibb.co/hgYgM6s/logo-Small.png">
 
 
   <div class="d-flex ">
     <a class="nav-item nav-link active mt-2" routerLink="main" fragment="map">Map</a>
 
     <a class="nav-item nav-link active mt-2 " routerLink="main" fragment="statistics">Statistics</a>
+
+    <a class="nav-item nav-link active mt-2" routerLink="rounds" >Drives</a>
   </div>
 
   <div class="dropdown">
@@ -15,6 +18,5 @@
       <a (click)="logout()">logout</a>
     </div>
   </div>
-
 
 </div>
