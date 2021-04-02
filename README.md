@@ -1,27 +1,27 @@
-# SWMS
+# SWMS (Smart Waste Management System)
+* Key Areas: IOT, Cloud Computing, Route Optimization, Waste Management.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.4.
+## Abstract
+This project proposes a smart waste management system for smart cities called (SWMS). The main
+objective of the project is to provide an efficient waste collection method, the collection companies
+will be able to keep the city always clean in the most cost-effective manner.
 
-## Development server
+Using IOT (internet of things) devices to collect waste bins data which make us totally aware of
+the real-time status of the waste bins, using this data. The system will generate dynamic schedule
+for the collectors, and furthermore, the system will provide routing service for each ride the
+collectors make. All the system data will be stored on the cloud which makes it easier to control
+backups, save costs, and recover data. Flexibility, Security, and the advantages of the available
+services on the cloud.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The system will generate the dynamic schedule in a way that ensure to keep the city clean since
+the system will inform the collector with new schedule whenever the number of full or toxic bins
+exceed specific limit or specific bins has been full for more than specific time limit or in case of
+toxic bin that need an urgent clean, this method will guarantee that city will always be clean. The
+optimized route to the bins that need to be collected will minimize the transportation cost and time.
+The system will handle some cases to ensure effective collection such as ignoring the empty, halffull bins.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+This is the front-end part for the project which is an admin dashboard. 
+you can see the app running on this url: http://swms.ga/home 
+if you want the authentication data to enter the website to see a demo of all the running features: amjadmoqaed98@gmail.com
