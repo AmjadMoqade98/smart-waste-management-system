@@ -24,4 +24,4 @@ The system will handle some cases to ensure effective collection such as ignorin
 
 This is the front-end part for the project which is an admin dashboard.</br> 
 you can see the app running on this url: http://swms.ga/home</br>
-if you want the authentication data to enter the website to see a demo of all the running features: amjadmoqaed98@gmail.com
+to ask for authentication data to access all the website features : amjadmoqaed98@gmail.com
