@@ -1,7 +1,6 @@
 ## SWMS (Smart Waste Management System)
 * Key Areas: IOT, Cloud Computing, Route Optimization, Waste Management.
 
-### Abstract
 This project proposes a smart waste management system for smart cities called (SWMS). The main
 objective of the project is to provide an efficient waste collection method, the collection companies
 will be able to keep the city always clean in the most cost-effective manner.
